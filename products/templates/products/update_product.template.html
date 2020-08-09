@@ -2,13 +2,12 @@
 {%load crispy_forms_tags %}
 {%load static%}
 
-
-{%block title%} Cloudberry Input Product Form {%endblock%}
+{%block title%} Cloudberry Update Product {%endblock%}
 {%block content%}
-    <h1>New Products Form</h1>
+    <h1>Edit Products Form</h1>
     <form method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ form|crispy}}
     <input type="submit"/>
     </form>    
   {% endblock %}

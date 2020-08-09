@@ -1,5 +1,6 @@
+
 body {
-    background-color:beige;
+    background-color:ghostwhite;
 }
 
 .floating-btn{
@@ -13,4 +14,13 @@ div.jumbotron.jumbotron-fluid {
   background-repeat: no-repeat;
   background-size: cover;
   height: 60vh;
+}
+
+a.link{
+    color: darkslategray;
+}
+
+h5.card-title {
+    background-color: rgba(255, 250, 240, 0.7);
+    text-shadow: 3px 3px 3px floralwhite;
 }

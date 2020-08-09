@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse, reverse, redirect
+from django.shortcuts import (render, reverse,
+                              redirect, get_object_or_404)
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from .models import Product, Category
@@ -45,10 +46,11 @@ def input_product(request):
             new_product.editor = request.user
             new_product.date_edited = datetime.datetime.now()
             new_product.save()
-            messages.success(request,
-                             f"New Product {input_form.data['name']}"
-                             f"has been entered into the system"
-                             f"on date {new_product.date_edited}")
+            messages.success(
+                request,
+                f"New Product {input_form.data['name']}"
+                f" has been entered into the system on"
+                f" {new_product.date_edited.strftime('%b %d, %Y, %H:%M:%S')}")
             return redirect(reverse(index))
         else:
             return render(request, 'products/input_product.template.html', {
@@ -59,3 +61,31 @@ def input_product(request):
         return render(request, 'products/input_product.template.html', {
             'form': input_form
         })
+
+
+@login_required
+@permission_required('products.update_product')
+def update_product(request, product_id):
+    product_to_update = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        update_form = ProductForm(request.POST, instance=product_to_update)
+        if update_form.is_valid():
+            edited_product = update_form.save(commit=False)
+            edited_product.editor = request.user
+            edited_product.date_edited = datetime.datetime.now()
+            edited_product.save()
+            messages.success(
+                request,
+                f"Product {update_form.data['name']}"
+                f" has been updated in the system, on"
+                f" {edited_product.date_edited.strftime('%b %d, %Y, %H:%M:%S')}")
+            return redirect(reverse(index))
+        else:
+            return render(request, 'products/update_product.template.html', {
+                      'form': update_form
+                      })
+    else:
+        update_form = ProductForm(instance=product_to_update)
+        return render(request, 'products/update_product.template.html', {
+                      'form': update_form
+                      })

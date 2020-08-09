@@ -27,7 +27,7 @@ Cloudberry Grocer Home Page
 <div class="row row-cols-12">
 {% for cat in categories %}
 <div class="card col-6 col-md-2 mb-3 bg-transparent border-0">
-<a href="/products/{{cat.slug}}">
+<a href="/products/{{cat.slug}}" class="link">
   <img src="{% static '/image/cat' %}{{cat.cat_no}}.jpg" class="card-img" alt="..."/>
   <div class="card-img-overlay">
     <h5 class="card-title">{{cat.name}}</h5>
@@ -48,7 +48,7 @@ Cloudberry Grocer Home Page
    {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
         </div> <!--end deck-->
         </div> <!--end row-->
-        <div class="row mb3 row-cols-12">
+        <div class="row mb-3 row-cols-12">
          <div class="card-deck">    <!--startdeck-->
   {% endif %}
    
@@ -65,7 +65,7 @@ Cloudberry Grocer Home Page
       <p class="card-text"><small class="text-muted">Add to Cart</small></p>
        {% if perms.products.can_change_product %}
       <div class="card-footer">
-     <a class="btn btn-primary" href="#" role="button">Edit</a>
+     <a class="btn btn-primary" href="{% url 'update_product_route' product_id=product.id%}" role="button">Edit</a>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
     Delete
     </button>

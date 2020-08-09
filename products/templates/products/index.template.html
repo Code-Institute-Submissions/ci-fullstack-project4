@@ -15,9 +15,15 @@ Cloudberry Grocer Home Page
   <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
 </div>
 
-<div class="row row-cols-12 row-cols-md-1">
+{% if request.user.is_authenticated  %}
+    <p>You are currently logged in as {{request.user}}</p>
+{% else %}
+    <p>Welcome to Cloudberry Grocer, guest</p>
+{% endif %}
+
+<div class="row row-cols-12">
 {% for cat in categories %}
-<div class="card col-md-2 mb-3 bg-transparent border-0">
+<div class="card col-6 col-md-2 mb-3 bg-transparent border-0">
 <a href="{{cat.slug}}">
   <img src="{% static '/image/cat' %}{{cat.cat_no}}.jpg" class="card-img" alt="..."/>
   <div class="card-img-overlay">
@@ -29,17 +35,17 @@ Cloudberry Grocer Home Page
 {% endfor %}
 </div>
 
-
+{% if perms.products.can_add_product %}
     <a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button" data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
+{% endif %}
 
-
-    <div class="row mb-3 row-cols-5 row-cols-md-1">
+    <div class="row mb-3 row-cols-12">
     <div class="card-deck">    <!--startdeck-->
 {%for product in products %}
    {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
         </div> <!--end deck-->
         </div> <!--end row-->
-        <div class="row mb3 row-cols-5 row-cols-md-1">
+        <div class="row mb3 row-cols-12">
          <div class="card-deck">    <!--startdeck-->
   {% endif %}
    
@@ -66,5 +72,4 @@ Cloudberry Grocer Home Page
 {%endblock%}
 
 {%block js%}
-
 {%endblock%}

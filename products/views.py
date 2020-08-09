@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, reverse, redirect
 from .models import Product, Category
 from .forms import ProductForm
+from django.contrib.auth.decorators import login_required, permission_required
+import datetime
 
 # Create your views here.
 
@@ -23,13 +25,18 @@ def breakfast(request):
     })
 
 
+@login_required
+@permission_required('products.input_product')
 def input_product(request):
     if request.method == 'POST':
         input_form = ProductForm(request.POST)
 
         # if the form is validated
         if input_form.is_valid():
-            input_form.save()
+            new_product = input_form.save(commit=False)
+            new_product.editor = request.user
+            new_product.date_edited = datetime.datetime.now()
+            new_product.save()
             return redirect(reverse(index))
         else:
             return render(request, 'products/input_product.template.html', {

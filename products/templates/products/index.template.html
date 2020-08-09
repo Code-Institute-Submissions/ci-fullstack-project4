@@ -29,6 +29,10 @@ Cloudberry Grocer Home Page
 {% endfor %}
 </div>
 
+
+    <a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button" data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
+
+
     <div class="row mb-3 row-cols-5 row-cols-md-1">
     <div class="card-deck">    <!--startdeck-->
 {%for product in products %}

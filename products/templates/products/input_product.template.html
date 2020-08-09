@@ -1,0 +1,14 @@
+{% extends 'base.template.html' %}
+{%load crispy_forms_tags %}
+{%load static%}
+
+
+{%block title%} Cloudberry Input Product {%endblock%}
+{%block content%}
+    <h1>New Products Form</h1>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit"/>
+    </form>    
+  {% endblock %}

@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    #crispy-forms
+    'crispy_forms',
     # myapp
     'products'
 ]
@@ -156,3 +158,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse, reverse, redirect
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
 from .models import Product, Category
 from .forms import ProductForm
-from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 import re
 
@@ -44,6 +45,10 @@ def input_product(request):
             new_product.editor = request.user
             new_product.date_edited = datetime.datetime.now()
             new_product.save()
+            messages.success(request,
+                             f"New Product {input_form.data['name']}"
+                             f"has been entered into the system"
+                             f"on date {new_product.date_edited}")
             return redirect(reverse(index))
         else:
             return render(request, 'products/input_product.template.html', {

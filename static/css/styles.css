@@ -6,3 +6,11 @@ body {
     border-radius: 25px;
     margin-bottom: 10px;
 }
+
+div.jumbotron.jumbotron-fluid {
+  background-image: url("../image/hero-image.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 60vh;
+}

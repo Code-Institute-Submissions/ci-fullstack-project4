@@ -3,6 +3,7 @@ from .models import Product, Category
 from .forms import ProductForm
 from django.contrib.auth.decorators import login_required, permission_required
 import datetime
+import re
 
 # Create your views here.
 
@@ -16,12 +17,18 @@ def index(request):
     })
 
 
-def breakfast(request):
-    """View function for Breakfast Products only"""
-    breakfast_products = Product.objects.filter(
-        category__name__iexact='breakfast').order_by('name')
-    return render(request, 'products/breakfast.template.html', {
-        'breakfast_products': breakfast_products
+def category_view(request):
+    """View function for view by categorical Products """
+    path = request.get_full_path()
+    result = re.search(r"(?!.*/).+", path).group(0)
+    result_list = result.split("-")
+    regex_str = result_list[0]
+    page_title = " ".join(result_list)
+    searched_products = Product.objects.filter(
+        category__name__icontains=regex_str).order_by('name')
+    return render(request, 'products/bycategory.template.html', {
+        'searched_products': searched_products,
+        'page_title': page_title
     })
 
 

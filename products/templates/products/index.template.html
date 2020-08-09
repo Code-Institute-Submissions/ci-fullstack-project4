@@ -24,7 +24,7 @@ Cloudberry Grocer Home Page
 <div class="row row-cols-12">
 {% for cat in categories %}
 <div class="card col-6 col-md-2 mb-3 bg-transparent border-0">
-<a href="{{cat.slug}}">
+<a href="/products/{{cat.slug}}">
   <img src="{% static '/image/cat' %}{{cat.cat_no}}.jpg" class="card-img" alt="..."/>
   <div class="card-img-overlay">
     <h5 class="card-title">{{cat.name}}</h5>

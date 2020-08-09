@@ -3,8 +3,18 @@ import products.views
 
 urlpatterns = [
     path('', products.views.index),
-    path('breakfast', products.views.breakfast,
-         name="view_breakfast_product"),
     path('create', products.views.input_product,
-         name="create_product_route")
+         name="create_product_route"),
+    path('breakfast', products.views.category_view,
+         name="category_product_route"),
+    path('biscuits-and-cookies', products.views.category_view,
+         name="category_product_route"),
+    path('grains-and-dried-beans', products.views.category_view,
+         name="category_product_route"),
+    path('nuts', products.views.category_view,
+         name="category_product_route"),
+    path('baking-ingredients', products.views.category_view,
+         name="category_product_route"),
+    path('fresh-produce', products.views.category_view,
+         name="category_product_route")
 ]

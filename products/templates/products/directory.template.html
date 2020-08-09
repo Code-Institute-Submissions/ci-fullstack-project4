@@ -1,53 +1,27 @@
 {% extends 'base.template.html' %}
 {%load static %}
+{%load crispy_forms_tags %}
 
 {%block title%}
-Cloudberry Grocer Home Page
+Cloudberry Grocer Directory
 {%endblock%}
 
+{% block content%}
 
-{%block hero%}
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Fluid jumbotron</h1>
-    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-  </div>
-</div>
-{% endblock %}
-
-
-{%block content%}
-{% if request.user.is_authenticated  %}
-    <p>You are currently logged in as {{request.user}}</p>
-{% else %}
-    <p>Welcome to Cloudberry Grocer, guest</p>
-{% endif %}
+<form method="GET" class="form-inline my-2 my-lg-0">
+     {{search_form|crispy}}
+      <input class="btn btn-success" type="submit" value="Search"/>
+</form>
 
 
 <div class="mt-5 mb-3">
-<h4>Product Categories</h4>
-</div>
-
-<div class="row row-cols-12">
-{% for cat in categories %}
-<div class="card col-6 col-md-2 mb-3 bg-transparent border-0">
-<a href="/products/{{cat.slug}}" class="link">
-  <img src="{% static '/image/cat' %}{{cat.cat_no}}.jpg" class="card-img" alt="..."/>
-  <div class="card-img-overlay">
-    <h5 class="card-title">{{cat.name}}</h5>
-  </div>
-</a>
-</div>
-{% endfor %}
-</div>
-
-<div class="mt-5 mb-3">
-<h4>All Products</h4>
+<h5>Results for Products</h5>
 </div>
 
 {% if perms.products.can_add_product %}
     <a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button" data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
 {% endif %}
+
 
     <div class="row mb-3 row-cols-12">
     <div class="card-deck">    <!--startdeck-->

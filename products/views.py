@@ -3,7 +3,8 @@ from django.shortcuts import (render, reverse,
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from .models import Product, Category
-from .forms import ProductForm
+from .forms import ProductForm, SearchForm
+from django.db.models import Q
 import datetime
 import re
 
@@ -16,6 +17,38 @@ def index(request):
     return render(request, 'products/index.template.html', {
         'products': products,
         'categories': categories
+    })
+
+
+def directory(request):
+    products = Product.objects.all()
+    if request.GET:
+        # always true query:
+        queries = ~Q(pk__in=[])
+        # if a name is specified, add it to the query
+        if ('search' in request.GET and request.GET['search']):
+            print(request.GET)
+            search_input = request.GET['search']
+            queries = queries & Q(name__icontains=search_input)\
+                | Q(desc__icontains=search_input)
+
+        # if a category is specified, add it to the query
+        if 'min_price' in request.GET and request.GET['min_price']:
+            print(request.GET)
+            min_price = request.GET['min_price']
+
+        # if a category is specified, add it to query
+        if 'max_price' in request.GET and request.GET['max_price']:
+            print(request.GET)
+            max_price = request.GET['max_price']
+            #queries = queries & Q(category__in=category)
+
+        # update the existing product found
+        products = products.filter(queries)
+    search_form = SearchForm(request.GET)
+    return render(request, 'products/directory.template.html', {
+        'products': products,
+        'search_form': search_form
     })
 
 
@@ -89,3 +122,17 @@ def update_product(request, product_id):
         return render(request, 'products/update_product.template.html', {
                       'form': update_form
                       })
+
+
+@login_required
+@permission_required('products.delete_product')
+def delete_product(request, product_id):
+    product_to_delete = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        product_to_delete.delete()
+        messages.success(
+                request,
+                f"{product_to_delete}, id={product_id}"
+                f" has been deleted from the system, on"
+                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+        return redirect(reverse(index))

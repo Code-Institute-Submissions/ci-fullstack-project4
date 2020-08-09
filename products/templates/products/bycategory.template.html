@@ -8,29 +8,28 @@
 <h3 class="text-capitalize">{{page_title}}</h3>
 
 
-<div class="row mb-3 row-cols-5 row-cols-md-1">
+<div class="row mb-3 row-cols-12">
     <div class="card-deck">    <!--startdeck-->
 {%for product in searched_products %}
    {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
         </div> <!--end deck-->
         </div> <!--end row-->
-        <div class="row mb3 row-cols-5 row-cols-md-1">
+        <div class="row mb3 row-cols-12">
          <div class="card-deck">    <!--startdeck-->
   {% endif %}
    
 
 
 
-  <div class="card col-md-3">
+  <div class="card col-md-2">
     <img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
     <div class="card-body">
       {{forloop.counter0}}
       <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
       <p class="card-text">{{product.name}}</p>
       <p class="card-text">{{product.weight_per_pack}}g</p>
+      <div>
       <p class="card-text"><small class="text-muted">Add to Cart</small></p>
-      
-      <div class="card-footer">
       </div>
     </div>
   </div>

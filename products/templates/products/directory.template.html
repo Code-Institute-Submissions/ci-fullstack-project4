@@ -15,7 +15,7 @@ Cloudberry Grocer Directory
 
 
 <div class="mt-5 mb-3">
-<h5>Results for Products</h5>
+<h5>Results for "{{search_input}}"</h5>
 </div>
 
 {% if perms.products.can_add_product %}
@@ -37,6 +37,7 @@ Cloudberry Grocer Directory
 
 
   <div class="card col-md-2">
+  <a href="{% url 'product_detail_route' product_id=product.id %}">
     <img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
     <div class="card-body">
       {{forloop.counter0}}
@@ -55,6 +56,7 @@ Cloudberry Grocer Directory
     </div>
     {% endif%}
     </div>
+    </a>
   </div>
   
 <!-- Modal -->

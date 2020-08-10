@@ -22,33 +22,37 @@ def index(request):
 
 def directory(request):
     products = Product.objects.all()
+    search_input = ""
     if request.GET:
         # always true query:
         queries = ~Q(pk__in=[])
         # if a name is specified, add it to the query
         if ('search' in request.GET and request.GET['search']):
-            print(request.GET)
             search_input = request.GET['search']
-            queries = queries & Q(name__icontains=search_input)\
-                | Q(desc__icontains=search_input)
+            queries = queries & Q(name__icontains=search_input)
 
-        # if a category is specified, add it to the query
+        # if a min_price is specified, add it to query
         if 'min_price' in request.GET and request.GET['min_price']:
-            print(request.GET)
-            min_price = request.GET['min_price']
+            min_price = float(request.GET['min_price'])
+        else:
+            min_price = 0.00
 
-        # if a category is specified, add it to query
+        # if a max_price is specified, add it to query
         if 'max_price' in request.GET and request.GET['max_price']:
-            print(request.GET)
-            max_price = request.GET['max_price']
-            #queries = queries & Q(category__in=category)
+            max_price = float(request.GET['max_price'])
+        else:
+            max_price = 99999.99
+
+        queries = queries & Q(root_price__gte=min_price) & Q(
+            root_price__lte=max_price)
 
         # update the existing product found
         products = products.filter(queries)
     search_form = SearchForm(request.GET)
     return render(request, 'products/directory.template.html', {
         'products': products,
-        'search_form': search_form
+        'search_form': search_form,
+        'search_input': search_input
     })
 
 
@@ -64,6 +68,14 @@ def category_view(request):
     return render(request, 'products/bycategory.template.html', {
         'searched_products': searched_products,
         'page_title': page_title
+    })
+
+
+def detail_view(request, product_id):
+    """View function for view by categorical Products """
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'products/details.template.html', {
+        'product': product
     })
 
 

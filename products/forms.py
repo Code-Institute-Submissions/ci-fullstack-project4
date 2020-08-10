@@ -22,15 +22,6 @@ class SearchForm(forms.Form):
     min_price = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
     max_price = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
 
-    fieldsets = (
-        (None, {
-            'fields': ('search')
-        }),
-        ('Advanced options', {
-            'fields': ('min_price', 'max_price'),
-        }),
-    )
-
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
 

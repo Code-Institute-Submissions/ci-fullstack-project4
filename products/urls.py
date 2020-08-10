@@ -12,6 +12,8 @@ urlpatterns = [
          name="delete_product_route"),
     path('directory', products.views.directory,
          name="product_directory_route"),
+    path('details/<product_id>', products.views.detail_view,
+         name="product_detail_route"),
     path('breakfast', products.views.category_view,
          name="category_product_route"),
     path('biscuits-and-cookies', products.views.category_view,

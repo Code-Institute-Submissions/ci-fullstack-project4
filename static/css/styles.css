@@ -18,9 +18,14 @@ div.jumbotron.jumbotron-fluid {
 
 a.link{
     color: darkslategray;
+    text-decoration: none;
 }
 
 h5.card-title {
     background-color: rgba(255, 250, 240, 0.7);
     text-shadow: 3px 3px 3px floralwhite;
+}
+
+.original-price{
+    text-decoration: line-through;
 }

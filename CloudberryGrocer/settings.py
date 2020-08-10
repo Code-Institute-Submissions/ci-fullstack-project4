@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     #crispy-forms
     'crispy_forms',
     # myapp
-    'products'
+    'products',
+    'cart'
 ]
 
 MIDDLEWARE = [

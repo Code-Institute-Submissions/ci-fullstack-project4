@@ -11,7 +11,8 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ('name', 'brand', 'desc', 'origin', 'weight_per_pack',
                   'qty_per_pack', 'barcode_spec', 'barcode_no', 'image',
-                  'root_price', 'category', 'subcategory', 'usage')
+                  'root_price', 'multiplier', 'category', 'subcategory',
+                  'usage', 'status')
         widgets = {
             'editor': forms.HiddenInput(),
             'date_edited': forms.HiddenInput()

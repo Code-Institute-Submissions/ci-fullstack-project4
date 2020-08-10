@@ -12,10 +12,10 @@ import re
 
 
 def index(request):
-    products = Product.objects.all()
+    products_on_offer = Product.objects.filter(status__exact='o')
     categories = Category.objects.all()
     return render(request, 'products/index.template.html', {
-        'products': products,
+        'products': products_on_offer,
         'categories': categories
     })
 

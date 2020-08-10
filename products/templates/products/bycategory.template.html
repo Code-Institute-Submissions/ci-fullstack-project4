@@ -22,10 +22,11 @@
 
 
   <div class="card col-md-2">
+  <a href="{% url 'product_detail_route' product_id=product.id %}">
     <img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
+    </a>
     <div class="card-body">
-      {{forloop.counter0}}
-      <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
+      <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
       <p class="card-text">{{product.name}}</p>
       <p class="card-text">{{product.weight_per_pack}}g</p>
       <div>

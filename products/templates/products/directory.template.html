@@ -9,86 +9,94 @@ Cloudberry Grocer Directory
 {% block content%}
 
 <form method="GET" class="form-inline my-2 my-lg-0">
-     {{search_form|crispy}}
-      <input class="btn btn-success" type="submit" value="Search"/>
+	{{search_form|crispy}}
+	<input class="btn btn-success" type="submit" value="Search"/>
 </form>
 
 
-<div class="mt-5 mb-3">
-<h5>Results for "{{search_input}}"</h5>
-</div>
+	<div class="mt-5 mb-3">
+		<h5>Results for "{{search_input}}"</h5>
+	</div>
 
-{% if perms.products.can_add_product %}
-    <a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button" data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
-{% endif %}
-
-
-    <div class="row mb-3 row-cols-12">
-    <div class="card-deck">    <!--startdeck-->
-{%for product in products %}
-   {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
-        </div> <!--end deck-->
-        </div> <!--end row-->
-        <div class="row mb-3 row-cols-12">
-         <div class="card-deck">    <!--startdeck-->
-  {% endif %}
-   
+	{% if perms.products.can_add_product %}
+	<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button"
+		data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
+	{% endif %}
 
 
+	<div class="row mb-3 row-cols-12">
+		<div class="card-deck">
+			<!--startdeck-->
+			{%for product in products %}
+			{% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
+		</div>
+		<!--end deck-->
+	</div>
+	<!--end row-->
+	<div class="row mb-3 row-cols-12">
+		<div class="card-deck">
+			<!--startdeck-->
+			{% endif %}
 
-  <div class="card col-md-2">
-  <a href="{% url 'product_detail_route' product_id=product.id %}">
-    <img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
-    <div class="card-body">
-      {{forloop.counter0}}
-      <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
-      <p class="card-text">{{product.name}}</p>
-      <p class="card-text">{{product.weight_per_pack}}g</p>
-      <div>
-      <p class="card-text"><small class="text-muted">Add to Cart</small></p>
-      </div>
-       {% if perms.products.can_change_product %}
-      <div class="card-footer">
-     <a class="btn btn-primary" href="{% url 'update_product_route' product_id=product.id%}" role="button">Edit</a>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
+
+
+
+			<div class="card col-md-2">
+				<a href="{% url 'product_detail_route' product_id=product.id %}">
+					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
+                </a>
+					<div class="card-body">
+						<h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
+						<p class="card-text">{{product.name}}</p>
+						<p class="card-text">{{product.weight_per_pack}}g</p>
+						<div>
+							<p class="card-text"><small class="text-muted">Add to Cart</small></p>
+						</div>
+						{% if perms.products.can_change_product %}
+						<div class="card-footer">
+							<a class="btn btn-primary" href="{% url 'update_product_route' product_id=product.id%}"
+								role="button">Edit</a>
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
     Delete
     </button>
-    </div>
-    {% endif%}
-    </div>
-    </a>
-  </div>
-  
-<!-- Modal -->
-<div class="modal fade" id="deleteModal-{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Do you want to delete this Product?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						</div>
+						{% endif%}
+					</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="deleteModal-{{product.id}}" tabindex="-1" role="dialog"
+				aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Do you want to delete this Product?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p>Deleting a product will remove it permanently. This action cannot be undone.</p>
-      </div>
-      <div class="modal-footer">
-      <form action="{%url 'delete_product_route' product_id=product.id%}" method="POST">
-      {% csrf_token %}
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-danger" value="CONFIRM"/>
+						</div>
+						<div class="modal-body">
+							<p>Deleting a product will remove it permanently. This action cannot be undone.</p>
+						</div>
+						<div class="modal-footer">
+							<form action="{%url 'delete_product_route' product_id=product.id%}" method="POST">
+								{% csrf_token %}
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<input type="submit" class="btn btn-danger" value="CONFIRM"/>
         </form>
-      </div>
-    </div>
-  </div>
-</div>
-{%endfor%}
+						</div>
+					</div>
+				</div>
+			</div>
+			{%endfor%}
 
-    </div> <!--end deck last-->
-        </div> <!--end row last-->
+		</div>
+		<!--end deck last-->
+	</div>
+	<!--end row last-->
 
-{%endblock%}
+	{%endblock%}
 
-{%block js%}
-<script src="{% static '/js/main.js' %}"></script>
-{%endblock%}
+	{%block js%}
+	<script src="{% static '/js/main.js' %}"></script>
+	{%endblock%}

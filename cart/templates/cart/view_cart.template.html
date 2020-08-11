@@ -22,12 +22,20 @@
         <p class="card-text"><small class="text-muted">Last updated {{value.datetime_added}}</small></p>
       </div>
     </div>
-    <div class="col-5 col-sm-3 d-flex">
-    <div class="btn-group align-items-center" role="group" aria-label="Add/Minus Button">
+    <div class="col-5 col-sm-3 p-3 d-flex">
+    <div class="row justify-content-end">
+    <a href="{% url 'remove_from_cart' product_id=value.id %}" class="link">
+    <i class="fas fa-trash-alt"></i>
+    </a>
+    <div class="btn-group align-self-start" role="group" aria-label="Add/Minus Button">
     <a href="{% url 'subtract_from_cart' product_id=value.id %}" class="btn btn-outline-secondary" role="button">-</a>
+    
     <input type="text" class="form-control cart-qty" value="{{value.qty}}">
+    
      <a href="{% url 'add_to_cart' product_id=value.id %}" class="btn btn-outline-secondary" role="button">+</a>
     </div>
+    </div>
+
     </div>
 
   </div>
@@ -43,7 +51,7 @@
         <p> {{value.name}}: </p> 
         <p> {{value.unit_cost|floatformat:2}} x {{value.qty}}</p>
 {% endfor %}
-    <h5 class="card-title">Cart Total: ${{grand_total|floatformat:2}}</h5>
+    <h5 class="card-title">Grand Total: ${{grand_total|floatformat:2}}</h5>
         <p></p>
     </div>
 </div>

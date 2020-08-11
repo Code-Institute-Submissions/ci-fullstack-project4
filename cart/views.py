@@ -4,6 +4,7 @@ from django.contrib import messages
 from products.models import Product
 import products.views
 import datetime
+import re
 from urllib.parse import urlparse
 
 # Create your views here.
@@ -30,19 +31,22 @@ def add_to_cart(request, product_id):
         cart[product_id]['qty'] += 1
         """save the cart into the shopping cart session again"""
         request.session['shopping_cart'] = cart
+        """ get current path from django request"""
         current_path = urlparse(request.META['HTTP_REFERER']).path
-        if current_path == '/cart/view':
+        """ get directory of current path"""
+        path_dir = re.search(r"[^/](\w+)", current_path).group(0)
+        if path_dir == 'cart':
             return redirect(reverse(view_cart))
         else:
-            messages.success(request, f'{product.name} been added'
-                             f'to your cart!')
+            messages.success(request, f'{cart[product_id].get("name")} been added'
+                             f' to your cart!')
             return redirect(reverse(products.views.index))
 
 
 def view_cart(request):
     cart = request.session.get('shopping_cart', {})
-    print(cart)
-    print(len(cart))
+    #print(cart)
+    #print(len(cart))
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
@@ -69,3 +73,18 @@ def subtract_from_cart(request, product_id):
         'cart': cart,
         'grand_total': grand_total
     })
+
+
+def remove_item_from_cart(request, product_id):
+    cart = request.session.get('shopping_cart', {})
+    if product_id in cart:
+        del cart[product_id]
+    """ recalculate grand total """
+    grand_total = 0
+    for k, v in cart.items():
+        grand_total += float(v['unit_cost'] * v['qty'])
+    return render(request, 'cart/view_cart.template.html', {
+        'cart': cart,
+        'grand_total': grand_total
+    })
+

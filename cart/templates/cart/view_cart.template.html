@@ -1,0 +1,52 @@
+{% extends 'base.template.html' %}
+{%load static%}
+
+{%block title%} Shopping Cart View {%endblock%}
+
+{%block content%}
+<h3> Shopping Cart </h3>
+
+
+<div class="row">
+<div class="col-7">
+{% for key, value in cart.items %}
+<div class="card col-12 mb-3">
+  <div class="row no-gutters">
+    <div class="col-6 col-sm-3 img-fluid">
+      <img src="{{value.image}}" class="card-img" alt="...">
+    </div>
+    <div class="col-sm-6">
+      <div class="card-body">
+        <h5 class="card-title">${{value.unit_cost|floatformat:2}}</h5>
+        <p class="card-text">{{value.name}}</p>
+        <p class="card-text"><small class="text-muted">Last updated {{value.datetime_added}}</small></p>
+      </div>
+    </div>
+    <div class="col-5 col-sm-3 d-flex">
+    <div class="btn-group align-items-center" role="group" aria-label="Add/Minus Button">
+    <button type="button" class="btn btn-outline-secondary">-</button>
+    <input type="text" class="form-control cart-qty" value="{{value.qty}}">
+     <a href="{% url 'add_to_cart' product_id=value.id %}" class="btn btn-outline-secondary" role="button">+</a>
+    </div>
+    </div>
+
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="col-5">
+<div class="card mb-3">
+    <div class="col-12">
+     <h5 class="card-title">Subtotal:</h5>
+{% for key, value in cart.items %}
+        <p> {{value.name}} = {{value.unit_cost|floatformat:2}} x {{value.qty}}</p>
+{% endfor %}
+    </div>
+</div>
+</div>
+
+</div>  <!--end row-->
+
+
+{% endblock %}

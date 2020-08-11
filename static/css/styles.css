@@ -1,11 +1,18 @@
 
+a.link{
+    color: darkslategray;
+    text-decoration: none;
+}
+
 body {
     background-color: whitesmoke;
 }
 
-.floating-btn{
-    border-radius: 25px;
-    margin-bottom: 10px;
+.cart-qty{
+    width: 40%;
+    border-radius: 0;
+    margin-left: -1px;
+    border: 1px solid darkslategray;
 }
 
 div.jumbotron.jumbotron-fluid {
@@ -16,10 +23,11 @@ div.jumbotron.jumbotron-fluid {
   height: 60vh;
 }
 
-a.link{
-    color: darkslategray;
-    text-decoration: none;
+.floating-btn{
+    border-radius: 25px;
+    margin-bottom: 10px;
 }
+
 
 h5.card-title {
     background-color: rgba(255, 250, 240, 0.7);

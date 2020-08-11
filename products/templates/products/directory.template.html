@@ -50,15 +50,18 @@ Cloudberry Grocer Directory
 						<p class="card-text">{{product.name}}</p>
 						<p class="card-text">{{product.weight_per_pack}}g</p>
 						<div>
+                         <a href="{% url 'add_to_cart' product_id=product.id %}">
+                            <img src="{% static '/image/shopping-cart.svg' %}"/>
 							<p class="card-text"><small class="text-muted">Add to Cart</small></p>
+                         </a>
 						</div>
 						{% if perms.products.can_change_product %}
 						<div class="card-footer">
 							<a class="btn btn-primary" href="{% url 'update_product_route' product_id=product.id%}"
 								role="button">Edit</a>
 							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
-    Delete
-    </button>
+                             Delete
+                            </button>
 						</div>
 						{% endif%}
 					</div>

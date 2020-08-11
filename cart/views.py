@@ -4,7 +4,7 @@ from django.contrib import messages
 from products.models import Product
 import products.views
 import datetime
-from urllib.parse import urlparse 
+from urllib.parse import urlparse
 
 # Create your views here.
 
@@ -43,7 +43,29 @@ def view_cart(request):
     cart = request.session.get('shopping_cart', {})
     print(cart)
     print(len(cart))
-    #del request.session['shopping_cart']
+    grand_total = 0
+    for k, v in cart.items():
+        grand_total += float(v['unit_cost'] * v['qty'])
+    # del request.session['shopping_cart']
     return render(request, 'cart/view_cart.template.html', {
-        'cart': cart
+        'cart': cart,
+        'grand_total': grand_total
+    })
+
+
+def subtract_from_cart(request, product_id):
+    cart = request.session.get('shopping_cart', {})
+    if product_id in cart and cart[product_id]['qty'] > 1:
+        cart[product_id]['qty'] -= 1
+    else:
+        del cart[product_id]
+    """ recalculate grand total """
+    grand_total = 0
+    for k, v in cart.items():
+        grand_total += float(v['unit_cost'] * v['qty'])
+    """save the cart into the shopping cart session again"""
+    request.session['shopping_cart'] = cart
+    return render(request, 'cart/view_cart.template.html', {
+        'cart': cart,
+        'grand_total': grand_total
     })

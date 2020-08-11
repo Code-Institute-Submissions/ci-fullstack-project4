@@ -17,8 +17,9 @@
         <p class="card-text">{{product.name}}</p>
         <p class="card-text"><small class="text-muted">{{product.weight_per_pack}}g</small></p>
         <p class="card-text"><small class="text-muted">Brand: {{product.brand}}</small></p>
-
+        <a href="{% url 'add_to_cart' product_id=product.id %}">
         <img src="{% static '/image/shopping-cart.svg' %}"/>Add to Cart
+        </a>
       </div>
       </div>
     </div>

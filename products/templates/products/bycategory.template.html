@@ -30,7 +30,12 @@
       <p class="card-text">{{product.name}}</p>
       <p class="card-text">{{product.weight_per_pack}}g</p>
       <div>
-      <p class="card-text"><small class="text-muted">Add to Cart</small></p>
+        <a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
+            <span class="d-inline-flex">
+                <img src="{% static '/image/shopping-cart.svg' %}"/>
+					<p class="card-text"><small class="text-muted">Add to Cart</small></p>
+            </span>
+        </a>	
       </div>
     </div>
   </div>

@@ -20,6 +20,7 @@ def add_to_cart(request, product_id):
             'image': product.image,
             'unit_cost': round(float(product.get_current_price()), 2),
             'qty': 1,
+            'subtotal': round(float(product.get_current_price()), 2),
             'datetime_added': datetime.datetime.now().strftime(
                               '%b %d, %Y, %H:%M:%S')
         }
@@ -28,7 +29,10 @@ def add_to_cart(request, product_id):
         messages.success(request, f'{product.name} been added to your cart!')
         return redirect(reverse(products.views.index))
     else:
+        """add the quantity to cart"""
         cart[product_id]['qty'] += 1
+        """ recalculate subtotal"""
+        cart[product_id]['subtotal'] = int(cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
         """save the cart into the shopping cart session again"""
         request.session['shopping_cart'] = cart
         """ get current path from django request"""
@@ -38,8 +42,8 @@ def add_to_cart(request, product_id):
         if path_dir == 'cart':
             return redirect(reverse(view_cart))
         else:
-            messages.success(request, f'{cart[product_id].get("name")} been added'
-                             f' to your cart!')
+            messages.success(request, f'{cart[product_id].get("name")} has been'
+                             f' added to your cart!')
             return redirect(reverse(products.views.index))
 
 
@@ -59,8 +63,11 @@ def subtract_from_cart(request, product_id):
     cart = request.session.get('shopping_cart', {})
     if product_id in cart and cart[product_id]['qty'] > 1:
         cart[product_id]['qty'] -= 1
+        """ recalculate subtotal"""
+        cart[product_id]['subtotal'] = int(cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
     else:
         del cart[product_id]
+    
     """ recalculate grand total """
     grand_total = 0
     for k, v in cart.items():
@@ -94,6 +101,8 @@ def manual_update_qty(request, product_id):
     if product_id in cart and request.method == "POST":
         """update cart qty"""
         cart[product_id]['qty'] = int(request.POST['qty'])
+        """update cart subtotal"""
+        cart[product_id]['subtotal'] = int(request.POST['qty']) * float(cart[product_id]['unit_cost'])
         """ recalculate grand total """
         grand_total = 0
         for k, v in cart.items():

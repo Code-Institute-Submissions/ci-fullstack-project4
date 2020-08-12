@@ -8,7 +8,7 @@
 
 
 <div class="row">
-<div class="col-7">
+<div class="col-md-8">
 {% for key, value in cart.items %}
 <div class="card col-12 mb-3">
   <div class="row no-gutters">
@@ -22,18 +22,19 @@
         <p class="card-text"><small class="text-muted">Last updated {{value.datetime_added}}</small></p>
       </div>
     </div>
-    <div class="col-5 col-sm-3 p-3 d-flex">
+    <div class="col-12 col-sm-3 p-3 d-flex">
     <div class="row justify-content-end">
     <a href="{% url 'remove_from_cart' product_id=value.id %}" class="link">
     <i class="fas fa-trash-alt"></i>
     </a>
+     <form method="POST" action="{% url 'update_cart_qty' product_id=value.id %}" id="update-form">
     <div class="btn-group align-self-start" role="group" aria-label="Add/Minus Button">
+     {% csrf_token %}
     <a href="{% url 'subtract_from_cart' product_id=value.id %}" class="btn btn-outline-secondary" role="button">-</a>
-    
-    <input type="text" class="form-control cart-qty" value="{{value.qty}}">
-    
+    <input type="number" class="form-control cart-qty" id="cart-qty" name="qty" value="{{value.qty}}">
      <a href="{% url 'add_to_cart' product_id=value.id %}" class="btn btn-outline-secondary" role="button">+</a>
     </div>
+    </form>
     </div>
 
     </div>
@@ -43,7 +44,7 @@
 {% endfor %}
 </div>
 
-<div class="col-5">
+<div class="col-md-4">
 <div class="card mb-3">
     <div class="col-12">
      <h5 class="card-title">Subtotal:</h5>
@@ -52,7 +53,9 @@
         <p> {{value.unit_cost|floatformat:2}} x {{value.qty}}</p>
 {% endfor %}
     <h5 class="card-title">Grand Total: ${{grand_total|floatformat:2}}</h5>
-        <p></p>
+    <div class="d-flex justify-content-center mb-5">
+        <button type="button" class="btn btn-primary" id="checkout">Checkout</button>
+    </div>
     </div>
 </div>
 </div>
@@ -61,3 +64,7 @@
 
 
 {% endblock %}
+
+{%block js%}
+<script src="{% static '/js/main.js' %}"></script>
+{%endblock%}

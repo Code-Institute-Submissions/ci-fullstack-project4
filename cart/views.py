@@ -45,8 +45,6 @@ def add_to_cart(request, product_id):
 
 def view_cart(request):
     cart = request.session.get('shopping_cart', {})
-    #print(cart)
-    #print(len(cart))
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
@@ -83,8 +81,26 @@ def remove_item_from_cart(request, product_id):
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
+    """save the cart into the shopping cart session again"""
+    request.session['shopping_cart'] = cart
     return render(request, 'cart/view_cart.template.html', {
         'cart': cart,
         'grand_total': grand_total
     })
 
+
+def manual_update_qty(request, product_id):
+    cart = request.session["shopping_cart"]
+    if product_id in cart and request.method == "POST":
+        """update cart qty"""
+        cart[product_id]['qty'] = int(request.POST['qty'])
+        """ recalculate grand total """
+        grand_total = 0
+        for k, v in cart.items():
+            grand_total += float(v['unit_cost'] * v['qty'])
+        """save back the cart into the session"""
+        request.session['shopping_cart'] = cart
+    return render(request, 'cart/view_cart.template.html', {
+        'cart': cart,
+        'grand_total': grand_total
+    })

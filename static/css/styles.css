@@ -42,3 +42,13 @@ h5.card-title {
 .original-price{
     text-decoration: line-through;
 }
+
+#update-form{
+    margin-top: 20px
+}
+
+#qty-badge{
+  border-radius: 9px;
+  vertical-align: top;
+  margin-left: -10px; 
+}

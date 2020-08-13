@@ -22,7 +22,7 @@ def add_to_cart(request, product_id):
             'qty': 1,
             'subtotal': round(float(product.get_current_price()), 2),
             'datetime_added': datetime.datetime.now().strftime(
-                              '%b %d, %Y, %H:%M:%S')
+                '%b %d, %Y, %H:%M:%S')
         }
         """save the cart into the shopping cart session"""
         request.session['shopping_cart'] = cart
@@ -32,7 +32,8 @@ def add_to_cart(request, product_id):
         """add the quantity to cart"""
         cart[product_id]['qty'] += 1
         """ recalculate subtotal"""
-        cart[product_id]['subtotal'] = int(cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
+        cart[product_id]['subtotal'] = int(
+            cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
         """save the cart into the shopping cart session again"""
         request.session['shopping_cart'] = cart
         """ get current path from django request"""
@@ -52,11 +53,15 @@ def view_cart(request):
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
-    # del request.session['shopping_cart']
-    return render(request, 'cart/view_cart.template.html', {
-        'cart': cart,
-        'grand_total': grand_total
-    })
+    print(cart.items())
+    # if cart is empty,
+    if not cart.items():
+        return render(request, 'cart/view_empty.template.html')
+    else:
+        return render(request, 'cart/view_cart.template.html', {
+            'cart': cart,
+            'grand_total': grand_total
+        })
 
 
 def subtract_from_cart(request, product_id):
@@ -64,20 +69,23 @@ def subtract_from_cart(request, product_id):
     if product_id in cart and cart[product_id]['qty'] > 1:
         cart[product_id]['qty'] -= 1
         """ recalculate subtotal"""
-        cart[product_id]['subtotal'] = int(cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
+        cart[product_id]['subtotal'] = int(
+            cart[product_id]['qty']) * float(cart[product_id]['unit_cost'])
     else:
         del cart[product_id]
-    
     """ recalculate grand total """
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
     """save the cart into the shopping cart session again"""
     request.session['shopping_cart'] = cart
-    return render(request, 'cart/view_cart.template.html', {
-        'cart': cart,
-        'grand_total': grand_total
-    })
+    if not cart.items():
+        return render(request, 'cart/view_empty.template.html')
+    else:
+        return render(request, 'cart/view_cart.template.html', {
+            'cart': cart,
+            'grand_total': grand_total
+        })
 
 
 def remove_item_from_cart(request, product_id):
@@ -90,10 +98,13 @@ def remove_item_from_cart(request, product_id):
         grand_total += float(v['unit_cost'] * v['qty'])
     """save the cart into the shopping cart session again"""
     request.session['shopping_cart'] = cart
-    return render(request, 'cart/view_cart.template.html', {
-        'cart': cart,
-        'grand_total': grand_total
-    })
+    if not cart.items():
+        return render(request, 'cart/view_empty.template.html')
+    else:
+        return render(request, 'cart/view_cart.template.html', {
+            'cart': cart,
+            'grand_total': grand_total
+        })
 
 
 def manual_update_qty(request, product_id):
@@ -102,7 +113,8 @@ def manual_update_qty(request, product_id):
         """update cart qty"""
         cart[product_id]['qty'] = int(request.POST['qty'])
         """update cart subtotal"""
-        cart[product_id]['subtotal'] = int(request.POST['qty']) * float(cart[product_id]['unit_cost'])
+        cart[product_id]['subtotal'] = int(
+            request.POST['qty']) * float(cart[product_id]['unit_cost'])
         """ recalculate grand total """
         grand_total = 0
         for k, v in cart.items():

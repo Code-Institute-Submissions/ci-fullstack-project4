@@ -1,0 +1,20 @@
+{% extends 'base.template.html' %}
+{%load static %}
+
+{% block content %}
+<div class="card mb-3">
+  <img src="{% static '/image/thank-you.svg' %}" class="img-fluid" alt="..."/>
+  <div class="card-body align-self-center">
+    <h3 class="card-title">Your order #91028102 has been successfully paid.</h3>
+    <div class="row">
+    <div class="col-8">
+    <p class="card-text"> Please check your e-mail for the order confirmation shortly. Keep it for your record.</p>
+    <a class="btn btn-primary" href="{%url 'home_page_route' %}" role="button">Continue Shopping</a>
+    </div>
+  <div class="col-4">
+  </div>
+  </div>
+  </div>
+</div>
+
+{% endblock%}

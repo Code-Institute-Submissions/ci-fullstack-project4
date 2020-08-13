@@ -1,0 +1,20 @@
+{% extends 'base.template.html' %}
+{%load static %}
+
+{% block content %}
+<div class="card mb-3">
+  <img src="{% static '/image/shopping-cart-large.svg' %}" class="img-fluid" alt="..."/>
+  <div class="card-body align-self-center">
+    <h3 class="card-title">Your shopping cart is empty.</h3>
+    <div class="row">
+    <div class="col-12 text-center">
+    <p class="card-text"> Add items to cart and see it filled here.</p>
+    <a class="btn btn-primary" href="{%url 'home_page_route' %}" role="button">Continue Shopping</a>
+    </div>
+  <div class="col-4">
+  </div>
+  </div>
+  </div>
+</div>
+
+{% endblock%}

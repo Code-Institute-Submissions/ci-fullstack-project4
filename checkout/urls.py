@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import checkout, checkout_success, checkout_cancel
+from .views import checkout, checkout_success, checkout_cancel, payment_completed
 
 urlpatterns = [
     path('', checkout, name='checkout'),
@@ -7,4 +7,5 @@ urlpatterns = [
          name="checkout_success"),
     path('cancelled', checkout_cancel,
          name="checkout_cancelled"),
+    path('payment_completed', payment_completed)
 ]

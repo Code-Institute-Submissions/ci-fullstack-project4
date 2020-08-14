@@ -11,5 +11,5 @@ class Purchase(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Purchase for {self.product_id} by user"
+        return f"Purchase {self.product_id} by"
         f" {self.user_id} on {self.purchase_date}"

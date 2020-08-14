@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     # myapp
     'products',
     'cart',
-    'checkout'
+    'checkout',
+    'mykitchen'
 ]
 
 MIDDLEWARE = [

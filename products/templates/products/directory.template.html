@@ -16,6 +16,7 @@ Cloudberry Grocer Directory
 
 	<div class="mt-5 mb-3">
 		<h5>Results for "{{search_input}}"</h5>
+        *Please note that the search results for prices are returned based on the price prior to discount.
 	</div>
 
 	{% if perms.products.can_add_product %}
@@ -46,7 +47,7 @@ Cloudberry Grocer Directory
 					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
                 </a>
 					<div class="card-body">
-						<h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
+						<h5 class="card-title">${{product.get_current_price|floatformat:2}} </h5>
 						<p class="card-text">{{product.name}}</p>
 						<p class="card-text">{{product.weight_per_pack}}g</p>
 						<div>

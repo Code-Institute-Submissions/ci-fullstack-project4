@@ -33,6 +33,12 @@
   <div class="col-6">
     <h6 class="card-title">Product Description</h6>
     <p class="card-text">{{product.desc}}</p>
+    <h6 class="card-title">Product Usage</h6>
+    <ul>
+    {% for usage in product.usage.all%}
+    <li class="card-text">{{usage.name}}</li>
+    {% endfor %}
+    </ul>
     </div>
     <div class="col-6">
     <h6 class="card-title">Country of Origin</h6>

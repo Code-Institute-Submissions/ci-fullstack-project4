@@ -14,6 +14,10 @@ import re
 def index(request):
     products_on_offer = Product.objects.filter(status__exact='o')
     categories = Category.objects.all()
+
+    # get request.user
+    # from mykitchen app, check if user is household member, get household id
+    # pass id mykitchen index view (display link in navbar base template)
     return render(request, 'products/index.template.html', {
         'products': products_on_offer,
         'categories': categories

@@ -1,0 +1,20 @@
+{% extends 'base_kitchen.template.html' %}
+{%load crispy_forms_tags %}
+{%load static%}
+
+
+{%block title%} Register Household Form {%endblock%}
+{%block content%}
+    <h1>My Household Form</h1>
+    <form method="POST">
+    {% csrf_token %}
+    {{ house_form|crispy }}
+    {% for form in member_form %}
+    <div class="inline {{ member_form.prefix }}">
+        {{ form.user }}
+        {{ form.DELETE }}
+    </div>
+    {% endfor %}
+    <input type="submit"/>
+    </form>    
+  {% endblock %}

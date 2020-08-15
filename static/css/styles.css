@@ -20,7 +20,16 @@ body {
     border-radius: 20px;
 }
 
-div.jumbotron.jumbotron-fluid {
+
+div.jumbotron.jumbotron-fluid.kitchen {
+  background-image: url("../image/food-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+div.jumbotron.jumbotron-fluid.mart {
   background-image: url("../image/hero-image.jpg");
   background-position: top;
   background-repeat: no-repeat;

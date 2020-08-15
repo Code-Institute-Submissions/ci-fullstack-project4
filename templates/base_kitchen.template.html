@@ -27,10 +27,16 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home_page_route' %}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'home_page_route' %}">Back to Shop <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'product_directory_route' %}">Directory</a>
+        <a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sections</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'mykitchen_register' %}">Register Home Profile</a>
       </li>
       <li class="nav-item">
       {% if request.user.is_authenticated %}
@@ -38,9 +44,6 @@
       {% else %}
         <a class="nav-link" href="../accounts/login">Login</a>
       {% endif %}
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'view_cart' %}">
@@ -56,17 +59,6 @@
     {%block hero %}
     {% endblock %}
 <div class="container">
-
-{% if messages %}  
-    <div class="alert alert-success alert-dismissible fade show" role="alert">    
-        <div>
-            {% for message in messages %} {{ message }} {% endfor %}
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-         </button>
-    </div>
-{% endif %}
 
     {%block content%}
     {%endblock%}

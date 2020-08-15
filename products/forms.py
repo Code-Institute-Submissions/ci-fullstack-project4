@@ -4,7 +4,8 @@ from .models import Product, Category
 from crispy_forms.helper import FormHelper
 from crispy_forms import layout, bootstrap
 from crispy_forms.bootstrap import InlineField, FormActions, Div
-from crispy_forms.layout import Layout, Submit, ButtonHolder
+from django.contrib.auth import get_user_model
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -17,6 +18,7 @@ class ProductForm(forms.ModelForm):
             'editor': forms.HiddenInput(),
             'date_edited': forms.HiddenInput()
         }
+
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False)

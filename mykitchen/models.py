@@ -14,9 +14,10 @@ def get_sentinel_user():
 class Household(models.Model):
     """Class defining Household Object"""
     name = models.CharField(blank=False, max_length=50,
-                            help_text='Household name')
+                            help_text='Name to identify your household')
     owner = models.ForeignKey(User,
-        blank=False, on_delete=models.SET(get_sentinel_user))
+                              blank=False,
+                              on_delete=models.SET(get_sentinel_user))
 
     def __str__(self):
         return self.name
@@ -29,7 +30,7 @@ class Member(models.Model):
                                   related_name="household")
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class StorageLocation(models.Model):

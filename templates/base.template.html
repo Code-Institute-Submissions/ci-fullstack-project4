@@ -39,9 +39,11 @@
         <a class="nav-link" href="../accounts/login">Login</a>
       {% endif %}
       </li>
+      {% if request.user.is_authenticated %}
        <li class="nav-item">
         <a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen</a>
       </li>
+      {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'view_cart' %}">
         <img src="{% static '/image/shopping-cart.svg' %}"/>

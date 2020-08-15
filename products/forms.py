@@ -1,10 +1,9 @@
 from django import forms
-from .models import Product, Category
+from .models import Product
 
 from crispy_forms.helper import FormHelper
-from crispy_forms import layout, bootstrap
-from crispy_forms.bootstrap import InlineField, FormActions, Div
-from django.contrib.auth import get_user_model
+from crispy_forms import layout
+from crispy_forms.bootstrap import Div
 
 
 class ProductForm(forms.ModelForm):
@@ -22,8 +21,10 @@ class ProductForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False)
-    min_price = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
-    max_price = forms.DecimalField(max_digits=10, decimal_places=2, required=False)
+    min_price = forms.DecimalField(
+        max_digits=10, decimal_places=2, required=False)
+    max_price = forms.DecimalField(
+        max_digits=10, decimal_places=2, required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
@@ -31,7 +32,7 @@ class SearchForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.method = "GET"
-        self.helper.layout = Layout(
+        self.helper.layout = layout.Layout(
             Div(
                 Div('search', css_class="col-sm-3"),
                 Div('min_price', css_class="col-sm-3"),

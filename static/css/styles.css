@@ -52,6 +52,11 @@ h5.card-title {
     text-decoration: line-through;
 }
 
+h3.title-background{
+    background-color: rgba(255, 255, 255, 0.75);
+    text-shadow: 3px 3px 3px lavender;
+}
+
 #update-form{
     margin-top: 20px
 }

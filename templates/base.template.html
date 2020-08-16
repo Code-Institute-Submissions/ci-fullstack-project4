@@ -33,6 +33,11 @@
         <a class="nav-link" href="{% url 'product_directory_route' %}">Directory</a>
       </li>
       <li class="nav-item">
+      {% if request.user.is_anonymous %}
+      <a class="nav-link" href = "../accounts/signup">Sign Up</a>
+      {% endif %}
+      </li>
+      <li class="nav-item">
       {% if request.user.is_authenticated %}
       <a class="nav-link" href = "../accounts/logout">Logout</a>
       {% else %}

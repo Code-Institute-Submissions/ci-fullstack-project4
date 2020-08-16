@@ -9,10 +9,11 @@
     <form method="POST">
     {% csrf_token %}
     {{ house_form|crispy }}
-    {{ formset.management_form|crispy }}
+    {{ member_form.management_form|crispy }}
     {% for form in member_form %}
     <div class="form-inline {{ form.prefix }}">
         {{ form|crispy }}
+        {{ form.id}}
     </div>
     {% endfor %}
     <input type="submit"/>

@@ -1,0 +1,22 @@
+{% extends 'base_kitchen.template.html' %}
+{%load static %}
+
+{%block title%}
+MyKitchen Household Profile
+{%endblock%}
+
+{% block content%}
+<div class="card">
+  <h5 class="card-header">My Household Profile</h5>
+  <div class="card-body">
+    <h5 class="card-title">{{household.name}}</h5>
+    <ul class="card-text">Family Members:
+    {% for member in members %}
+    <li> {{member.user}}</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'edit_household' household_id=household.id%}" class="btn btn-primary" role="button">Edit</a>
+    <a href="#" class="btn btn-danger" role="button">Delete</a>
+  </div>
+</div>
+{% endblock %}

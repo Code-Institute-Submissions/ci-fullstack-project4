@@ -1,0 +1,14 @@
+{% extends 'base_kitchen.template.html' %}
+{%load crispy_forms_tags %}
+{%load static%}
+
+
+{%block title%} Update Kitchen Storage Details Form {%endblock%}
+{%block content%}
+    <h3>MyKitchen Update Storage Details Form</h3>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit"/>
+    </form>    
+{% endblock %}

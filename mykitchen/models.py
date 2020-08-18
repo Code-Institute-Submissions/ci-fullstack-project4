@@ -38,7 +38,8 @@ class StorageLocation(models.Model):
     """Location for items in a kitchen. E.g. Cabinet, Fridge"""
     name = models.CharField(blank=False, max_length=50,
                             help_text="Kitchen Fixtures")
-    storage_temperature = models.IntegerField(blank=True)
+    storage_temperature = models.IntegerField(blank=True,
+                                              help_text="deg Celsius")
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
     edited_by = models.ForeignKey(User, blank=False,
                                   on_delete=models.SET(get_sentinel_user))

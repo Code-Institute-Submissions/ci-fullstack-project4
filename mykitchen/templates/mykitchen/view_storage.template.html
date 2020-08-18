@@ -13,18 +13,51 @@ MyKitchen Storage Section
 		data-toggle="tooltip" data-placement="bottom" title="Add storage">+</a>
 {% endif %}
 
-<div class="card mb-3" style="max-width: 540px;">
+{%for store in storage%}
+<div class="card mb-3">
   <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="..." class="card-img" alt="...">
+    <div class="col col-md-1 align-self-center">
+      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="card-img" alt="...">
     </div>
-    <div class="col-md-8">
+    <div class="col col-md-6">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <h5 class="card-title">{{store.name}}</h5>
+        <p class="card-text">Storage Temperature: {{store.storage_temperature}} deg C</p>
+        <p class="card-text"><small class="text-muted">Last added by:{{store.edited_by}}</small></p>
+      </div>
+    </div>
+    <div class="col col-md-5 align-self-center">
+    <a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}" class="btn btn-primary" role="button">Edit</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{store.id}}">
+    Delete
+    </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal-{{store.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Storage Location?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Deleting a storage will remove it permanently. This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+      <form action="#" method="POST">
+        {% csrf_token %}
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-danger" value="CONFIRM"/>
+        </form>
       </div>
     </div>
   </div>
 </div>
+{%endfor%}
 {%endblock%}

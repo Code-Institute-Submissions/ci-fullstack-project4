@@ -47,7 +47,5 @@ class StorageLocationForm(forms.ModelForm):
     class Meta:
         model = StorageLocation
         fields = ('name', 'storage_temperature', 'storage_type')
-        widgets = {
-            'household': forms.HiddenInput(),
-            'edited_by': forms.HiddenInput()
-        }
+        exclude = ('edited_by','household')
+        

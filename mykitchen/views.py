@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from .forms import HouseholdForm, MemberFormSet, StorageLocationForm
-from .models import Member, Household, StorageLocation, Product
+from .models import Member, Household, StorageLocation, FoodItem
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
@@ -197,15 +197,64 @@ def delete_household(request, household_id):
 
 def view_storage_location(request, household_id):
     household = Household.objects.get(id=household_id)
-    storages = StorageLocation.objects.filter(household=household)
+    storage = StorageLocation.objects.filter(household=household)
     return render(request, 'mykitchen/view_storage.template.html', {
-        'storage': storages,
+        'storage': storage,
         'household': household
     })
 
 
 def add_storage_location(request, household_id):
-    new_storage_form = StorageLocationForm()
-    return render(request, 'mykitchen/input_storage.template.html', {
-        'form': new_storage_form
-    })
+    household = Household.objects.get(id=household_id)
+    if request.method == 'POST':
+        new_storage_form = StorageLocationForm(request.POST)
+        # if the form is validated
+        if new_storage_form.is_valid():
+            storage_instance = new_storage_form.save(commit=False)
+            storage_instance.edited_by = request.user
+            storage_instance.household = household
+            storage_instance.save()
+            messages.success(
+                request,
+                f"New Storage {storage_instance.name}"
+                f" has been created on"
+                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+            return redirect(reverse(index))
+        else:
+            return render(request, 'mykitchen/input_storage.template.html', {
+                          'form': new_storage_form
+                          })
+    else:
+        new_storage_form = StorageLocationForm()
+        return render(request, 'mykitchen/input_storage.template.html', {
+            'form': new_storage_form
+        })
+
+
+def update_storage_location(request, household_id, storage_id):
+    storage_to_update = StorageLocation.objects.get(id=storage_id)
+    household = Household.objects.get(id=household_id)
+    if request.method == 'POST':
+        edit_storage_form = StorageLocationForm(request.POST,
+                                                instance=storage_to_update)
+        # if the form is validated
+        if edit_storage_form.is_valid():
+            storage_instance = edit_storage_form.save(commit=False)
+            storage_instance.edited_by = request.user
+            storage_instance.household = household
+            storage_instance.save()
+            messages.success(
+                request,
+                f"Storage {storage_instance.name}"
+                f" has been updated on"
+                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+            return redirect(reverse(index))
+        else:
+            return render(request, 'mykitchen/update_storage.template.html', {
+                          'form': edit_storage_form
+                          })
+    else:
+        edit_storage_form = StorageLocationForm(instance=storage_to_update)
+        return render(request, 'mykitchen/update_storage.template.html', {
+            'form': edit_storage_form
+        })

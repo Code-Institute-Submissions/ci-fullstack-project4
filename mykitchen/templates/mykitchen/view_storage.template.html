@@ -50,7 +50,7 @@ MyKitchen Storage Section
         <p>Deleting a storage will remove it permanently. This action cannot be undone.</p>
       </div>
       <div class="modal-footer">
-      <form action="#" method="POST">
+      <form action="{% url 'delete_storage_location' household_id=household.id storage_id=store.id%}" method="POST">
         {% csrf_token %}
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-danger" value="CONFIRM"/>

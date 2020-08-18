@@ -47,5 +47,4 @@ class StorageLocationForm(forms.ModelForm):
     class Meta:
         model = StorageLocation
         fields = ('name', 'storage_temperature', 'storage_type')
-        exclude = ('edited_by','household')
-        
+        exclude = ('edited_by', 'household')

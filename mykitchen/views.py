@@ -258,3 +258,15 @@ def update_storage_location(request, household_id, storage_id):
         return render(request, 'mykitchen/update_storage.template.html', {
             'form': edit_storage_form
         })
+
+
+def delete_storage_location(request, household_id, storage_id):
+    storage_to_delete = StorageLocation.objects.get(id=storage_id)
+    if request.method == 'POST':
+        storage_to_delete.delete()
+        messages.success(
+            request,
+            f"{storage_to_delete}"
+            f" has been deleted, on"
+            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+        return redirect(reverse(index))

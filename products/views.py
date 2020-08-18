@@ -81,7 +81,7 @@ def detail_view(request, product_id):
 
 
 @login_required
-@permission_required('products.input_product')
+@permission_required('products.add_product')
 def input_product(request):
     if request.method == 'POST':
         input_form = ProductForm(request.POST)
@@ -110,7 +110,7 @@ def input_product(request):
 
 
 @login_required
-@permission_required('products.update_product')
+@permission_required('products.change_product')
 def update_product(request, product_id):
     product_to_update = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':

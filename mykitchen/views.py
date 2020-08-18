@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from .forms import HouseholdForm, MemberFormSet
 from .models import Member, Household
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
 
@@ -36,12 +36,15 @@ def index(request):
             request,
             "Please register the household and link the members."
         )
+
     return render(request, 'mykitchen/mykitchen_index.template.html', {
         'household': household
     })
 
 
 @login_required
+@permission_required(['mykitchen.view_household',
+                      'mykitchen.view_member'])
 def view_household(request, household_id):
     # if request.user = owner
     household = Household.objects.get(id=household_id)
@@ -53,11 +56,12 @@ def view_household(request, household_id):
 
 
 @login_required
+@permission_required(['mykitchen.add_household',
+                      'mykitchen.add_member'])
 def register_household(request):
     if request.method == 'POST':
         house_form = HouseholdForm(request.POST)
         member_formset = MemberFormSet(request.POST, prefix="member")
-
         # if the form is validated
         if house_form.is_valid():
             house_form_instance = house_form.save(commit=False)
@@ -104,6 +108,13 @@ def register_household(request):
     })
 
 
+@login_required
+@permission_required(['mykitchen.view_household',
+                      'mykitchen.add_household',
+                      'mykitchen.change_household',
+                      'mykitchen.view_member',
+                      'mykitchen.add_member',
+                      'mykitchen.change_member'])
 def edit_household(request, household_id):
     household_to_update = get_object_or_404(Household, pk=household_id)
     current_members = Member.objects.filter(household=household_to_update)
@@ -161,5 +172,24 @@ def edit_household(request, household_id):
                   'member_form': edit_member_form
                   })
 
+
+@login_required
+@permission_required(['mykitchen.delete_household',
+                      'mykitchen.delete_member'])
 def delete_household(request, household_id):
-    pass
+    household_to_delete = get_object_or_404(Household, pk=household_id)
+    owner = household_to_delete.owner
+    current_members = [x.user for x in Member.objects.filter(
+        household=household_to_delete)]
+    if request.method == 'POST':
+        owner_group = Group.objects.get(name='owner_group')
+        member_group = Group.objects.get(name='member_group')
+        owner_group.user_set.remove(owner)
+        member_group.user_set.remove(*current_members)
+        household_to_delete.delete()
+        messages.success(
+            request,
+            f"{household_to_delete}"
+            f" has been deleted from the system, on"
+            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+        return redirect(reverse(index))

@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div
 
 from .models import Household, Member
+from django.db.models import Q
 
 
 class HouseholdForm(forms.ModelForm):
@@ -18,6 +19,7 @@ class HouseholdForm(forms.ModelForm):
 
 class MemberForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        super(MemberForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'member-form'
         self.helper.form_class = 'form-inline'
@@ -27,10 +29,13 @@ class MemberForm(forms.ModelForm):
                 Div('user', css_class="col-sm-3")
             )
         )
-        super(MemberForm, self).__init__(*args, **kwargs)
+        members = Member.objects.all()
+        self.fields['user'].queryset = self.fields['user'].queryset.exclude(
+            Q(user__in=members))
 
-        class Meta:
-            model = Member
+    class Meta:
+        model = Member
+        fields = ('user',)
 
 
 MemberFormSet = inlineformset_factory(

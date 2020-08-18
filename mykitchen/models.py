@@ -40,8 +40,22 @@ class StorageLocation(models.Model):
                             help_text="Kitchen Fixtures")
     storage_temperature = models.IntegerField(blank=True)
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
-    editted_by = models.ForeignKey(User, blank=False,
-                                   on_delete=models.SET(get_sentinel_user))
+    edited_by = models.ForeignKey(User, blank=False,
+                                  on_delete=models.SET(get_sentinel_user))
+
+    STORAGE_TYPE_CHOICES = (
+        ('cabinet', 'Cabinet'),
+        ('cupboard', 'Cupboard'),
+        ('counter-top', 'Counter'),
+        ('fridge', 'Refridgerator'),
+        ('freezer', 'Freezer'),
+        ('pantry', 'Pantry'),
+        ('others', 'Others')
+    )
+
+    storage_type = models.CharField(blank=False, choices=STORAGE_TYPE_CHOICES,
+                                    max_length=11, default="cupboard",
+                                    help_text="Storage Location Types")
 
     def __str__(self):
         return self.name

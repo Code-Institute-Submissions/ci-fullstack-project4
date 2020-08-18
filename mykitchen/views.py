@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from .forms import HouseholdForm, MemberFormSet
-from .models import Member, Household
+from .forms import HouseholdForm, MemberFormSet, StorageLocationForm
+from .models import Member, Household, StorageLocation, Product
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
@@ -193,3 +193,19 @@ def delete_household(request, household_id):
             f" has been deleted from the system, on"
             f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
         return redirect(reverse(index))
+
+
+def view_storage_location(request, household_id):
+    household = Household.objects.get(id=household_id)
+    storages = StorageLocation.objects.filter(household=household)
+    return render(request, 'mykitchen/view_storage.template.html', {
+        'storage': storages,
+        'household': household
+    })
+
+
+def add_storage_location(request, household_id):
+    new_storage_form = StorageLocationForm()
+    return render(request, 'mykitchen/input_storage.template.html', {
+        'form': new_storage_form
+    })

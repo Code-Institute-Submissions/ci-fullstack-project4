@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div
 
-from .models import Household, Member
+from .models import Household, Member, StorageLocation
 from django.db.models import Q
 
 
@@ -41,3 +41,13 @@ class MemberForm(forms.ModelForm):
 MemberFormSet = inlineformset_factory(
     Household, Member, form=MemberForm, fields=('user',),
     extra=3, fk_name="household", can_delete=True)
+
+
+class StorageLocationForm(forms.ModelForm):
+    class Meta:
+        model = StorageLocation
+        fields = ('name', 'storage_temperature', 'storage_type')
+        widgets = {
+            'household': forms.HiddenInput(),
+            'edited_by': forms.HiddenInput()
+        }

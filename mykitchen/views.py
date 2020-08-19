@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from .forms import HouseholdForm, MemberFormSet, StorageLocationForm
+from .forms import HouseholdForm, MemberFormSet, StorageLocationForm, FoodItemForm
 from .models import Member, Household, StorageLocation, FoodItem
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
@@ -198,7 +198,7 @@ def delete_household(request, household_id):
 def view_storage_location(request, household_id):
     household = Household.objects.get(id=household_id)
     storage = StorageLocation.objects.filter(household=household)
-    return render(request, 'mykitchen/view_storage.template.html', {
+    return render(request, 'mykitchen/view_storage_location.template.html', {
         'storage': storage,
         'household': household
     })
@@ -270,3 +270,68 @@ def delete_storage_location(request, household_id, storage_id):
             f" has been deleted, on"
             f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
         return redirect(reverse(index))
+
+
+def storage_content_view(request, household_id, storage_id):
+    household = Household.objects.get(id=household_id)
+    storage = StorageLocation.objects.get(id=storage_id)
+    stored_food = FoodItem.objects.filter(location__name__iexact=storage)
+    return render(request, 'mykitchen/view_storage_content.template.html', {
+        'storage': storage,
+        'household': household,
+        'stored_food': stored_food
+    })
+
+
+def add_food_item(request, household_id, storage_id):
+    household = Household.objects.get(id=household_id)
+    storage = StorageLocation.objects.get(id=storage_id)
+    if request.method == 'POST':
+        food_form = FoodItemForm(request.POST)
+        if food_form.is_valid():
+            food_instance = food_form.save(commit=False)
+            food_instance.edited_by = request.user
+            food_instance.location = storage
+            food_instance.save()
+            messages.success(
+                request,
+                f"New Food Item {food_instance.food}"
+                f" has been added on"
+                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+            return redirect(reverse(index))
+        else:
+            return render(request, 'mykitchen/input_food.template.html', {
+                          'form': food_form
+                          })
+    else:
+        food_form = FoodItemForm()
+        return render(request, 'mykitchen/input_food.template.html', {
+            'form': food_form
+        })
+
+
+def edit_food_item(request, household_id, storage_id, food_id):
+    storage = StorageLocation.objects.get(id=storage_id)
+    food_to_edit = FoodItem.objects.get(id=food_id)
+    if request.method == 'POST':
+        food_form = FoodItemForm(request.POST, instance=food_to_edit)
+        if food_form.is_valid():
+            food_instance = food_form.save(commit=False)
+            food_instance.edited_by = request.user
+            food_instance.location = storage
+            food_instance.save()
+            messages.success(
+                request,
+                f" Food Item {food_instance.food}"
+                f" has been edited on"
+                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+            return redirect(reverse(index))
+        else:
+            return render(request, 'mykitchen/update_food.template.html', {
+                          'form': food_form
+                          })
+    else:
+        food_form = FoodItemForm(instance=food_to_edit)
+        return render(request, 'mykitchen/update_food.template.html', {
+            'form': food_form
+        })

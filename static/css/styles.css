@@ -5,7 +5,7 @@ a.link{
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: oldlace;
 }
 
 .cart-qty{
@@ -41,7 +41,6 @@ div.jumbotron.jumbotron-fluid.mart {
     border-radius: 25px;
     margin-bottom: 10px;
 }
-
 
 h5.card-title {
     background-color: rgba(255, 250, 240, 0.7);

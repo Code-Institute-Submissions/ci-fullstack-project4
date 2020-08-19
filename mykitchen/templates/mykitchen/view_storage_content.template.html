@@ -1,0 +1,60 @@
+{% extends 'base_kitchen.template.html' %}
+{%load static %}
+
+{%block title%}
+MyKitchen Storage Content
+{%endblock%}
+
+{%block nav%}
+    {% if not household %}
+    <li class="nav-item">
+    <a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
+    </li>
+    {% endif %}
+    {% if request.user == household.owner %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
+    </li>
+    {% endif %}
+    {% if household %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+      </li>
+    {%endif %}
+{%endblock%}
+
+{%block content%}
+<h3>All Food Item in {{storage.name}}</h3>
+
+{% if perms.mykitchen.add_fooditem%}
+	<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_food_item' household_id=household.id storage_id=storage.id %}" role="button"
+		data-toggle="tooltip" data-placement="bottom" title="Add food item">+</a>
+{% endif %}
+
+{%for food in stored_food%}
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col col-md-2 align-self-center">
+      <img src="{{food.food.image}}" class="card-img" alt="...">
+    </div>
+    <div class="col col-md-6">
+      <div class="card-body">
+        <h5 class="card-title">{{food.food.name}}</h5>
+        <p class="card-text">{{food.remarks}}</p>
+        <p class="card-text">{{food.expiry_date}}</p>
+        <p class="card-text">Notification for expiry: {{food.threshold}} days</p>
+        <p class="card-text">Packaging: {{food.package}}</p>
+        <p class="card-text"><small class="text-muted">Last added by:{{food.edited_by}}</small></p>
+      </div>
+    </div>
+    <div class="col col-md-4 align-self-center">
+    <a href="{% url 'update_food_item' household_id=household.id storage_id=storage.id food_id=food.id %}" class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">
+    <i class="fas fa-trash-alt"></i>Delete
+    </button>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

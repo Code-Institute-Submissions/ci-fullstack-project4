@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div
 
-from .models import Household, Member, StorageLocation
+from .models import Household, Member, StorageLocation, FoodItem
 from django.db.models import Q
 
 
@@ -46,5 +46,20 @@ MemberFormSet = inlineformset_factory(
 class StorageLocationForm(forms.ModelForm):
     class Meta:
         model = StorageLocation
-        fields = ('name', 'storage_temperature', 'storage_type')
+        fields = ('name', 'storage_temperature', 'storage_type',)
         exclude = ('edited_by', 'household')
+
+
+class FoodItemForm(forms.ModelForm):
+    expiry_date = forms.DateField(widget=forms.DateInput(
+        format=('%m/%d/%Y'), attrs={'class': 'datepicker'}
+        ))
+
+    class Meta:
+        model = FoodItem
+        fields = ('food', 'quantity', 'remarks', 'threshold',
+                  'package', 'expiry_date')
+        widgets = {
+        }
+        exclude = ('edited_by',)
+

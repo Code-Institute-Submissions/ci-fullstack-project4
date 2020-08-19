@@ -19,6 +19,7 @@ $('.cart-qty').on('input', function(e) {
    }
 });
 
+$('.datepicker').datepicker();
 
 }) //end document ready
 

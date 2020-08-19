@@ -5,6 +5,23 @@
 MyKitchen Storage Section
 {%endblock%}
 
+{%block nav%}
+    {% if not household %}
+    <li class="nav-item">
+    <a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
+    </li>
+    {% endif %}
+    {% if request.user == household.owner %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
+    </li>
+    {% endif %}
+    {% if household %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+      </li>
+    {%endif %}
+{%endblock%}
 
 {%block content%}
 <h3>My Kitchen Storage Locations</h3>
@@ -17,7 +34,9 @@ MyKitchen Storage Section
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col col-md-1 align-self-center">
-      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="card-img" alt="...">
+    <a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link">
+      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="card-img" alt="storage-type image">
+      </a>
     </div>
     <div class="col col-md-6">
       <div class="card-body">
@@ -27,10 +46,10 @@ MyKitchen Storage Section
       </div>
     </div>
     <div class="col col-md-5 align-self-center">
-    <a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}" class="btn btn-primary" role="button">Edit</a>
+    <a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}" class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{store.id}}">
-    Delete
+     <i class="fas fa-trash-alt"></i>Delete
     </button>
     </div>
   </div>

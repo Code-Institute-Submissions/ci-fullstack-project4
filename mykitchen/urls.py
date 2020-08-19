@@ -13,7 +13,7 @@ urlpatterns = [
     path('delete-household/<int:household_id>',
          mykitchen.views.delete_household,
          name="delete_household"),
-    path('view-storage/<int:household_id>',
+    path('all-storage/<int:household_id>',
          mykitchen.views.view_storage_location,
          name="view_storage_location"),
     path('add-storage/<int:household_id>',
@@ -24,5 +24,14 @@ urlpatterns = [
          name="update_storage_location"),
     path('delete-storage/<int:household_id>/<int:storage_id>',
          mykitchen.views.delete_storage_location,
-         name="delete_storage_location")
+         name="delete_storage_location"),
+    path('storage-content/<int:household_id>/<int:storage_id>',
+         mykitchen.views.storage_content_view,
+         name="view_storage_content"),
+    path('add-food-item/<int:household_id>/<int:storage_id>',
+         mykitchen.views.add_food_item,
+         name="add_food_item"),
+    path('update-food-item/<int:household_id>/<int:storage_id>/<int:food_id>',
+         mykitchen.views.edit_food_item,
+         name="update_food_item")
 ]

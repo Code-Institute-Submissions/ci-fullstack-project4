@@ -66,10 +66,13 @@ class FoodItem(models.Model):
     """Food Items to be Stored in Location"""
     food = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     location = models.ForeignKey(StorageLocation, on_delete=models.CASCADE)
-    quantity = models.IntegerField(blank=False)
+    quantity = models.IntegerField(blank=False, help_text="number of packages")
     remarks = models.TextField(blank=True, max_length=600)
-    expiry_date = models.DateField(blank=False)
-    threshold = models.IntegerField(blank=False)
+    expiry_date = models.DateField(
+        null=True, blank=True, help_text='Enter date in YYYY-MM-DD format')
+    threshold = models.IntegerField(blank=False,
+                                    help_text="Number of days before expiry"
+                                    "date to notify me")
     edited_by = models.ForeignKey(User, blank=False,
                                   on_delete=models.SET(get_sentinel_user))
 

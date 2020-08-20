@@ -6,6 +6,7 @@ a.link{
 
 body {
     background-color: oldlace;
+    font-family: 'Bitter', serif;
 }
 
 .cart-qty{
@@ -42,18 +43,31 @@ div.jumbotron.jumbotron-fluid.mart {
     margin-bottom: 10px;
 }
 
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Poppins', sans-serif;
+}
+
+h1.hero-text{
+    color:blanchedalmond;
+    text-shadow: 2px 2px 2px darkslategray;
+}
+
 h5.card-title {
     background-color: rgba(255, 250, 240, 0.7);
     text-shadow: 3px 3px 3px floralwhite;
 }
 
-.original-price{
-    text-decoration: line-through;
-}
-
 h3.title-background{
     background-color: rgba(255, 255, 255, 0.75);
     text-shadow: 3px 3px 3px lavender;
+}
+
+.logo{
+    font-family: 'Delius Swash Caps', cursive;
+}
+
+.original-price{
+    text-decoration: line-through;
 }
 
 #update-form{

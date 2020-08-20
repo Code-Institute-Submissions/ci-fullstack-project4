@@ -10,6 +10,7 @@
     {% csrf_token %}
     {{ house_form|crispy }}
     {{ member_form.management_form|crispy }}
+    <p>Please check delete to delete previous members by position.</p>
     {% for form in member_form %}
     <div class="form-inline {{ form.prefix }}">
         {{ form|crispy }}

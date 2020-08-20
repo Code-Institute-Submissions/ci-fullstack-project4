@@ -34,7 +34,7 @@ MyKitchen Storage Section
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col col-md-1 align-self-center">
-    <a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link">
+    <a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link" data-toggle="tooltip" data-placement="bottom" title="Look Inside">
       <img src="{% static '/image/' %}{{store.storage_type}}.png" class="card-img" alt="storage-type image">
       </a>
     </div>

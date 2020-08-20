@@ -111,6 +111,8 @@ class FoodItem(models.Model):
         if ((self.expiry_date-datetime.date.today()).days <= self.threshold and
            (self.expiry_date-datetime.date.today()).days > 0):
             return True
+        else:
+            return False
 
     def get_expired(self):
         return (self.expiry_date-datetime.date.today()).days <= 0

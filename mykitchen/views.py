@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from .forms import HouseholdForm, MemberFormSet, StorageLocationForm, FoodItemForm
+from .forms import (HouseholdForm, MemberFormSet, StorageLocationForm,
+                    FoodItemForm)
 from .models import Member, Household, StorageLocation, FoodItem
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
@@ -8,11 +9,19 @@ import datetime
 
 # Create your views here.
 
+"""
+My Kitchen App Index Page.
+Purpose: Landing page to receive store customers and to link them to the app
+that manages their kitchen inventory
+"""
+
 
 @login_required
 def index(request):
     # get user = request.user,
     user = request.user
+    # set belongs to False by default
+    belongs = False
 
     # check if logged in user is household member
     try:
@@ -30,6 +39,7 @@ def index(request):
     if member:
         household = member.household
 
+    # if household is None, set it to empty string and flash msg
     if household is None:
         household = ""
         messages.info(
@@ -37,19 +47,41 @@ def index(request):
             "Please register the household and link the members."
         )
 
-    all_food = FoodItem.objects.all()
+    # if household exists for request.user, and user matches the
+    # username of owner or member, set belongs to True
+    if household:
+        if user.username == household.owner.username or (
+                            user.username == member.user.username):
+            belongs = True
 
+    # get all storage that belongs to user's household
+    # get all foods in the storages
+    storages = StorageLocation.objects.filter(household=household)
+    all_food = FoodItem.objects.filter(location__in=storages)
+
+    for food in all_food:
+        print(food.food.name,food.get_expired(), food.get_hit_threshold())
     return render(request, 'mykitchen/mykitchen_index.template.html', {
         'household': household,
-        'all_food': all_food
+        'all_food': all_food,
+        'belongs': belongs
     })
+
+
+"""
+My Kitchen App Manage(View) Household Profile Page
+Purpose: Page to allow household owners to view the household information
+they have registered.
+1. Get the household by household id
+2. Get the members of the household
+3. Render the template
+"""
 
 
 @login_required
 @permission_required(['mykitchen.view_household',
                       'mykitchen.view_member'])
 def view_household(request, household_id):
-    # if request.user = owner
     household = Household.objects.get(id=household_id)
     members = Member.objects.filter(household=household)
     return render(request, 'mykitchen/view_household.template.html', {
@@ -59,8 +91,6 @@ def view_household(request, household_id):
 
 
 @login_required
-@permission_required(['mykitchen.add_household',
-                      'mykitchen.add_member'])
 def register_household(request):
     if request.method == 'POST':
         house_form = HouseholdForm(request.POST)
@@ -156,17 +186,17 @@ def edit_household(request, household_id):
                     member_group = Group.objects.get(name='member_group')
                     member_group.user_set.remove(*removed_members)
                     member_group.user_set.add(*added_members)
-                    # save the household object
-                    edit_house_form.save()
-                    # save the members
-                    edit_member_form.save()
-                    household_name = edit_house_form.cleaned_data["name"]
-                    messages.success(
-                        request,
-                        f"Your household profile {household_name}"
-                        f" has been edited on"
-                        f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
-                    return redirect(reverse(index))
+                # save the household object
+                edit_house_form.save()
+                # save the members
+                edit_member_form.save()
+                household_name = edit_house_form.cleaned_data["name"]
+                messages.success(
+                    request,
+                    f"Your household profile {household_name}"
+                    f" has been edited on"
+                    f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
+                return redirect(reverse(index))
     edit_house_form = HouseholdForm(instance=household_to_update)
     edit_member_form = MemberFormSet(instance=household_to_update,
                                      prefix="member")

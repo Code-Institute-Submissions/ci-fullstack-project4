@@ -29,9 +29,9 @@ class MemberForm(forms.ModelForm):
                 Div('user', css_class="col-sm-3")
             )
         )
-        members = Member.objects.all()
-        self.fields['user'].queryset = self.fields['user'].queryset.exclude(
-            Q(user__in=members))
+        #members = Member.objects.all()
+        #self.fields['user'].queryset = self.fields['user'].queryset.exclude(
+        #    Q(user__in=members))
 
     class Meta:
         model = Member

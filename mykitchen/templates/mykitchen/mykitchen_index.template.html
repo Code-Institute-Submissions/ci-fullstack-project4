@@ -38,6 +38,26 @@
     </div>
         {% endfor %}
 {% endif %}
+
+
+{% for food in all_food %}
+{% if food.get_hit_threshold %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <span>{{food.location}}:{{food.food.name}}!</span> 
+  {{food.get_days_duration}} days to expire.
+  {%if food.get_expired %}
+  <strong>Expired</strong>
+  {% else %}
+  <strong>Expires on :{{food.expiry_date}}</strong>
+  {% endif %}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% endfor %}
+
+
   </div>
 </div>
 {% endblock %}

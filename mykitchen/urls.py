@@ -33,5 +33,8 @@ urlpatterns = [
          name="add_food_item"),
     path('update-food-item/<int:household_id>/<int:storage_id>/<int:food_id>',
          mykitchen.views.edit_food_item,
-         name="update_food_item")
+         name="update_food_item"),
+    path('delete-food-item/<int:household_id>/<int:storage_id>/<int:food_id>',
+         mykitchen.views.delete_food_item,
+         name="delete_food_item")
 ]

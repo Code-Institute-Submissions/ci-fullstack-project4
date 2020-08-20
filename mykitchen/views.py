@@ -37,8 +37,11 @@ def index(request):
             "Please register the household and link the members."
         )
 
+    all_food = FoodItem.objects.all()
+
     return render(request, 'mykitchen/mykitchen_index.template.html', {
-        'household': household
+        'household': household,
+        'all_food': all_food
     })
 
 
@@ -284,7 +287,6 @@ def storage_content_view(request, household_id, storage_id):
 
 
 def add_food_item(request, household_id, storage_id):
-    household = Household.objects.get(id=household_id)
     storage = StorageLocation.objects.get(id=storage_id)
     if request.method == 'POST':
         food_form = FoodItemForm(request.POST)
@@ -335,3 +337,15 @@ def edit_food_item(request, household_id, storage_id, food_id):
         return render(request, 'mykitchen/update_food.template.html', {
             'form': food_form
         })
+
+
+def delete_food_item(request, household_id, storage_id, food_id):
+    food_to_delete = FoodItem.objects.get(id=food_id)
+    if request.method == 'POST':
+        food_to_delete.delete()
+        messages.success(
+            request,
+            f"{food_to_delete} has been deleted from"
+            f" {food_to_delete.location.name} on"
+            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+        return redirect(reverse(index))

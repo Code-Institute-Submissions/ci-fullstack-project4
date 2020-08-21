@@ -6,6 +6,7 @@ from .models import Member, Household, StorageLocation, FoodItem
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
+from django.db.models import Q
 
 # Create your views here.
 
@@ -59,8 +60,6 @@ def index(request):
     storages = StorageLocation.objects.filter(household=household)
     all_food = FoodItem.objects.filter(location__in=storages)
 
-    for food in all_food:
-        print(food.food.name,food.get_expired(), food.get_hit_threshold())
     return render(request, 'mykitchen/mykitchen_index.template.html', {
         'household': household,
         'all_food': all_food,
@@ -75,6 +74,7 @@ they have registered.
 1. Get the household by household id
 2. Get the members of the household
 3. Render the template
+4. If user is not authorized, they will need to login
 """
 
 
@@ -88,6 +88,20 @@ def view_household(request, household_id):
         'household': household,
         'members': members
     })
+
+
+"""
+My Kitchen App Manage Register Household Profile Page
+Purpose: Page to allow household owners to register household information
+1. Serve the form on GET request
+2. On request == POST, add owners to group = "owner_group" for permissions
+3. If form is valid, save the household name to database.
+4. If member formset is valid,
+5. Check if user does not exists or already is a member of another household
+6. Flash error if there is an error
+7. Otherwise, add user to group = "member_group", save the members information
+8. Flash success message and render template
+"""
 
 
 @login_required
@@ -141,6 +155,22 @@ def register_household(request):
     })
 
 
+"""
+My Kitchen App Manage Edit Household Profile Page
+Purpose: Page to allow household owners to edit household information
+1. Filter the form queryset to show only users that do not belong to
+   other households, are not owners, and not admin
+2. Serve the form on GET request
+3. On request == POST, get the list of members
+4. Get the list of added members and list of removed members
+5. Check for membership in list of added members
+6. If any in list is has no membership, added the members to member_group
+7. Remove the removed members from member_group
+8. Save the data into the database
+9. Flash success message and render template
+"""
+
+
 @login_required
 @permission_required(['mykitchen.view_household',
                       'mykitchen.add_household',
@@ -151,7 +181,25 @@ def register_household(request):
 def edit_household(request, household_id):
     household_to_update = get_object_or_404(Household, pk=household_id)
     current_members = Member.objects.filter(household=household_to_update)
+    # get the id of the household owners
+    owners_pk = [h.owner.id for h in Household.objects.all()]
+    # list the current household members
     household_members = [x.user for x in current_members]
+    # get members of other households
+    other_members = Member.objects.exclude(user__in=household_members)
+    # list the id of the members of other households
+    other_members_pk = [om.user.id for om in other_members]
+    # generate the list of users to be excluded (household owners and
+    # other existing household members) including admin (id=1)
+    to_be_excluded = [1, *owners_pk, *other_members_pk]
+    # create the form and populate with object instance
+    edit_house_form = HouseholdForm(instance=household_to_update)
+    edit_member_form = MemberFormSet(instance=household_to_update,
+                                     prefix="member")
+    # overwrite the queryset in each member formset
+    for formsets in edit_member_form.forms:
+        formsets.fields['user'].queryset = (
+            formsets.fields['user'].queryset.exclude(Q(id__in=to_be_excluded)))
     if request.method == 'POST':
         edit_house_form = HouseholdForm(request.POST,
                                         instance=household_to_update)
@@ -182,7 +230,7 @@ def edit_household(request, household_id):
                     except Member.DoesNotExist:
                         member = None
                     check_for_membership.append(member)
-                if all(x is None for x in check_for_membership):
+                if any(x is None for x in check_for_membership):
                     member_group = Group.objects.get(name='member_group')
                     member_group.user_set.remove(*removed_members)
                     member_group.user_set.add(*added_members)
@@ -197,9 +245,6 @@ def edit_household(request, household_id):
                     f" has been edited on"
                     f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
                 return redirect(reverse(index))
-    edit_house_form = HouseholdForm(instance=household_to_update)
-    edit_member_form = MemberFormSet(instance=household_to_update,
-                                     prefix="member")
     return render(request, 'mykitchen/update_household.template.html', {
                   'house_form': edit_house_form,
                   'member_form': edit_member_form

@@ -7,7 +7,6 @@ from .forms import ProductForm, SearchForm
 from django.db.models import Q
 import datetime
 import re
-from mykitchen.models import Member
 
 # Create your views here.
 

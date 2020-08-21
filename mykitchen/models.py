@@ -72,7 +72,7 @@ class FoodItem(models.Model):
         null=True, blank=True, help_text='Enter date in YYYY-MM-DD format')
     threshold = models.IntegerField(blank=False,
                                     help_text="Number of days before expiry"
-                                    "date to notify me")
+                                    " date to notify me")
     edited_by = models.ForeignKey(User, blank=False,
                                   on_delete=models.SET(get_sentinel_user))
 
@@ -108,8 +108,7 @@ class FoodItem(models.Model):
         return (self.expiry_date-datetime.date.today()).days
 
     def get_hit_threshold(self):
-        if ((self.expiry_date-datetime.date.today()).days <= self.threshold and
-           (self.expiry_date-datetime.date.today()).days > 0):
+        if (self.expiry_date-datetime.date.today()).days <= self.threshold:
             return True
         else:
             return False

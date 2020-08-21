@@ -5,7 +5,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div
 
 from .models import Household, Member, StorageLocation, FoodItem
-from django.db.models import Q
 
 
 class HouseholdForm(forms.ModelForm):
@@ -29,9 +28,6 @@ class MemberForm(forms.ModelForm):
                 Div('user', css_class="col-sm-3")
             )
         )
-        #members = Member.objects.all()
-        #self.fields['user'].queryset = self.fields['user'].queryset.exclude(
-        #    Q(user__in=members))
 
     class Meta:
         model = Member

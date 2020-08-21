@@ -40,14 +40,6 @@ def index(request):
     if member:
         household = member.household
 
-    # if household is None, set it to empty string and flash msg
-    if household is None:
-        household = ""
-        messages.info(
-            request,
-            "Please register the household and link the members."
-        )
-
     # if household exists for request.user, and user matches the
     # username of owner or member, set belongs to True
     if household:
@@ -57,8 +49,20 @@ def index(request):
 
     # get all storage that belongs to user's household
     # get all foods in the storages
-    storages = StorageLocation.objects.filter(household=household)
+    try:
+        storages = StorageLocation.objects.filter(household=household)
+    except StorageLocation.DoesNotExist:
+        storages = None
+
     all_food = FoodItem.objects.filter(location__in=storages)
+
+    # if household is None, set it to empty string for flash msg
+    if household is None:
+        household = ""
+        messages.info(
+            request,
+            "Please register the household and link the members."
+        )
 
     return render(request, 'mykitchen/mykitchen_index.template.html', {
         'household': household,
@@ -93,19 +97,36 @@ def view_household(request, household_id):
 """
 My Kitchen App Manage Register Household Profile Page
 Purpose: Page to allow household owners to register household information
-1. Serve the form on GET request
-2. On request == POST, add owners to group = "owner_group" for permissions
-3. If form is valid, save the household name to database.
-4. If member formset is valid,
-5. Check if user does not exists or already is a member of another household
-6. Flash error if there is an error
-7. Otherwise, add user to group = "member_group", save the members information
-8. Flash success message and render template
+1. Filter the form queryset to show only users that do not belong to
+   any households, are not owners, and not admin
+2. Serve the form on GET request
+3. On request == POST, add owners to group = "owner_group" for permissions
+4. If form is valid, save the household name to database.
+5. If member formset is valid,
+6. Check if user does not exists or already is a member of another household
+7. Flash error if there is an error
+8. Otherwise, add user to group = "member_group", save the members information
+9. Flash success message and render template
 """
 
 
 @login_required
 def register_household(request):
+    all_existing_members = Member.objects.all()
+    # get the id of the household owners
+    owners_pk = [h.owner.id for h in Household.objects.all()]
+    # list the ids of all household members
+    all_members_pk = [am.user.id for am in all_existing_members]
+    # generate the list of users to be excluded (household owners and
+    # other existing household members) including admin (id=1) and
+    # request.user
+    to_be_excluded = [1, *owners_pk, *all_members_pk, request.user.id]
+    house_form = HouseholdForm()
+    member_formset = MemberFormSet(prefix="member")
+    # overwrite the queryset in each member formset
+    for formsets in member_formset.forms:
+        formsets.fields['user'].queryset = (
+            formsets.fields['user'].queryset.exclude(Q(id__in=to_be_excluded)))
     if request.method == 'POST':
         house_form = HouseholdForm(request.POST)
         member_formset = MemberFormSet(request.POST, prefix="member")
@@ -147,8 +168,6 @@ def register_household(request):
                     f" has been created on"
                     f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
                 return redirect(reverse(index))
-    house_form = HouseholdForm()
-    member_formset = MemberFormSet(prefix="member")
     return render(request, 'mykitchen/register_household.template.html', {
         'house_form': house_form,
         'member_form': member_formset
@@ -156,7 +175,7 @@ def register_household(request):
 
 
 """
-My Kitchen App Manage Edit Household Profile Page
+My Kitchen App Edit Household Profile Page
 Purpose: Page to allow household owners to edit household information
 1. Filter the form queryset to show only users that do not belong to
    other households, are not owners, and not admin
@@ -208,21 +227,26 @@ def edit_household(request, household_id):
                                          prefix="member")
         if edit_house_form.is_valid():
             edit_house_form.save(commit=False)
+            # set household owner to request.user
             edit_house_form.owner = request.user
             if edit_member_form.is_valid():
                 edit_member_form.save(commit=False)
+                # get a list of edited members
                 edited_form_members = []
                 for new_member in edit_member_form.cleaned_data:
                     if new_member.get('user'):
                         edited_form_members.append(new_member.get('user'))
                     else:
                         pass
+                # get the removed members
                 removed_members = [
                     p for p in household_members if p not in
                     edited_form_members]
+                # get the added members
                 added_members = [
                     p for p in edited_form_members if p not in
                     household_members]
+                # check if the added members have household membership
                 check_for_membership = []
                 for member in added_members:
                     try:
@@ -230,6 +254,8 @@ def edit_household(request, household_id):
                     except Member.DoesNotExist:
                         member = None
                     check_for_membership.append(member)
+                # if any of the added members are not existing members,
+                # add them to member_group and remove old members
                 if any(x is None for x in check_for_membership):
                     member_group = Group.objects.get(name='member_group')
                     member_group.user_set.remove(*removed_members)
@@ -238,6 +264,7 @@ def edit_household(request, household_id):
                 edit_house_form.save()
                 # save the members
                 edit_member_form.save()
+                # for flash messaging display only
                 household_name = edit_house_form.cleaned_data["name"]
                 messages.success(
                     request,
@@ -249,6 +276,18 @@ def edit_household(request, household_id):
                   'house_form': edit_house_form,
                   'member_form': edit_member_form
                   })
+
+
+"""
+My Kitchen App Delete Household Profile Page
+Purpose: Page to allow household owners to delete household information
+1. Get requested household by id
+2. Get the owner from household.owner
+3. Get all the current members
+4. On request == POST, remove all members and owners from respective group
+5. Delete data from database
+6. Flash success message and render template
+"""
 
 
 @login_required
@@ -273,6 +312,9 @@ def delete_household(request, household_id):
         return redirect(reverse(index))
 
 
+@login_required
+@permission_required(['mykitchen.view_storagelocation',
+                      'mykitchen.add_storagelocation'])
 def view_storage_location(request, household_id):
     household = Household.objects.get(id=household_id)
     storage = StorageLocation.objects.filter(household=household)

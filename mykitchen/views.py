@@ -7,7 +7,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
 from django.db.models import Q
-
+from django.http import (
+    HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound,
+    HttpResponseServerError,Http404
+)
+from django.core.exceptions import PermissionDenied
 # Create your views here.
 
 """
@@ -77,8 +81,10 @@ Purpose: Page to allow household owners to view the household information
 they have registered.
 1. Get the household by household id
 2. Get the members of the household
-3. Render the template
-4. If user is not authorized, they will need to login
+3. If household exists, check user is household owner
+4. If true, renders template
+5. If false, raise Permission Denied
+6. Raise 404 if Household does not exists
 """
 
 
@@ -86,12 +92,20 @@ they have registered.
 @permission_required(['mykitchen.view_household',
                       'mykitchen.view_member'])
 def view_household(request, household_id):
-    household = Household.objects.get(id=household_id)
+    user = request.user
+    household = get_object_or_404(Household, pk=household_id)
     members = Member.objects.filter(household=household)
-    return render(request, 'mykitchen/view_household.template.html', {
-        'household': household,
-        'members': members
-    })
+    if household:
+        if user.username == household.owner.username:
+            return render(request,
+                          'mykitchen/view_household.template.html', {
+                           'household': household,
+                           'members': members
+                          })
+        else:
+            raise PermissionDenied
+    else:
+        raise Http404
 
 
 """
@@ -312,16 +326,52 @@ def delete_household(request, household_id):
         return redirect(reverse(index))
 
 
+"""
+My Kitchen App View All Storage Page
+Purpose: Page to allow household members to view all storage in their homes
+1. If household exists, check user matches owner
+2. If true, renders template
+3. If false, if membership exists,
+4. Check user's household matches household to view
+5. If true, renders template
+6. If false, raise PermissionDenied
+"""
+
+
 @login_required
 @permission_required(['mykitchen.view_storagelocation',
                       'mykitchen.add_storagelocation'])
 def view_storage_location(request, household_id):
-    household = Household.objects.get(id=household_id)
+    user = request.user
+    household = get_object_or_404(Household, pk=household_id)
     storage = StorageLocation.objects.filter(household=household)
-    return render(request, 'mykitchen/view_storage_location.template.html', {
-        'storage': storage,
-        'household': household
-    })
+    # get user household membership
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            return render(request,
+                          'mykitchen/view_storage_location.template.html', {
+                              'storage': storage,
+                              'household': household
+                          })
+        elif member:
+            if member.household == household:
+                return render(request,
+                              'mykitchen/view_storage_location.template.html', {
+                                  'storage': storage,
+                                  'household': household
+                              })
+            else:
+                raise PermissionDenied
+        else:
+            raise PermissionDenied
+    else:
+        raise Http404
+
+
 
 
 def add_storage_location(request, household_id):

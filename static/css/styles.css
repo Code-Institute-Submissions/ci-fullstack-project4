@@ -1,5 +1,5 @@
 
-a.link{
+a.nav-link,a.link{
     color: darkslategray;
     text-decoration: none;
 }
@@ -64,6 +64,7 @@ h3.title-background{
 
 .logo{
     font-family: 'Delius Swash Caps', cursive;
+    color: darkslategray;
 }
 
 .original-price{

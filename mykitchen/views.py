@@ -7,10 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 import datetime
 from django.db.models import Q
-from django.http import (
-    HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound,
-    HttpResponseServerError,Http404
-)
+from django.http import Http404
 from django.core.exceptions import PermissionDenied
 # Create your views here.
 
@@ -373,17 +370,33 @@ def view_storage_location(request, household_id):
                           })
         elif member:
             if member.household == household:
-                return render(request,
-                              'mykitchen/view_storage_location.template.html', {
-                                  'storage': storage,
-                                  'household': household
-                              })
+                return render(
+                    request,
+                    'mykitchen/view_storage_location.template.html', {
+                        'storage': storage,
+                        'household': household
+                    })
             else:
                 raise PermissionDenied
         else:
             raise PermissionDenied
     else:
         raise Http404
+
+
+"""
+My Kitchen App View Add Storage Page
+Purpose: Page to allow household members to add storage locations info
+1. If household exists, check user matches owner
+2. If true, if method = POST, process and save information
+3. If true, if method = GET, renders form
+4. If false, if user is a household member,
+5. if method = POST, process and save information
+6. if method = GET, renders form
+7. If user is neither household owner nor member,
+8. Raise PermissionDenied
+9. If household does not exists, return status 404.
+"""
 
 
 @login_required
@@ -441,10 +454,25 @@ def add_storage_location(request, household_id):
                                   'mykitchen/input_storage.template.html', {
                                     'form': new_storage_form
                                     })
-        else:
-            raise PermissionDenied
+            else:
+                raise PermissionDenied
     else:
         raise Http404
+
+
+"""
+My Kitchen App View Update Storage Page
+Purpose: Page to allow household members to edit storage locations info
+1. If household exists, check user matches owner
+2. If true, if method = POST, process and save information
+3. If true, if method = GET, renders form
+4. If false, if user is a household member,
+5. if method = POST, process and save information
+6. if method = GET, renders form
+7. If user is neither household owner nor member,
+8. Raise PermissionDenied
+9. If household does not exists, return status 404.
+"""
 
 
 @login_required
@@ -526,6 +554,20 @@ def update_storage_location(request, household_id, storage_id):
         raise Http404
 
 
+"""
+My Kitchen App View Delete Storage Page
+Purpose: Page to allow household members to edit storage locations info
+1. Check storage to delete, and household
+2. If household exists, check user matches owner
+3. If true, if method = POST, process delete storage
+4. If false, if user is a household member,
+5. if method = POST, process delete storage
+6. If user is neither household owner nor member,
+7. Raise PermissionDenied
+8. If household does not exists, return status 404.
+"""
+
+
 @login_required
 @permission_required(['mykitchen.change_storagelocation',
                       'mykitchen.delete_storagelocation'])
@@ -563,6 +605,20 @@ def delete_storage_location(request, household_id, storage_id):
         return Http404
 
 
+"""
+My Kitchen App View Storage Content Page
+Purpose: Page to allow household members to view food items in storage
+1. Get household, storage and food items in storage
+2. If household exists, check user matches owner
+3. If true, renders template
+4. If false, if user is a household member,
+5. Renders template
+6. If user is neither household owner nor member,
+7. Raise PermissionDenied
+8. If household does not exists, return status 404.
+"""
+
+
 @login_required
 @permission_required('mykitchen.view_fooditem')
 def storage_content_view(request, household_id, storage_id):
@@ -590,72 +646,227 @@ def storage_content_view(request, household_id, storage_id):
                                'household': household,
                                'stored_food': stored_food
                               })
-        else:
-            raise PermissionDenied
+            else:
+                raise PermissionDenied
     else:
         return Http404
 
 
+"""
+My Kitchen App Add Storage Content Page
+Purpose: Page to allow household members to add food items in storage
+1. Get household and storage by id
+2. If household exists, check user matches owner
+3. If true, renders form if method = GET
+4. Else if method = POST, process and save the data
+5. If false, if user is a household member,
+6. Renders form if method = GET
+7. If method = POST, process and save the data
+8. If user is neither household owner nor member,
+9. Raise PermissionDenied
+10. If household does not exists, return status 404.
+"""
+
+
+@login_required
+@permission_required('mykitchen.add_fooditem')
 def add_food_item(request, household_id, storage_id):
-    storage = StorageLocation.objects.get(id=storage_id)
-    if request.method == 'POST':
-        food_form = FoodItemForm(request.POST)
-        if food_form.is_valid():
-            food_instance = food_form.save(commit=False)
-            food_instance.edited_by = request.user
-            food_instance.location = storage
-            food_instance.save()
-            messages.success(
-                request,
-                f"New Food Item {food_instance.food}"
-                f" has been added on"
-                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
-        else:
-            return render(request, 'mykitchen/input_food.template.html', {
-                          'form': food_form
-                          })
+    user = request.user
+    storage = get_object_or_404(StorageLocation, pk=storage_id)
+    household = get_object_or_404(Household, pk=household_id)
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                food_form = FoodItemForm(request.POST)
+                if food_form.is_valid():
+                    food_instance = food_form.save(commit=False)
+                    food_instance.edited_by = request.user
+                    food_instance.location = storage
+                    food_instance.save()
+                    messages.success(
+                        request,
+                        f"New Food Item {food_instance.food}"
+                        f" has been added on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+                else:
+                    return render(request,
+                                  'mykitchen/input_food.template.html', {
+                                   'form': food_form
+                                  })
+            else:
+                food_form = FoodItemForm()
+                return render(request, 'mykitchen/input_food.template.html', {
+                    'form': food_form
+                })
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    food_form = FoodItemForm(request.POST)
+                    if food_form.is_valid():
+                        food_instance = food_form.save(commit=False)
+                        food_instance.edited_by = request.user
+                        food_instance.location = storage
+                        food_instance.save()
+                        messages.success(
+                            request,
+                            f"New Food Item {food_instance.food}"
+                            f" has been added on"
+                            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                        return redirect(reverse(index))
+                    else:
+                        return render(request,
+                                      'mykitchen/input_food.template.html', {
+                                       'form': food_form
+                                      })
+                else:
+                    food_form = FoodItemForm()
+                    return render(request,
+                                  'mykitchen/input_food.template.html', {
+                                   'form': food_form
+                                  })
+            else:
+                raise PermissionDenied
     else:
-        food_form = FoodItemForm()
-        return render(request, 'mykitchen/input_food.template.html', {
-            'form': food_form
-        })
+        return Http404
 
 
+"""
+My Kitchen App Update Storage Content Page
+Purpose: Page to allow household members to update food items info in storage
+1. Get household, storage and food item by id
+2. If household exists, check user matches owner
+3. If true, renders form if method = GET
+4. Else if method = POST, process and save the data
+5. If false, if user is a household member,
+6. Renders form if method = GET
+7. If method = POST, process and save the data
+8. If user is neither household owner nor member,
+9. Raise PermissionDenied
+10. If household does not exists, return status 404.
+"""
+
+
+@login_required
+@permission_required('mykitchen.change_fooditem')
 def edit_food_item(request, household_id, storage_id, food_id):
-    storage = StorageLocation.objects.get(id=storage_id)
+    user = request.user
+    storage = get_object_or_404(StorageLocation, pk=storage_id)
+    household = get_object_or_404(Household, pk=household_id)
     food_to_edit = FoodItem.objects.get(id=food_id)
-    if request.method == 'POST':
-        food_form = FoodItemForm(request.POST, instance=food_to_edit)
-        if food_form.is_valid():
-            food_instance = food_form.save(commit=False)
-            food_instance.edited_by = request.user
-            food_instance.location = storage
-            food_instance.save()
-            messages.success(
-                request,
-                f" Food Item {food_instance.food}"
-                f" has been edited on"
-                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
-        else:
-            return render(request, 'mykitchen/update_food.template.html', {
-                          'form': food_form
-                          })
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                food_form = FoodItemForm(request.POST, instance=food_to_edit)
+                if food_form.is_valid():
+                    food_instance = food_form.save(commit=False)
+                    food_instance.edited_by = request.user
+                    food_instance.location = storage
+                    food_instance.save()
+                    messages.success(
+                        request,
+                        f" Food Item {food_instance.food}"
+                        f" has been edited on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+                else:
+                    return render(request,
+                                  'mykitchen/update_food.template.html', {
+                                   'form': food_form
+                                  })
+            else:
+                food_form = FoodItemForm(instance=food_to_edit)
+                return render(request, 'mykitchen/update_food.template.html', {
+                    'form': food_form
+                })
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    food_form = FoodItemForm(request.POST,
+                                             instance=food_to_edit)
+                    if food_form.is_valid():
+                        food_instance = food_form.save(commit=False)
+                        food_instance.edited_by = request.user
+                        food_instance.location = storage
+                        food_instance.save()
+                        messages.success(
+                            request,
+                            f" Food Item {food_instance.food}"
+                            f" has been edited on"
+                            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                        return redirect(reverse(index))
+                    else:
+                        return render(request,
+                                      'mykitchen/update_food.template.html', {
+                                       'form': food_form
+                                      })
+                else:
+                    food_form = FoodItemForm(instance=food_to_edit)
+                    return render(request,
+                                  'mykitchen/update_food.template.html', {
+                                   'form': food_form
+                                  })
+            else:
+                raise PermissionDenied
     else:
-        food_form = FoodItemForm(instance=food_to_edit)
-        return render(request, 'mykitchen/update_food.template.html', {
-            'form': food_form
-        })
+        return Http404
 
 
+"""
+My Kitchen App Update Storage Content Page
+Purpose: Page to allow household members to update food items info in storage
+1. Get household and food item by id
+2. If household exists, check user matches owner
+3. If true, renders form if method = GET
+4. Else if method = POST, process and save the data
+5. If false, if user is a household member,
+6. Renders form if method = GET
+7. If method = POST, process and save the data
+8. If user is neither household owner nor member,
+9. Raise PermissionDenied
+10. If household does not exists, return status 404.
+"""
+
+
+@login_required
+@permission_required('mykitchen.delete_fooditem')
 def delete_food_item(request, household_id, storage_id, food_id):
+    user = request.user
+    household = get_object_or_404(Household, pk=household_id)
     food_to_delete = FoodItem.objects.get(id=food_id)
-    if request.method == 'POST':
-        food_to_delete.delete()
-        messages.success(
-            request,
-            f"{food_to_delete} has been deleted from"
-            f" {food_to_delete.location.name} on"
-            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-        return redirect(reverse(index))
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                food_to_delete.delete()
+                messages.success(
+                    request,
+                    f"{food_to_delete} has been deleted from"
+                    f" {food_to_delete.location.name} on"
+                    f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                return redirect(reverse(index))
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    food_to_delete.delete()
+                    messages.success(
+                        request,
+                        f"{food_to_delete} has been deleted from"
+                        f" {food_to_delete.location.name} on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+            else:
+                raise PermissionDenied
+    else:
+        return Http404

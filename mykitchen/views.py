@@ -447,56 +447,153 @@ def add_storage_location(request, household_id):
         raise Http404
 
 
+@login_required
+@permission_required(['mykitchen.add_storagelocation',
+                      'mykitchen.change_storagelocation'])
 def update_storage_location(request, household_id, storage_id):
-    storage_to_update = StorageLocation.objects.get(id=storage_id)
-    household = Household.objects.get(id=household_id)
-    if request.method == 'POST':
-        edit_storage_form = StorageLocationForm(request.POST,
-                                                instance=storage_to_update)
-        # if the form is validated
-        if edit_storage_form.is_valid():
-            storage_instance = edit_storage_form.save(commit=False)
-            storage_instance.edited_by = request.user
-            storage_instance.household = household
-            storage_instance.save()
-            messages.success(
-                request,
-                f"Storage {storage_instance.name}"
-                f" has been updated on"
-                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
-        else:
-            return render(request, 'mykitchen/update_storage.template.html', {
-                          'form': edit_storage_form
-                          })
+    user = request.user
+    storage_to_update = get_object_or_404(StorageLocation, pk=storage_id)
+    household = get_object_or_404(Household, pk=household_id)
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                edit_storage_form = StorageLocationForm(
+                    request.POST, instance=storage_to_update)
+                # if the form is validated
+                if edit_storage_form.is_valid():
+                    storage_instance = edit_storage_form.save(commit=False)
+                    storage_instance.edited_by = request.user
+                    storage_instance.household = household
+                    storage_instance.save()
+                    messages.success(
+                        request,
+                        f"Storage {storage_instance.name}"
+                        f" has been updated on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+                else:
+                    # if form is not valid
+                    return render(request,
+                                  'mykitchen/update_storage.template.html', {
+                                   'form': edit_storage_form
+                                  })
+            else:
+                edit_storage_form = (
+                    StorageLocationForm(instance=storage_to_update))
+                return render(request,
+                              'mykitchen/update_storage.template.html', {
+                               'form': edit_storage_form
+                                    })
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    edit_storage_form = StorageLocationForm(request.POST,
+                                                        instance=storage_to_update)
+                    # if the form is validated
+                    if edit_storage_form.is_valid():
+                        storage_instance = edit_storage_form.save(commit=False)
+                        storage_instance.edited_by = request.user
+                        storage_instance.household = household
+                        storage_instance.save()
+                        messages.success(
+                            request,
+                            f"Storage {storage_instance.name}"
+                            f" has been updated on"
+                            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                        return redirect(reverse(index))
+                    else:
+                        # if form is not valid
+                        return render(
+                            request,
+                            'mykitchen/update_storage.template.html', {
+                             'form': edit_storage_form
+                             })
+                else:
+                    edit_storage_form = (
+                        StorageLocationForm(instance=storage_to_update))
+                    return render(
+                        request,
+                        'mykitchen/update_storage.template.html', {
+                         'form': edit_storage_form
+                        })
+            else:
+                raise PermissionDenied
     else:
-        edit_storage_form = StorageLocationForm(instance=storage_to_update)
-        return render(request, 'mykitchen/update_storage.template.html', {
-            'form': edit_storage_form
-        })
+        raise Http404
 
 
+@login_required
+@permission_required(['mykitchen.change_storagelocation',
+                      'mykitchen.delete_storagelocation'])
 def delete_storage_location(request, household_id, storage_id):
-    storage_to_delete = StorageLocation.objects.get(id=storage_id)
-    if request.method == 'POST':
-        storage_to_delete.delete()
-        messages.success(
-            request,
-            f"{storage_to_delete}"
-            f" has been deleted, on"
-            f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-        return redirect(reverse(index))
+    user = request.user
+    storage_to_delete = get_object_or_404(StorageLocation, pk=storage_id)
+    household = get_object_or_404(Household, pk=household_id)
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                storage_to_delete.delete()
+                messages.success(
+                    request,
+                    f"{storage_to_delete}"
+                    f" has been deleted, on"
+                    f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                return redirect(reverse(index))
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    storage_to_delete.delete()
+                    messages.success(
+                        request,
+                        f"{storage_to_delete}"
+                        f" has been deleted, on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+        else:
+            raise PermissionDenied
+    else:
+        return Http404
 
 
+@login_required
+@permission_required('mykitchen.view_fooditem')
 def storage_content_view(request, household_id, storage_id):
-    household = Household.objects.get(id=household_id)
-    storage = StorageLocation.objects.get(id=storage_id)
+    user = request.user
+    household = get_object_or_404(Household, pk=household_id)
+    storage = get_object_or_404(StorageLocation, pk=storage_id)
     stored_food = FoodItem.objects.filter(location__name__iexact=storage)
-    return render(request, 'mykitchen/view_storage_content.template.html', {
-        'storage': storage,
-        'household': household,
-        'stored_food': stored_food
-    })
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            return render(request,
+                          'mykitchen/view_storage_content.template.html', {
+                           'storage': storage,
+                           'household': household,
+                           'stored_food': stored_food
+                          })
+        elif member:
+            if member.household == household:
+                return render(request,
+                              'mykitchen/view_storage_content.template.html', {
+                               'storage': storage,
+                               'household': household,
+                               'stored_food': stored_food
+                              })
+        else:
+            raise PermissionDenied
+    else:
+        return Http404
 
 
 def add_food_item(request, household_id, storage_id):

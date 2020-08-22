@@ -15,10 +15,10 @@ MyKitchen Household Profile
     <li> {{member.user}}</li>
     {% endfor %}
     </ul>
-    <a href="{% url 'edit_household' household_id=household.id%}" class="btn btn-primary" role="button">Edit</a>
+    <a href="{% url 'edit_household' household_id=household.id%}" class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{household.id}}">
-    Delete
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-placement="bottom" data-target="#deleteModal-{{household.id}}" title="Delete household profile">
+    <i class="fas fa-trash-alt"></i>Delete
     </button>
   </div>
 </div>

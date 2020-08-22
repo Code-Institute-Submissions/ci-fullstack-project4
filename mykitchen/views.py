@@ -212,84 +212,98 @@ Purpose: Page to allow household owners to edit household information
                       'mykitchen.add_member',
                       'mykitchen.change_member'])
 def edit_household(request, household_id):
+    user = request.user
     household_to_update = get_object_or_404(Household, pk=household_id)
     current_members = Member.objects.filter(household=household_to_update)
-    # get the id of the household owners
-    owners_pk = [h.owner.id for h in Household.objects.all()]
-    # list the current household members
-    household_members = [x.user for x in current_members]
-    # get members of other households
-    other_members = Member.objects.exclude(user__in=household_members)
-    # list the id of the members of other households
-    other_members_pk = [om.user.id for om in other_members]
-    # generate the list of users to be excluded (household owners and
-    # other existing household members) including admin (id=1)
-    to_be_excluded = [1, *owners_pk, *other_members_pk]
-    # create the form and populate with object instance
-    edit_house_form = HouseholdForm(instance=household_to_update)
-    edit_member_form = MemberFormSet(instance=household_to_update,
-                                     prefix="member")
-    # overwrite the queryset in each member formset
-    for formsets in edit_member_form.forms:
-        formsets.fields['user'].queryset = (
-            formsets.fields['user'].queryset.exclude(Q(id__in=to_be_excluded)))
-    if request.method == 'POST':
-        edit_house_form = HouseholdForm(request.POST,
-                                        instance=household_to_update)
-        edit_member_form = MemberFormSet(request.POST,
-                                         instance=household_to_update,
-                                         prefix="member")
-        if edit_house_form.is_valid():
-            edit_house_form.save(commit=False)
-            # set household owner to request.user
-            edit_house_form.owner = request.user
-            if edit_member_form.is_valid():
-                edit_member_form.save(commit=False)
-                # get a list of edited members
-                edited_form_members = []
-                for new_member in edit_member_form.cleaned_data:
-                    if new_member.get('user'):
-                        edited_form_members.append(new_member.get('user'))
-                    else:
-                        pass
-                # get the removed members
-                removed_members = [
-                    p for p in household_members if p not in
-                    edited_form_members]
-                # get the added members
-                added_members = [
-                    p for p in edited_form_members if p not in
-                    household_members]
-                # check if the added members have household membership
-                check_for_membership = []
-                for member in added_members:
-                    try:
-                        member = Member.objects.get(user=member)
-                    except Member.DoesNotExist:
-                        member = None
-                    check_for_membership.append(member)
-                # if any of the added members are not existing members,
-                # add them to member_group and remove old members
-                if any(x is None for x in check_for_membership):
-                    member_group = Group.objects.get(name='member_group')
-                    member_group.user_set.remove(*removed_members)
-                    member_group.user_set.add(*added_members)
-                # save the household object
-                edit_house_form.save()
-                # save the members
-                edit_member_form.save()
-                # for flash messaging display only
-                household_name = edit_house_form.cleaned_data["name"]
-                messages.success(
-                    request,
-                    f"Your household profile {household_name}"
-                    f" has been edited on"
-                    f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
+    if household_to_update:
+        if user.username == household_to_update.owner.username:
+            # get the id of the household owners
+            owners_pk = [h.owner.id for h in Household.objects.all()]
+            # list the current household members
+            household_members = [x.user for x in current_members]
+            # get members of other households
+            other_members = Member.objects.exclude(user__in=household_members)
+            # list the id of the members of other households
+            other_members_pk = [om.user.id for om in other_members]
+            # generate the list of users to be excluded (household owners and
+            # other existing household members) including admin (id=1)
+            to_be_excluded = [1, *owners_pk, *other_members_pk]
+            # create the form and populate with object instance
+            edit_house_form = HouseholdForm(instance=household_to_update)
+            edit_member_form = MemberFormSet(instance=household_to_update,
+                                             prefix="member")
+            # overwrite the queryset in each member formset
+            for formsets in edit_member_form.forms:
+                formsets.fields['user'].queryset = (
+                    formsets.fields['user'].queryset.exclude(
+                        Q(id__in=to_be_excluded)))
+            if request.method == 'POST':
+                edit_house_form = HouseholdForm(request.POST,
+                                                instance=household_to_update)
+                edit_member_form = MemberFormSet(request.POST,
+                                                 instance=household_to_update,
+                                                 prefix="member")
+                if edit_house_form.is_valid():
+                    edit_house_form.save(commit=False)
+                    # set household owner to request.user
+                    edit_house_form.owner = request.user
+                    if edit_member_form.is_valid():
+                        edit_member_form.save(commit=False)
+                        # get a list of edited members
+                        edited_form_members = []
+                        for new_member in edit_member_form.cleaned_data:
+                            if new_member.get('user'):
+                                edited_form_members.append(
+                                    new_member.get('user'))
+                            else:
+                                pass
+                            # get the removed members
+                            removed_members = [
+                                p for p in household_members if p not in
+                                edited_form_members]
+                            # get the added members
+                            added_members = [
+                                p for p in edited_form_members if p not in
+                                household_members]
+                            # check if the added members have household
+                            # membership
+                            check_for_membership = []
+                            for member in added_members:
+                                try:
+                                    member = Member.objects.get(user=member)
+                                except Member.DoesNotExist:
+                                    member = None
+                                check_for_membership.append(member)
+                            # if any of the added members are not existing
+                            # members,add them to member_group and remove
+                            # old members
+                            if any(x is None for x in check_for_membership):
+                                member_group = Group.objects.get(
+                                    name='member_group')
+                                member_group.user_set.remove(*removed_members)
+                                member_group.user_set.add(*added_members)
+                            # save the household object
+                            edit_house_form.save()
+                            # save the members
+                            edit_member_form.save()
+                            # for flash messaging display only
+                            household_name = edit_house_form.cleaned_data[
+                                "name"]
+                        messages.success(
+                            request,
+                            f"Your household profile {household_name}"
+                            f" has been edited on"
+                            f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
                 return redirect(reverse(index))
-    return render(request, 'mykitchen/update_household.template.html', {
-                  'house_form': edit_house_form,
-                  'member_form': edit_member_form
-                  })
+            return render(request,
+                          'mykitchen/update_household.template.html', {
+                            'house_form': edit_house_form,
+                            'member_form': edit_member_form
+                            })
+        else:
+            raise PermissionDenied
+    else:
+        raise Http404
 
 
 """
@@ -372,33 +386,65 @@ def view_storage_location(request, household_id):
         raise Http404
 
 
-
-
+@login_required
+@permission_required(['mykitchen.add_storagelocation',
+                      'mykitchen.change_storagelocation'])
 def add_storage_location(request, household_id):
-    household = Household.objects.get(id=household_id)
-    if request.method == 'POST':
-        new_storage_form = StorageLocationForm(request.POST)
-        # if the form is validated
-        if new_storage_form.is_valid():
-            storage_instance = new_storage_form.save(commit=False)
-            storage_instance.edited_by = request.user
-            storage_instance.household = household
-            storage_instance.save()
-            messages.success(
-                request,
-                f"New Storage {storage_instance.name}"
-                f" has been created on"
-                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
+    user = request.user
+    household = get_object_or_404(Household, pk=household_id)
+    new_storage_form = StorageLocationForm()
+    # get user household membership
+    try:
+        member = Member.objects.get(user=user)
+    except Member.DoesNotExist:
+        member = None
+    if household:
+        if user.username == household.owner.username:
+            if request.method == 'POST':
+                new_storage_form = StorageLocationForm(request.POST)
+                # if the form is validated
+                if new_storage_form.is_valid():
+                    storage_instance = new_storage_form.save(commit=False)
+                    storage_instance.edited_by = request.user
+                    storage_instance.household = household
+                    storage_instance.save()
+                    messages.success(
+                        request,
+                        f"New Storage {storage_instance.name}"
+                        f" has been created on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+            else:
+                # if request = GET
+                return render(
+                    request, 'mykitchen/input_storage.template.html', {
+                        'form': new_storage_form
+                            })
+        elif member:
+            if member.household == household:
+                if request.method == 'POST':
+                    new_storage_form = StorageLocationForm(request.POST)
+                # if the form is validated
+                if new_storage_form.is_valid():
+                    storage_instance = new_storage_form.save(commit=False)
+                    storage_instance.edited_by = request.user
+                    storage_instance.household = household
+                    storage_instance.save()
+                    messages.success(
+                        request,
+                        f"New Storage {storage_instance.name}"
+                        f" has been created on"
+                        f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
+                    return redirect(reverse(index))
+                else:  # if request = GET
+                    return render(request,
+                                  'mykitchen/input_storage.template.html', {
+                                    'form': new_storage_form
+                                    })
         else:
-            return render(request, 'mykitchen/input_storage.template.html', {
-                          'form': new_storage_form
-                          })
+            raise PermissionDenied
     else:
-        new_storage_form = StorageLocationForm()
-        return render(request, 'mykitchen/input_storage.template.html', {
-            'form': new_storage_form
-        })
+        raise Http404
 
 
 def update_storage_location(request, household_id, storage_id):

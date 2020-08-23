@@ -44,6 +44,19 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'product_directory_route' %}">Directory</a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Product Category
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/products/breakfast">Breakfast</a>
+          <a class="dropdown-item" href="/products/biscuits-and-cookies">Biscuit & Cookies</a>
+          <a class="dropdown-item" href="/products/grains-and-dried-beans">Grains & Dried Beans</a>
+          <a class="dropdown-item" href="/products/nuts">Nuts</a>
+          <a class="dropdown-item" href="/products/baking-ingredients">Baking Ingredients</a>
+          <a class="dropdown-item" href="/products/fresh-produce">Fresh Produce</a>
+        </div>
+      </li>
       <li class="nav-item">
       {% if request.user.is_anonymous %}
       <a class="nav-link" href = "{% url 'account_signup' %}">Sign Up</a>

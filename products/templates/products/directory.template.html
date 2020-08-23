@@ -9,8 +9,13 @@ Cloudberry Grocer Directory
 {% block content%}
 
 <form method="GET" class="form-inline my-2 my-lg-0">
+    
 	{{search_form|crispy}}
-	<input class="btn btn-success" type="submit" value="Search"/>
+    <div class="col-sm-1">
+    <input class="btn btn-success ml-3" type="submit" value="Search"/>
+    </div>
+    
+	
 </form>
 
 
@@ -47,9 +52,19 @@ Cloudberry Grocer Directory
 					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
                 </a>
 					<div class="card-body">
-						<h5 class="card-title">${{product.get_current_price|floatformat:2}} </h5>
+						
+                        {%if product.multiplier != 1.0 %}
+                        <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
+                        <h5 class="card-title"><small class="text-muted original-price">${{product.root_price|floatformat:2}}</small></h5>åå
+                        {% else %}
+                        <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
+                        {% endif %}
 						<p class="card-text">{{product.name}}</p>
+                        {%if product.weight_per_pack < 1000 %}
 						<p class="card-text">{{product.weight_per_pack}}g</p>
+                        {%else%}
+                        <p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
+                        {% endif %}
 						<div>
                          <a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
                          <span class="d-inline-flex">

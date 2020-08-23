@@ -28,7 +28,11 @@
     <div class="card-body">
       <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
       <p class="card-text">{{product.name}}</p>
+    {%if product.weight_per_pack < 1000 %}
       <p class="card-text">{{product.weight_per_pack}}g</p>
+      {%else%}
+    <p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}} kg</p>
+      {%endif%}
       <div>
         <a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
             <span class="d-inline-flex">

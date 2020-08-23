@@ -10,7 +10,6 @@ import re
 
 # Create your views here.
 
-
 def index(request):
     products_on_offer = Product.objects.filter(status__exact='o')
     categories = Category.objects.all()

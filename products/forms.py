@@ -3,6 +3,7 @@ from .models import Product
 
 from crispy_forms.helper import FormHelper
 from crispy_forms import layout
+from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import Div
 
 
@@ -22,9 +23,9 @@ class ProductForm(forms.ModelForm):
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False)
     min_price = forms.DecimalField(
-        max_digits=10, decimal_places=2, required=False)
+        max_digits=10, decimal_places=2, required=False, help_text="e.g. 0.30")
     max_price = forms.DecimalField(
-        max_digits=10, decimal_places=2, required=False)
+        max_digits=10, decimal_places=2, required=False, help_text="e.g. 9.99")
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
@@ -33,9 +34,9 @@ class SearchForm(forms.Form):
         self.helper.form_tag = False
         self.helper.method = "GET"
         self.helper.layout = layout.Layout(
-            Div(
-                Div('search', css_class="col-sm-3"),
-                Div('min_price', css_class="col-sm-3"),
-                Div('max_price', css_class="col-sm-3")
-            )
+            Div('search', css_class="col align-self-center"),
+            Div('min_price', css_class="col"),
+            Div('max_price', css_class="col"),
+            Submit('submit', 'Search', css_class="btn-success align-self-center")
         )
+

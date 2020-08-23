@@ -55,7 +55,7 @@ Cloudberry Grocer Directory
 						
                         {%if product.multiplier != 1.0 %}
                         <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
-                        <h5 class="card-title"><small class="text-muted original-price">${{product.root_price|floatformat:2}}</small></h5>åå
+                        <h5 class="card-title"><small class="text-muted original-price">${{product.root_price|floatformat:2}}</small></h5>
                         {% else %}
                         <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
                         {% endif %}

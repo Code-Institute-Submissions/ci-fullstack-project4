@@ -63,7 +63,7 @@ Cloudberry Grocer Home Page
 
 
 		<div class="card col-md-2">
-			<a href="{% url 'product_detail_route' product_id=product.id %}">
+			<a href="{% url 'product_detail_route' pk=product.id %}">
 				<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
             </a>
 				<div class="card-body">

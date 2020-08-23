@@ -7,7 +7,7 @@ from .forms import ProductForm, SearchForm
 from django.db.models import Q
 import datetime
 import re
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 
 # Create your views here.
 
@@ -70,28 +70,30 @@ class DirectoryView(ListView):
         return self.render_to_response(context)
 
 
+class CategoryView(ListView):
+    model = Product
+    template_name = 'products/bycategory.template.html'
 
-def category_view(request):
-    """View function for view by categorical Products """
-    path = request.get_full_path()
-    result = re.search(r"(?!.*/).+", path).group(0)
-    result_list = result.split("-")
-    regex_str = result_list[0]
-    page_title = " ".join(result_list)
-    searched_products = Product.objects.filter(
-        category__name__icontains=regex_str).order_by('name')
-    return render(request, 'products/bycategory.template.html', {
-        'searched_products': searched_products,
-        'page_title': page_title
-    })
+    def get_queryset(self):
+        path = self.request.get_full_path()
+        result = re.search(r"(?!.*/).+", path).group(0)
+        result_list = result.split("-")
+        regex_str = result_list[0]
+        self.page_title = " ".join(result_list)
+        return self.model.objects.filter(
+            category__name__icontains=regex_str).order_by('name')
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data(searched_products=self.object_list,
+                                        page_title=self.page_title
+                                        )
+        return self.render_to_response(context)
 
 
-def detail_view(request, product_id):
-    """View function for view by categorical Products """
-    product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'products/details.template.html', {
-        'product': product
-    })
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'products/details.template.html'
 
 
 @login_required

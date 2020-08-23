@@ -7,52 +7,68 @@ from .forms import ProductForm, SearchForm
 from django.db.models import Q
 import datetime
 import re
+from django.views.generic import TemplateView, ListView
 
 # Create your views here.
 
-def index(request):
-    products_on_offer = Product.objects.filter(status__exact='o')
-    categories = Category.objects.all()
-    return render(request, 'products/index.template.html', {
-        'products': products_on_offer,
-        'categories': categories
-    })
+
+class IndexView(TemplateView):
+    template_name = "products/index.template.html"
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all products on offer
+        context['categories'] = Category.objects.all()
+        context['products_on_offer'] = Product.objects.filter(
+            status__exact='o')
+        return context
 
 
-def directory(request):
-    products = Product.objects.all()
+class DirectoryView(ListView):
+    model = Product
     search_input = ""
-    if request.GET:
+    form_class = SearchForm
+    template_name = "products/directory.template.html"
+
+    def get_queryset(self):
+        # update the existing product found
+        return self.model.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        self.search_form = self.form_class(self.request.GET)
+
         # always true query:
         queries = ~Q(pk__in=[])
         # if a name is specified, add it to the query
-        if ('search' in request.GET and request.GET['search']):
-            search_input = request.GET['search']
-            queries = queries & Q(name__icontains=search_input)
+        if ('search' in self.request.GET and self.request.GET['search']):
+            self.search_input = self.request.GET['search']
+            queries = queries & Q(name__icontains=self.search_input)
 
         # if a min_price is specified, add it to query
-        if 'min_price' in request.GET and request.GET['min_price']:
-            min_price = float(request.GET['min_price'])
+        if 'min_price' in self.request.GET and self.request.GET['min_price']:
+            min_price = float(self.request.GET['min_price'])
         else:
             min_price = 0.00
 
         # if a max_price is specified, add it to query
-        if 'max_price' in request.GET and request.GET['max_price']:
-            max_price = float(request.GET['max_price'])
+        if 'max_price' in self.request.GET and self.request.GET['max_price']:
+            max_price = float(self.request.GET['max_price'])
         else:
             max_price = 99999.99
 
         queries = queries & Q(root_price__gte=min_price) & Q(
             root_price__lte=max_price)
 
-        # update the existing product found
-        products = products.filter(queries)
-    search_form = SearchForm(request.GET)
-    return render(request, 'products/directory.template.html', {
-        'products': products,
-        'search_form': search_form,
-        'search_input': search_input
-    })
+        self.object_list = self.model.objects.filter(queries)
+
+        context = self.get_context_data(products=self.object_list,
+                                        search_form=self.search_form,
+                                        search_input=self.search_input)
+
+        return self.render_to_response(context)
+
 
 
 def category_view(request):

@@ -1,0 +1,1 @@
+web: gunicorn CloudberryGrocer.wsgi:application

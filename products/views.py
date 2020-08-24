@@ -1,6 +1,5 @@
 from django.shortcuts import (render, reverse,
                               redirect, get_object_or_404)
-from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from .models import Product, Category, Brand, Subcategory, Usage
 from .forms import ProductForm, SearchForm
@@ -19,6 +18,7 @@ from django.urls import reverse_lazy
 
 
 class IndexView(TemplateView):
+    """Home Page View"""
     template_name = "products/index.template.html"
     model = Category
 
@@ -33,13 +33,14 @@ class IndexView(TemplateView):
 
 
 class DirectoryView(ListView):
+    """Directory Page View"""
     model = Product
     search_input = ""
     form_class = SearchForm
     template_name = "products/directory.template.html"
 
     def get_queryset(self):
-        # update the existing product found
+        # default : find all products
         return self.model.objects.all()
 
     def get(self, request, *args, **kwargs):
@@ -77,6 +78,7 @@ class DirectoryView(ListView):
 
 
 class CategoryView(ListView):
+    """ View Products By Category """
     model = Product
     template_name = 'products/bycategory.template.html'
 
@@ -98,19 +100,22 @@ class CategoryView(ListView):
 
 
 class ProductDetailView(DetailView):
+    """ View Product Details """
     model = Product
     template_name = 'products/details.template.html'
 
 
 class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """ View All Brands (Staff Access) """
     permission_required = ('products.view_brand')
     model = Brand
     template_name = 'products/brands.template.html'
     ordering = ['name']
 
 
-class BrandCreate(LoginRequiredMixin, PermissionRequiredMixin, 
+class BrandCreate(LoginRequiredMixin, PermissionRequiredMixin,
                   SuccessMessageMixin, CreateView):
+    """ Input Brands (Staff Access) """
     permission_required = ('products.add_brand')
     model = Brand
     fields = ['name']
@@ -121,6 +126,7 @@ class BrandCreate(LoginRequiredMixin, PermissionRequiredMixin,
 
 class BrandUpdate(LoginRequiredMixin, PermissionRequiredMixin,
                   SuccessMessageMixin, UpdateView):
+    """ Update Brands (Staff Access) """
     permission_required = ('products.change_brand')
     model = Brand
     fields = ['name']
@@ -131,6 +137,7 @@ class BrandUpdate(LoginRequiredMixin, PermissionRequiredMixin,
 
 class BrandDelete(LoginRequiredMixin, PermissionRequiredMixin,
                   SuccessMessageMixin, DeleteView):
+    """ Delete Brands (Staff Access) """
     permission_required = ('products.delete_brand')
     model = Brand
     fields = ['name']
@@ -143,72 +150,65 @@ class BrandDelete(LoginRequiredMixin, PermissionRequiredMixin,
         return super(BrandDelete, self).delete(request, *args, **kwargs)
 
 
-@login_required
-@permission_required('products.add_product')
-def input_product(request):
-    if request.method == 'POST':
-        input_form = ProductForm(request.POST)
+class CreateProduct(LoginRequiredMixin, PermissionRequiredMixin,
+                    SuccessMessageMixin, CreateView):
+    """ Input Product (Staff Access) """
+    permission_required = ('products.add_product')
+    model = Product
+    form_class = ProductForm
+    template_name_suffix = '_create_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Product %(name)s was created successfully on %(date)s"
 
-        # if the form is validated
-        if input_form.is_valid():
-            new_product = input_form.save(commit=False)
-            new_product.editor = request.user
-            new_product.date_edited = datetime.datetime.now()
-            new_product.save()
-            messages.success(
-                request,
-                f"New Product {input_form.data['name']}"
-                f" has been entered into the system on"
-                f" {new_product.date_edited.strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
-        else:
-            return render(request, 'products/input_product.template.html', {
-                          'form': input_form
-                          })
-    else:
-        input_form = ProductForm()
-        return render(request, 'products/input_product.template.html', {
-            'form': input_form
-        })
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        new_product = form.save(commit=False)
+        new_product.editor = self.request.user
+        new_product.date_edited = datetime.datetime.now()
+        self.object = new_product.save()
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': self.object.date_edited.strftime('%b %d, %Y, %H:%M:%S')
+        }
 
 
-@login_required
-@permission_required('products.change_product')
-def update_product(request, product_id):
-    product_to_update = get_object_or_404(Product, pk=product_id)
-    if request.method == 'POST':
-        update_form = ProductForm(request.POST, instance=product_to_update)
-        if update_form.is_valid():
-            edited_product = update_form.save(commit=False)
-            edited_product.editor = request.user
-            edited_product.date_edited = datetime.datetime.now()
-            edited_product.save()
-            messages.success(
-                request,
-                f"Product {update_form.data['name']}"
-                f" has been updated in the system, on"
-                f" {edited_product.date_edited.strftime('%b %d, %Y, %H:%M:%S')}")
-            return redirect(reverse(index))
-        else:
-            return render(request, 'products/update_product.template.html', {
-                      'form': update_form
-                      })
-    else:
-        update_form = ProductForm(instance=product_to_update)
-        return render(request, 'products/update_product.template.html', {
-                      'form': update_form
-                      })
+class UpdateProduct(LoginRequiredMixin, PermissionRequiredMixin,
+                    SuccessMessageMixin, UpdateView):
+    """ Update Product (Staff Access) """
+    permission_required = ('products.change_product')
+    model = Product
+    form_class = ProductForm
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Product %(name)s was updated successfully on %(date)s"
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        edited_product = form.save(commit=False)
+        edited_product.editor = self.request.user
+        edited_product.date_edited = datetime.datetime.now()
+        self.object = edited_product.save()
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': self.object.date_edited.strftime('%b %d, %Y, %H:%M:%S')
+        }
 
 
-@login_required
-@permission_required('products.delete_product')
-def delete_product(request, product_id):
-    product_to_delete = get_object_or_404(Product, pk=product_id)
-    if request.method == 'POST':
-        product_to_delete.delete()
-        messages.success(
-                request,
-                f"{product_to_delete}, id={product_id}"
-                f" has been deleted from the system, on"
-                f" {datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')}")
-        return redirect(reverse(index))
+class DeleteProduct(LoginRequiredMixin, PermissionRequiredMixin,
+                    SuccessMessageMixin, DeleteView):
+    """ Delete Product (Staff Access) """
+    permission_required = ('products.delete_product')
+    model = Product
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Product %(name)s was deleted successfully."
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(DeleteProduct, self).delete(request, *args, **kwargs)

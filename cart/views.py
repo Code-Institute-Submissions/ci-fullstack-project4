@@ -2,7 +2,6 @@ from django.shortcuts import (render, redirect, reverse,
                               get_object_or_404)
 from django.contrib import messages
 from products.models import Product
-import products.views
 import datetime
 import re
 from urllib.parse import urlparse
@@ -27,7 +26,7 @@ def add_to_cart(request, product_id):
         """save the cart into the shopping cart session"""
         request.session['shopping_cart'] = cart
         messages.success(request, f'{product.name} been added to your cart!')
-        return redirect(reverse(products.views.index))
+        return redirect(reverse('home_page_route'))
     else:
         """add the quantity to cart"""
         cart[product_id]['qty'] += 1
@@ -43,9 +42,10 @@ def add_to_cart(request, product_id):
         if path_dir == 'cart':
             return redirect(reverse(view_cart))
         else:
-            messages.success(request, f'{cart[product_id].get("name")} has been'
+            messages.success(request,
+                             f'{cart[product_id].get("name")} has been'
                              f' added to your cart!')
-            return redirect(reverse(products.views.index))
+            return redirect(reverse('home_page_route'))
 
 
 def view_cart(request):

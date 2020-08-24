@@ -2,12 +2,18 @@ from django.shortcuts import (render, reverse,
                               redirect, get_object_or_404)
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category, Brand, Subcategory, Usage
 from .forms import ProductForm, SearchForm
 from django.db.models import Q
 import datetime
 import re
 from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 
@@ -94,6 +100,47 @@ class CategoryView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'products/details.template.html'
+
+
+class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = ('products.view_brand')
+    model = Brand
+    template_name = 'products/brands.template.html'
+    ordering = ['name']
+
+
+class BrandCreate(LoginRequiredMixin, PermissionRequiredMixin, 
+                  SuccessMessageMixin, CreateView):
+    permission_required = ('products.add_brand')
+    model = Brand
+    fields = ['name']
+    template_name_suffix = '_create_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Brand %(name)s was created successfully"
+
+
+class BrandUpdate(LoginRequiredMixin, PermissionRequiredMixin,
+                  SuccessMessageMixin, UpdateView):
+    permission_required = ('products.change_brand')
+    model = Brand
+    fields = ['name']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Brand %(name)s was updated successfully"
+
+
+class BrandDelete(LoginRequiredMixin, PermissionRequiredMixin,
+                  SuccessMessageMixin, DeleteView):
+    permission_required = ('products.delete_brand')
+    model = Brand
+    fields = ['name']
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Brand %(name)s was deleted successfully"
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(BrandDelete, self).delete(request, *args, **kwargs)
 
 
 @login_required

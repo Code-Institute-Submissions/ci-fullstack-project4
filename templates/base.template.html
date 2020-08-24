@@ -69,6 +69,18 @@
         <a class="nav-link" href="{% url 'account_login' %}">Login</a>
       {% endif %}
       </li>
+      {% if request.user.is_superuser or request.user.is_staff %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Staff Access
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+          <a class="dropdown-item" href="{% url 'view_brand_route' %}">View Brand</a>
+          <a class="dropdown-item" href="">View Subcategory</a>
+          <a class="dropdown-item" href="">View Usage</a>
+        </div>
+      </li>
+      {% endif %}
       {% if request.user.is_authenticated %}
        <li class="nav-item">
         <a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen</a>

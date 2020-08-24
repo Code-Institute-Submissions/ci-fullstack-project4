@@ -26,5 +26,14 @@ urlpatterns = [
     path('baking-ingredients', products.views.CategoryView.as_view(),
          name="category_product_route"),
     path('fresh-produce', products.views.CategoryView.as_view(),
-         name="category_product_route")
+         name="category_product_route"),
+    path('brands', products.views.BrandListView.as_view(),
+         name="view_brand_route"),
+    path('create-brands', products.views.BrandCreate.as_view(),
+         name="create_brand_route"),
+    path('update-brands/<int:pk>', products.views.BrandUpdate.as_view(),
+         name="update_brand_route"),
+    path('delete-brands/<int:pk>', products.views.BrandDelete.as_view(),
+         name="delete_brand_route")
+
 ]

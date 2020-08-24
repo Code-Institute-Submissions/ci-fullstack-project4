@@ -1,0 +1,12 @@
+{% extends 'base.template.html' %}
+{%load static%}
+
+{%block title%} Add Usage Information Form {%endblock%}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" class="btn btn-primary">
+</form>
+{% endblock %}

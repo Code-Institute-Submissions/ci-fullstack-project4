@@ -29,7 +29,7 @@ urlpatterns = [
          name="category_product_route"),
     path('brands', products.views.BrandListView.as_view(),
          name="view_brand_route"),
-    path('create-brands', products.views.BrandCreate.as_view(),
+    path('create-brands', products.views.BrandAdd.as_view(),
          name="create_brand_route"),
     path('update-brands/<int:pk>', products.views.BrandUpdate.as_view(),
          name="update_brand_route"),
@@ -44,5 +44,15 @@ urlpatterns = [
          name="update_subcategory_route"),
     path('delete-subcategory/<int:pk>',
          products.views.DeleteSubcategory.as_view(),
-         name="delete_subcategory_route")
+         name="delete_subcategory_route"),
+    path('usage', products.views.UsageListView.as_view(),
+         name="view_usage_route"),
+    path('add-usage', products.views.AddUsage.as_view(),
+         name="add_usage_route"),
+    path('update-usage/<int:pk>',
+         products.views.UpdateUsage.as_view(),
+         name="update_usage_route"),
+    path('delete-usage/<int:pk>',
+         products.views.DeleteUsage.as_view(),
+         name="delete_usage_route")
 ]

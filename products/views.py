@@ -113,8 +113,8 @@ class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     ordering = ['name']
 
 
-class BrandCreate(LoginRequiredMixin, PermissionRequiredMixin,
-                  SuccessMessageMixin, CreateView):
+class BrandAdd(LoginRequiredMixin, PermissionRequiredMixin,
+               SuccessMessageMixin, CreateView):
     """ Input Brands (Staff Access) """
     permission_required = ('products.add_brand')
     model = Brand
@@ -210,6 +210,66 @@ class DeleteSubcategory(LoginRequiredMixin, PermissionRequiredMixin,
         return super(DeleteSubcategory, self).delete(request, *args, **kwargs)
 
 
+class UsageListView(LoginRequiredMixin, PermissionRequiredMixin,
+                    ListView):
+    """ View All Usage (Staff Access) """
+    permission_required = ('products.view_usage')
+    model = Usage
+    template_name = 'products/usage.template.html'
+    ordering = ['name']
+
+
+class AddUsage(LoginRequiredMixin, PermissionRequiredMixin,
+               SuccessMessageMixin, CreateView):
+    """ Add Usage (Staff Access) """
+    permission_required = ('products.add_usage')
+    model = Usage
+    fields = ['name']
+    template_name_suffix = '_add_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = (
+        "Usage %(name)s was created successfully on %(date)s")
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')
+        }
+
+
+class UpdateUsage(LoginRequiredMixin, PermissionRequiredMixin,
+                  SuccessMessageMixin, UpdateView):
+    """ Update Usage (Staff Access) """
+    permission_required = ('products.change_usage')
+    model = Usage
+    fields = ['name']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = (
+        "Usage %(name)s was updated successfully on %(date)s")
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')
+        }
+
+
+class DeleteUsage(LoginRequiredMixin, PermissionRequiredMixin,
+                  SuccessMessageMixin, DeleteView):
+    """ Delete Usage (Staff Access) """
+    permission_required = ('products.delete_usage')
+    model = Usage
+    fields = ['name']
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Usage %(name)s was deleted successfully"
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(DeleteUsage, self).delete(request, *args, **kwargs)
+
+
 class CreateProduct(LoginRequiredMixin, PermissionRequiredMixin,
                     SuccessMessageMixin, CreateView):
     """ Input Product (Staff Access) """
@@ -224,7 +284,6 @@ class CreateProduct(LoginRequiredMixin, PermissionRequiredMixin,
         """If the form is valid, save the associated model."""
         new_product = form.save(commit=False)
         new_product.editor = self.request.user
-        new_product.date_edited = datetime.datetime.now()
         self.object = new_product.save()
         return super().form_valid(form)
 
@@ -249,7 +308,6 @@ class UpdateProduct(LoginRequiredMixin, PermissionRequiredMixin,
         """If the form is valid, save the associated model."""
         edited_product = form.save(commit=False)
         edited_product.editor = self.request.user
-        edited_product.date_edited = datetime.datetime.now()
         self.object = edited_product.save()
         return super().form_valid(form)
 

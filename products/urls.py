@@ -34,6 +34,15 @@ urlpatterns = [
     path('update-brands/<int:pk>', products.views.BrandUpdate.as_view(),
          name="update_brand_route"),
     path('delete-brands/<int:pk>', products.views.BrandDelete.as_view(),
-         name="delete_brand_route")
-
+         name="delete_brand_route"),
+    path('subcategory', products.views.SubcategoryListView.as_view(),
+         name="view_subcategory_route"),
+    path('add-subcategory', products.views.AddSubcategory.as_view(),
+         name="add_subcategory_route"),
+    path('update-subcategory/<int:pk>',
+         products.views.UpdateSubcategory.as_view(),
+         name="update_subcategory_route"),
+    path('delete-subcategory/<int:pk>',
+         products.views.DeleteSubcategory.as_view(),
+         name="delete_subcategory_route")
 ]

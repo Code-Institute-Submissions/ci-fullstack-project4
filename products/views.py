@@ -150,6 +150,66 @@ class BrandDelete(LoginRequiredMixin, PermissionRequiredMixin,
         return super(BrandDelete, self).delete(request, *args, **kwargs)
 
 
+class SubcategoryListView(LoginRequiredMixin, PermissionRequiredMixin,
+                          ListView):
+    """ View All SubCategory (Staff Access) """
+    permission_required = ('products.view_subcategory')
+    model = Subcategory
+    template_name = 'products/subcategory.template.html'
+    ordering = ['name']
+
+
+class AddSubcategory(LoginRequiredMixin, PermissionRequiredMixin,
+                     SuccessMessageMixin, CreateView):
+    """ Add Subcategory (Staff Access) """
+    permission_required = ('products.add_subcategory')
+    model = Subcategory
+    fields = ['name']
+    template_name_suffix = '_add_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = (
+        "Subcategory %(name)s was created successfully on %(date)s")
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')
+        }
+
+
+class UpdateSubcategory(LoginRequiredMixin, PermissionRequiredMixin,
+                        SuccessMessageMixin, UpdateView):
+    """ Update Subcategory (Staff Access) """
+    permission_required = ('products.change_subcategory')
+    model = Subcategory
+    fields = ['name']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('home_page_route')
+    success_message = (
+        "Subcategory %(name)s was updated successfully on %(date)s")
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % {
+            'name': self.object.name,
+            'date': datetime.datetime.now().strftime('%b %d, %Y, %H:%M:%S')
+        }
+
+
+class DeleteSubcategory(LoginRequiredMixin, PermissionRequiredMixin,
+                        SuccessMessageMixin, DeleteView):
+    """ Delete Subcategory (Staff Access) """
+    permission_required = ('products.delete_subcategory')
+    model = Subcategory
+    fields = ['name']
+    success_url = reverse_lazy('home_page_route')
+    success_message = "Subcategory %(name)s was deleted successfully"
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(DeleteSubcategory, self).delete(request, *args, **kwargs)
+
+
 class CreateProduct(LoginRequiredMixin, PermissionRequiredMixin,
                     SuccessMessageMixin, CreateView):
     """ Input Product (Staff Access) """

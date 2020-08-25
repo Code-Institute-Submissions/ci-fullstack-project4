@@ -65,7 +65,7 @@ def checkout(request):
 def checkout_success(request):
     # clear the shopping cart after checkout success
     request.session['shopping_cart'] = {}
-    prefix = datetime.datetime.now().strftime('%b%d%Y')
+    prefix = datetime.datetime.now().strftime('%m%d%Y')
     invoice_num = prefix+str(random.randrange(10000000, 100000000))
     return render(request, "checkout/checkout_success.template.html", {
         'invoice_num': invoice_num

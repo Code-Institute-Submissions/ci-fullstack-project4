@@ -42,4 +42,59 @@ by the user.
 ## Wireframes
 
 ## Features
+### Index/Home page
+a. Feature that attracts draws user attention
+* The homepage has a jumbotron that welcomes the user to the e-grocer. It has the name of the e-grocer as well as the Call-to-Action
+text and an action that links user to the product directory.
+* Below the jumbotron, there's a row of image that links users to products, sorted by categories.
+* Below the row of categories images, there is a row of cards showing filtered products that are on discount.
+
+b. Features that allow users to navigate to other pages
+* At the top of the homepage, there is a navbar to allow users to navigate to Directory, Product Category and SignUp or Login/Logout
+pages.
+*
+
+c. Features that allow users to view shopping cart.
+* On the right of the navbar, there is a shopping cart icon to link the users to view the shopping cart contents.
+
+### Directory page
+a. Search Feature
+* On the Directory page, there are 3 search inputs: 1 text input and 2 number inputs. The text input allows user to search for
+queries in the product name. The number inputs act as a search range to allow user to search for a range in product price. Users 
+have to key in the minimum range limit in the minimum number input and the maximum range limit in the max number input. 
+* Below the search inputs, users will be able to see a text that will show the query term.
+* Also, as the prices are searched in the root price field, the search result will return results of products in their root 
+price.
+
+b. Cards Display
+* Below the Search Feature, there are cards display to display all products in the store if no search is performed.
+* If a search is requested, the cards display will show the products which are result of the search query.
+
+c. Hidden Feature
+* If the logged in user is a superuser/staff or has permissions to perform CRUD functions, the user would be able to see
+the add product/ edit product and delete product button.
+
+## Product Category Pages
+a. Sorting Feature
+*  The navbar has a dropdown to link users to each page that show products sorted to the relevant categories. The links are also
+presented in the category images on the index page.
+
+## Staff Access Page
+a. CRUD functions
+* The admin/staff should be able to access the Staff Access link on the navbar. The Staff Access is a dropdown menu that link 
+authorised users to view/create/update/delete product related attributes : Brand, Subcategory and Usage.
+
+## Login/Logout/SignUp/Accounts Management Page
+* The account management pages are managed by Django-AllAuth
+
+## Shopping Cart Page
+a. Cart Feature
+* The users will see an empty shopping cart if no products are added to the shopping cart.
+* If there are items added to cart, the users will be able to see items in the shopping cart page.
+* There are also buttons that allow to increase or decrease the quantity of the item to purchase.
+* There is a bin icon at the top right corner of the cart to allow user to delete the item immediately if he/she changes his/her 
+mind.
+
+
+
 

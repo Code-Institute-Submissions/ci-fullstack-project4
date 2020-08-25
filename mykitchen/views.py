@@ -254,49 +254,56 @@ def edit_household(request, household_id):
                                     new_member.get('user'))
                             else:
                                 pass
-                            # get the removed members
-                            removed_members = [
-                                p for p in household_members if p not in
-                                edited_form_members]
-                            # get the added members
-                            added_members = [
-                                p for p in edited_form_members if p not in
-                                household_members]
-                            # check if the added members have household
-                            # membership
-                            check_for_membership = []
-                            for member in added_members:
-                                try:
-                                    member = Member.objects.get(user=member)
-                                except Member.DoesNotExist:
-                                    member = None
-                                check_for_membership.append(member)
-                            # if any of the added members are not existing
-                            # members,add them to member_group and remove
-                            # old members
-                            if any(x is None for x in check_for_membership):
-                                member_group = Group.objects.get(
-                                    name='member_group')
-                                member_group.user_set.remove(*removed_members)
-                                member_group.user_set.add(*added_members)
-                            # save the household object
-                            edit_house_form.save()
-                            # save the members
-                            edit_member_form.save()
-                            # for flash messaging display only
-                            household_name = edit_house_form.cleaned_data[
-                                "name"]
+                        # get the removed members
+                        removed_members = [
+                            p for p in household_members if p not in
+                            edited_form_members]
+                        # get the added members
+                        added_members = [
+                            p for p in edited_form_members if p not in
+                            household_members]
+                        # check if the added members have household
+                        # membership
+                        check_for_membership = []
+                        for member in added_members:
+                            try:
+                                member = Member.objects.get(user=member)
+                            except Member.DoesNotExist:
+                                member = None
+                            check_for_membership.append(member)
+                        # if any of the added members are not existing
+                        # members,add them to member_group and remove
+                        # old members
+                        if any(x is None for x in check_for_membership):
+                            member_group = Group.objects.get(
+                                name='member_group')
+                            member_group.user_set.remove(*removed_members)
+                            member_group.user_set.add(*added_members)
+                        # save the household object
+                        edit_house_form.save()
+                        # save the members
+                        edit_member_form.save()
+                        # for flash messaging display only
+                        household_name = edit_house_form.cleaned_data[
+                            "name"]
                         messages.success(
                             request,
                             f"Your household profile {household_name}"
                             f" has been edited on"
                             f" {datetime.datetime.today().strftime('%b %d, %Y, %H:%M:%S')}")
-                return redirect(reverse(index))
-            return render(request,
-                          'mykitchen/update_household.template.html', {
-                            'house_form': edit_house_form,
-                            'member_form': edit_member_form
-                            })
+                    return redirect(reverse(index))
+                else:
+                    return render(request,
+                                  'mykitchen/update_household.template.html', {
+                                   'house_form': edit_house_form,
+                                   'member_form': edit_member_form
+                                  })
+            else:
+                return render(request,
+                              'mykitchen/update_household.template.html', {
+                               'house_form': edit_house_form,
+                               'member_form': edit_member_form
+                              })
         else:
             raise PermissionDenied
     else:

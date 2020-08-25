@@ -17,6 +17,7 @@ Cloudberry Grocer Home Page
 
 
 {%block content%}
+
 {% if request.user.is_authenticated  %}
 <p class="alert alert-info" role="alert">You are currently logged in as {{request.user}}</p>
 {% else %}

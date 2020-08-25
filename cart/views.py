@@ -6,6 +6,7 @@ import datetime
 import re
 from urllib.parse import urlparse
 
+
 # Create your views here.
 
 
@@ -53,7 +54,6 @@ def view_cart(request):
     grand_total = 0
     for k, v in cart.items():
         grand_total += float(v['unit_cost'] * v['qty'])
-    print(cart.items())
     # if cart is empty,
     if not cart.items():
         return render(request, 'cart/view_empty.template.html')

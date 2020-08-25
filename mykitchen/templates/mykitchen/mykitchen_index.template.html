@@ -16,7 +16,9 @@
     {% endif %}
     {% if household %}
     <li class="nav-item">
+        
         <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+        
       </li>
     {%endif %}
 {%endblock%}
@@ -79,6 +81,7 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-danger" value="CONFIRM"/>
         </form>
+
       </div>
     </div>
   </div>

@@ -24,7 +24,8 @@ Cloudberry Grocer Directory
         *Please note that the search results for prices are returned based on the price prior to discount.
 	</div>
 
-	{% if perms.products.can_add_product %}
+
+	{% if perms.products.add_product %}
 	<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button"
 		data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
 	{% endif %}
@@ -73,7 +74,7 @@ Cloudberry Grocer Directory
                          </span>
                          </a>
 						</div>
-						{% if perms.products.can_change_product %}
+						{% if perms.products.change_product %}
 						<div class="card-footer">
 							<a class="btn btn-primary" href="{% url 'update_product_route' pk=product.id%}"
 								role="button">Edit</a>

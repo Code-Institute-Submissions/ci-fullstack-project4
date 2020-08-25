@@ -34,7 +34,12 @@ prices of the product on display clearly.
 1. Users should be able to register their household profile in the website.
 2. Users should be able to edit their household profile and delete their household profile if they no longer want to use the site.
 3. Users should be able to add, edit and delete named storages in the website.
-4. Users should be able to add, edit and delete food items in the storage in the website.
+4. Users should be able to add, edit and delete food items in the storage in that site.
 5. On the dashboard, users will be notified immediately if a food item is nearing expiry or is expired depending on the threshold set 
 by the user.
+6. Users will be able to purchase new food (add to cart) the food that is expired direct from their storage view.
+
+## Wireframes
+
+## Features
 

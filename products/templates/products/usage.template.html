@@ -5,7 +5,7 @@
 
 {%block content%}
 
-{% if perms.products.can_view_usage %}
+{% if perms.products.add_usage %}
 <a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_usage_route' %}" role="button"
 	data-toggle="tooltip" data-placement="bottom" title="Add Usage">+</a>
 {% endif %}

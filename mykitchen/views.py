@@ -9,8 +9,8 @@ import datetime
 from django.db.models import Q
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-# Create your views here.
 
+# Create your views here.
 """
 My Kitchen App Index Page.
 Purpose: Landing page to receive store customers and to link them to the app
@@ -625,7 +625,8 @@ def storage_content_view(request, household_id, storage_id):
     user = request.user
     household = get_object_or_404(Household, pk=household_id)
     storage = get_object_or_404(StorageLocation, pk=storage_id)
-    stored_food = FoodItem.objects.filter(location__name__iexact=storage)
+    # there's a bug here. for postgresql, need to be a string
+    stored_food = FoodItem.objects.filter(location__name__iexact=str(storage))
     try:
         member = Member.objects.get(user=user)
     except Member.DoesNotExist:

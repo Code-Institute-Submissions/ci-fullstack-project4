@@ -8,9 +8,12 @@ from .models import Purchase
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
+import datetime
+import random
 # Create your views here.
 
 endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
+
 
 def checkout(request):
     # pass API-Key to Stripe
@@ -62,7 +65,11 @@ def checkout(request):
 def checkout_success(request):
     # clear the shopping cart after checkout success
     request.session['shopping_cart'] = {}
-    return render(request, "checkout/checkout_success.template.html")
+    prefix = datetime.datetime.now().strftime('%b%d%Y')
+    invoice_num = prefix+str(random.randrange(10000000, 100000000))
+    return render(request, "checkout/checkout_success.template.html", {
+        'invoice_num': invoice_num
+    })
 
 
 def checkout_cancel(request):

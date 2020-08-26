@@ -4,9 +4,10 @@
 {%block title%} Edit Brand Name Form {%endblock%}
 
 {% block content %}
+<h3> Edit Brand Name </h3>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Update">
+    <input type="submit" value="Update" class="btn btn-primary">
 </form>
 {% endblock %}

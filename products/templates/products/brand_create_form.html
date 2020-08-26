@@ -4,6 +4,7 @@
 {%block title%} Create Brand Name Form {%endblock%}
 
 {% block content %}
+<h3> Input Brand Name </h3>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

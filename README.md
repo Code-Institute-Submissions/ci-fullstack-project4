@@ -158,49 +158,11 @@ The database used in the project is PostgreSQL. PostgreSQL is an open source Rel
 to MySQL but it has an object oriented database model which are directly supported in database schemas and query language.
 
 ### Database Structure
-A UML diagram to illustrate the relationship between models is drawn and shown [here]()
+A UML diagram to illustrate the relationship between models is drawn and shown [here](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/UML.pdf)
 
 ## Testing
 Due to the shortage in time, testing is for this project is done manually:
+As the testing write-up is quite long, the details of testing is documented in [Testing.md]()
 
-### Testing without Authentication (Anonymous User)
-1. Index Page.
-* As an Anonymous User, the index page shows the below image:
-* The navbar has the following links : Home, Directory, Product Category, Sign Up, Login and Shopping Cart Icon.
-* The index page shows all the features mentioned in the Features Section.
-* On clicking the Call To Action Button, the page is directed to the Current Offers Section.
 
-2. Directory Page.
-a. Search bar functionality
-i. Click on Search Button without any search input will show all products cards displayed.
-ii. Key in search term "cereal" without min and max price range, returns 2 products with the name "Great Grains Cereal - "
-iii. With no input in the search input and with min price set to 4 and max price range set to 5, the product "Organic Black
-Beans" is returned.
-iv. With input "baking" and with min price set to 1 and max price set to 2, the product "Pure Baking Soda" is returned.
-
-3. Category Page 
-a. Index Image Link
-i. Click on Breakfast image, will direct the user to the view Product by Breakfast Page. (/products/breakfast).
-ii. Click on Biscuits and Cookies image, will direct the user to the view Product by Biscuits and Cookies Page. (
-    /products/biscuits-and-cookies).
-iii. Click on Grains and Dried Beans image, will direct the user to the view Product by Grains and Dried Beans Page. (
-    /products/grains-and-dried-beans).
-iv. Click on Nuts image, will direct the user to the view Product by Nuts Page. (
-    /products/nuts)
-v. Click on Baking Ingredients image, will direct the user to the view Product by Baking Ingredients Page. (
-    /products/baking-ingredients)
-vi. Click on Fresh Produce image, will direct the user to the view Product by Fresh Produce Page. (
-    /products/fresh-produce)
-b. Navbar Link for Product categories
-i. All the above test stated above works exactly the same way for the navbar dropdown links in Product Category.
-
-4. Other NavBar Links
-i. Click on the SignUp link will redirect the User to the Sign Up page.
-ii. Click on the Login link will redirect the User to the Login page.
-iii. Click on the Shopping Cart Icon will redirect the User to the Shopping Cart Page. If shopping cart is empty, user will
-see an image of an empty shopping cart.
-iv.  If items have already been added to cart, user will see the list of added items on the left and the billing summary on the
-right.
-
-### Testing with Staff Permission Access.
 

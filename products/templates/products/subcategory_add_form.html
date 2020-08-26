@@ -4,6 +4,7 @@
 {%block title%} Add Subcategory Name Form {%endblock%}
 
 {% block content %}
+<h3> Input Subcategory Name</h3>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

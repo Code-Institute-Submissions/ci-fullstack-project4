@@ -16,6 +16,7 @@ body {
 .btn-cta{
     background-color: #936a39;
     color: oldlace;
+    justify-self: center;
 }
 
 .cart-qty{
@@ -32,11 +33,6 @@ body {
 
 .count-text{
     font-size: 1rem;
-}
-
-h3.cta{
-    color:oldlace;
-    text-shadow: 2px 2px 2px darkslategray;
 }
 
 div.jumbotron.jumbotron-fluid.kitchen {
@@ -60,6 +56,10 @@ div.jumbotron.jumbotron-fluid.mart {
     margin-bottom: 10px;
 }
 
+.hero-unit{
+    display: grid;
+}
+
 h1,h2,h3,h4,h5,h6{
     font-family: 'Poppins', sans-serif;
 }
@@ -69,6 +69,13 @@ h1.hero-text{
     text-shadow: 2px 2px 2px darkslategray;
     position: relative;
     margin-top: 80px;
+    justify-self: center
+}
+
+h3.cta{
+    color:oldlace;
+    text-shadow: 2px 2px 2px darkslategray;
+    justify-self: center;
 }
 
 h5.card-title {

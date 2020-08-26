@@ -51,8 +51,7 @@ text and an action that links user to the product directory.
 
 b. Features that allow users to navigate to other pages
 * At the top of the homepage, there is a navbar to allow users to navigate to Directory, Product Category and SignUp or Login/Logout
-pages.
-*
+pages and also the shopping cart page.
 
 c. Features that allow users to view shopping cart.
 * On the right of the navbar, there is a shopping cart icon to link the users to view the shopping cart contents.
@@ -125,7 +124,7 @@ c. View Storage and View Food Items Pages
 d. NavBar Links
 * On the navbar, when relevant links are clicked, users are redirected to the relevant sites.
 
-# Technologies Used
+## Technologies Used
 The technologies used for this project are:
 1. [Django(Release 2.2.14)](https://www.djangoproject.com/start/overview/). Django is a Python Web Framework that encourages rapid
 development and clean design. It is the main requirement of this project.
@@ -145,14 +144,63 @@ Github is an online hosting service for software development that utilizes Git f
 9. [Stripe](https://stripe.com/en-sg). Stripe is a financial software service provider that provides the API for software developers
 to integrate payment into their websites and mobile apps.
 10. [Google Fonts](https://fonts.google.com/). Google Fonts Poppins (sans-serif) is used for headings. Google Fonts Bitter (serif)
-is used for body and in paragraph tags. Google Font Delius Swash Caps is used in the navbar brand/logo name.  
+is used for body and in paragraph tags. Google Font Delius Swash Caps is used in the navbar brand/logo name.
+11. [Font Awesome](https://fontawesome.com/) Font Awesome Icons are used in this project to give illustrations to some edit and 
+delete buttons.
 
-Libraries
-
+Django Libraries
+1. [Django-AllAuth](https://django-allauth.readthedocs.io/en/latest/overview.html) is a Django Library that manages authentication, 
+registration, account management as well as 3rd party (social) account authentication 
+2. [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/) is Django package that provides DRY Django Forms.
 
 ### Database
 The database used in the project is PostgreSQL. PostgreSQL is an open source Relational Database Management System that is similar
 to MySQL but it has an object oriented database model which are directly supported in database schemas and query language.
 
 ### Database Structure
-A rough ERD diagram to illustrate the data structure is shown in [here].
+A UML diagram to illustrate the relationship between models is drawn and shown [here]()
+
+## Testing
+Due to the shortage in time, testing is for this project is done manually:
+
+### Testing without Authentication (Anonymous User)
+1. Index Page.
+* As an Anonymous User, the index page shows the below image:
+* The navbar has the following links : Home, Directory, Product Category, Sign Up, Login and Shopping Cart Icon.
+* The index page shows all the features mentioned in the Features Section.
+* On clicking the Call To Action Button, the page is directed to the Current Offers Section.
+
+2. Directory Page.
+a. Search bar functionality
+i. Click on Search Button without any search input will show all products cards displayed.
+ii. Key in search term "cereal" without min and max price range, returns 2 products with the name "Great Grains Cereal - "
+iii. With no input in the search input and with min price set to 4 and max price range set to 5, the product "Organic Black
+Beans" is returned.
+iv. With input "baking" and with min price set to 1 and max price set to 2, the product "Pure Baking Soda" is returned.
+
+3. Category Page 
+a. Index Image Link
+i. Click on Breakfast image, will direct the user to the view Product by Breakfast Page. (/products/breakfast).
+ii. Click on Biscuits and Cookies image, will direct the user to the view Product by Biscuits and Cookies Page. (
+    /products/biscuits-and-cookies).
+iii. Click on Grains and Dried Beans image, will direct the user to the view Product by Grains and Dried Beans Page. (
+    /products/grains-and-dried-beans).
+iv. Click on Nuts image, will direct the user to the view Product by Nuts Page. (
+    /products/nuts)
+v. Click on Baking Ingredients image, will direct the user to the view Product by Baking Ingredients Page. (
+    /products/baking-ingredients)
+vi. Click on Fresh Produce image, will direct the user to the view Product by Fresh Produce Page. (
+    /products/fresh-produce)
+b. Navbar Link for Product categories
+i. All the above test stated above works exactly the same way for the navbar dropdown links in Product Category.
+
+4. Other NavBar Links
+i. Click on the SignUp link will redirect the User to the Sign Up page.
+ii. Click on the Login link will redirect the User to the Login page.
+iii. Click on the Shopping Cart Icon will redirect the User to the Shopping Cart Page. If shopping cart is empty, user will
+see an image of an empty shopping cart.
+iv.  If items have already been added to cart, user will see the list of added items on the left and the billing summary on the
+right.
+
+### Testing with Staff Permission Access.
+

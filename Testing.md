@@ -67,7 +67,7 @@ b. Navbar Link for Product categories
 ### Testing with Permission Access.
 1. Index Page.  
 i. As User with Permission Access, the index page shows the below image:
-![Staff User Screenshot]()
+![Staff User Screenshot](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/readme_images/Test_Home_Staff.jpg)  
 ii. The navbar has the following links : Home, Directory, Product Category, Sign Up, Login, StaffAccess and Shopping Cart Icon.  
 iii. The index page shows all the features mentioned in the Features Section.  
 iv. On clicking the Call To Action Button, the page is directed to the Current Offers Section.
@@ -79,33 +79,64 @@ iv. On clicking the Call To Action Button, the page is directed to the Current O
 
 5. CRUD functionality
 In the Navbar, there is a StaffAccess Dropdown in the menu. This Dropdown menu item is only visible for admin and users with 
-CRUD permissions.
+CRUD permissions.  
 a. View Brand  
-i. When clicked, the staff/admin user will be directed to a page that list all brands of products. On the top of the list there
-is a floating button that allows staff/admin users to add brand names.  
-ii. When add brand button is clicked, admin/staff user is directed to an "Input Brand Name" form.  
-iii. If form input is empty on submit a popover will appear with message "Please fill out this field".  
-iv. If form is filled with valid text input, flash message with "Brand xxx was succesfully created" will appear on the home page,
-after user is redirected.
+    i. When clicked, the staff/admin user will be directed to a page that list all brands of products. On the top of the list there
+        is a floating button that allows staff/admin users to add brand names.  
+    ii. When add brand button is clicked, admin/staff user is directed to an "Input Brand Name" form.  
+    iii. If form input is empty on submit a popover will appear with message "Please fill out this field".  
+    iv. If form is filled with valid text input, flash message with "Brand xxx was succesfully created" will appear on the home page,
+        after user is redirected.
 
 b. Edit Brand  
-i. The edit brand button is next to each brand name on the list in blue.  
-ii. When clicked, user will be directed to an edit brand form.  
-iii. If form input is empty on submit, a popover will appear with message "Please fill out this field".  
-iv. If form is filled with valid text input, a flash message with "Brand xxx was updated succesfully will appear on the home page
-after user is redirected.
+    i. The edit brand button is next to each brand name on the list in blue.  
+    ii. When clicked, user will be directed to an edit brand form.  
+    iii. If form input is empty on submit, a popover will appear with message "Please fill out this field".  
+    iv. If form is filled with valid text input, a flash message with "Brand xxx was updated succesfully will appear on the home page
+        after user is redirected.
 
 c. Delete Brand
-i. The delete brand button is next to the edit button on the list of the brands. The button is red to highlight the danger of deleting.  
-ii. When clicked, a modal will appear with the message to confirm the brand deletion.  
-iii. When user confirms deletion, the brand will be deleted with a success message "Brand xxx was deleted successfully" on the homepage
-after user is redirected.
+    i. The delete brand button is next to the edit button on the list of the brands. The button is red to highlight the danger of deleting.  
+    ii. When clicked, a modal will appear with the message to confirm the brand deletion.  
+    iii. When user confirms deletion, the brand will be deleted with a success message "Brand xxx was deleted successfully" on the homepage
+        after user is redirected.
 
 d. For all the CRUD functions above, the same test process are used for Subcategory and Usage.  
-i. When form is empty on submit, form will fail validation with the message "Please fill out this field".  
-ii. When form is filled with a valid text input, form is succesfully submitted and the flash message to inform user that the 
-create,update or delete has been successful will show up after redirecting to the home page.
+    i. When form is empty on submit, form will fail validation with the message "Please fill out this field".  
+    ii. When form is filled with a valid text input, form is succesfully submitted and the flash message to inform user that the 
+    create,update or delete has been successful will show up after redirecting to the home page.
 
 e. Shopping Cart Page  
-i. The admin/staff user are also able to make purchase on this website and add items to the shopping cart.  
-ii. The functionality section with the shopping cart page is the same as for Anonymous User.
+    i. The admin/staff user are also able to make purchase on this website and add items to the shopping cart.  
+    ii. The functionality section with the shopping cart page is the same as for Anonymous User.
+
+### Testing for MyKitchen App.
+1. Anonymous User  
+    i. Anonymous Users will not see the link to MyKitchen in the navbar. If the user tries to type in the url, he/she will be 
+    directed to the login page. 
+
+2. Authenticated Users
+    a. Dashboard/ Infoboard.
+    i. When an authenticated user is logged in, he/she will be able to see MyKitchen link in the navbar menu.
+    ii. On entering the homepage, the user will see a message on the dashboard to register the household and link other  
+    grocery shop customers/users who are household members.
+    iii. In the navbar, the user will see the menu item : Back to Shop, MyKitchen Home, Register Home Profile, and Logout links.  
+    iv. The user will also see a shopping cart in the navbar.  
+
+    b. Registering Home Profile
+    i. Clicking submit with empty household name input will prevent the form from submitting.
+    ii. With a valid household name and no household members, form will be validated and submitted. This is because it is possible
+    to have a single member household (which is just the household owner).
+    iii. The drop down list to select household members will show a list of users who are not members of any current household. 
+    iv. Users will not be able to add existing e-grocery shoppers who are members of other household to their own household.
+    v. However, users will be able to add any "free" unlinked e-grocery shoppers as their household member.
+
+    c. Viewing Home Profile.
+        i. Upon registration, user will be able to see a link View Home Profile in the navbar instead of Register Home Profile.
+        ii. On clicking this link, users will be taken to a page that shows the household name and the current listed members.
+
+    d. Editing Home Profile  
+        i. On clicking the edit button, users will be directed to a page with a form to update the household profile information.
+        ii. Again the same logic applies. Users will not be able to add members of other household to their household member list.
+        iii. Users will need to check the delete button if they wish to exclude certain users from their household membership.
+        

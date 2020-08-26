@@ -4,9 +4,18 @@ a.nav-link,a.link{
     text-decoration: none;
 }
 
+a.btn-cta:hover{
+    color: orange;
+}
+
 body {
     background-color: oldlace;
     font-family: 'Bitter', serif;
+}
+
+.btn-cta{
+    background-color: #936a39;
+    color: oldlace;
 }
 
 .cart-qty{
@@ -21,8 +30,12 @@ body {
     border-radius: 20px;
 }
 
+.count-text{
+    font-size: 1rem;
+}
+
 h3.cta{
-    color:blanchedalmond;
+    color:oldlace;
     text-shadow: 2px 2px 2px darkslategray;
 }
 
@@ -31,7 +44,7 @@ div.jumbotron.jumbotron-fluid.kitchen {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 150vh;
 }
 
 div.jumbotron.jumbotron-fluid.mart {
@@ -52,7 +65,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 h1.hero-text{
-    color:blanchedalmond;
+    color:oldlace;
     text-shadow: 2px 2px 2px darkslategray;
     position: relative;
     margin-top: 80px;

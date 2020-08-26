@@ -56,6 +56,11 @@ def index(request):
         storages = None
 
     all_food = FoodItem.objects.filter(location__in=storages)
+    store_data = {}
+    for store in storages:
+        foods = FoodItem.objects.filter(
+            location__name__iexact=str(store)).count()
+        store_data[store] = foods
 
     # if household is None, set it to empty string for flash msg
     if household is None:
@@ -68,6 +73,7 @@ def index(request):
     return render(request, 'mykitchen/mykitchen_index.template.html', {
         'household': household,
         'all_food': all_food,
+        'store_data': store_data,
         'belongs': belongs
     })
 

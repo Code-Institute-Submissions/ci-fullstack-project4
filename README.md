@@ -41,7 +41,7 @@ by the user.
 
 ## Wireframes
 
-## Features
+## E-grocery Shop Features
 ### Index/Home page
 a. Feature that attracts draws user attention
 * The homepage has a jumbotron that welcomes the user to the e-grocer. It has the name of the e-grocer as well as the Call-to-Action
@@ -74,27 +74,85 @@ c. Hidden Feature
 * If the logged in user is a superuser/staff or has permissions to perform CRUD functions, the user would be able to see
 the add product/ edit product and delete product button.
 
-## Product Category Pages
+### Product Category Pages
 a. Sorting Feature
 *  The navbar has a dropdown to link users to each page that show products sorted to the relevant categories. The links are also
 presented in the category images on the index page.
 
-## Staff Access Page
+### Staff Access Page
 a. CRUD functions
 * The admin/staff should be able to access the Staff Access link on the navbar. The Staff Access is a dropdown menu that link 
 authorised users to view/create/update/delete product related attributes : Brand, Subcategory and Usage.
 
-## Login/Logout/SignUp/Accounts Management Page
+### Login/Logout/SignUp/Accounts Management Page
 * The account management pages are managed by Django-AllAuth
 
-## Shopping Cart Page
+### Shopping Cart Page
 a. Cart Feature
 * The users will see an empty shopping cart if no products are added to the shopping cart.
 * If there are items added to cart, the users will be able to see items in the shopping cart page.
-* There are also buttons that allow to increase or decrease the quantity of the item to purchase.
+* There are also buttons that allow user to increase or decrease the quantity of the item to purchase.
 * There is a bin icon at the top right corner of the cart to allow user to delete the item immediately if he/she changes his/her 
 mind.
+* On the right of the products, there is a side card shows the users the subtotal and the grand total of the products.
+* Below that, there is a CheckOut button that users can click to checkout and pay for the items purchased.
+
+## My Kitchen App
+### MyKitchen Index Page
+a. Mini Infoboard Feature
+* When the user enters MyKitchen App from the navbar link (after they are authenticated), they are able to see a mini infoboard that
+tells the user to register and setup a household name and link other e-commerce registered site users as member of the household.
+* When users create storage, add food items with expiry date into it and set the relevant threshold, they should see a persistent
+alert message on the infoboard that the food item has hit the expiry threshold and will expire in the time duration set by the user.
+(If the item has hit the expiry threshold). Otherwise, users will not see any alert message on the infoboard.
+
+### MyKitchen Household Profile View and Registration Pages
+b. Household Profile Registration and CRUD Features
+* Users are able to register their household name and select other e-commerce registered site users by username as member of the 
+household.
+* When a user registers a household, that user will be assigned as the owner of the household and will have the priviledge to edit,
+and delete the household profile, perform CRUD on the storage and food items in the website.
+* The other users being selected as his/her household member will be assigned as the member of the household and will have the 
+priviledge to perform CRUD on the storage and food items in the website.
+
+### CRUD Storage and Food Item Pages
+c. View Storage and View Food Items Pages
+* Users are able to view their household storage by name and add/create new storage location similar to what they have in their kitchen.
+* Users are able to edit and delete their household storage.
+* Users are able to "go into the storage" and view/add/update/delete food items information in their storage.
+
+### NavBar Links
+d. NavBar Links
+* On the navbar, when relevant links are clicked, users are redirected to the relevant sites.
+
+# Technologies Used
+The technologies used for this project are:
+1. [Django(Release 2.2.14)](https://www.djangoproject.com/start/overview/). Django is a Python Web Framework that encourages rapid
+development and clean design. It is the main requirement of this project.
+2. [Python(Release 3.8.3)](https://www.python.org/downloads/release/python-383/). Python is the programming language that Django 
+is built on.
+3. [HTML5](https://html.spec.whatwg.org/). HTML is the markup language that structures the webpage documents.
+4. [CSS3](https://www.w3.org/TR/2001/WD-css3-roadmap-20010523/). Cascading style sheet is the language that presents and styles 
+the HTML documents.
+5. [Javascript and JQuery](https://developer.oracle.com/sg/javascript/). Javascript and Jquery is used primarily to do DOM 
+manipulation and it is the main engine to serve interactivity and event handling to the webpages.
+6. [Bootstrap (Release 4.5)](https://getbootstrap.com/docs/4.5/getting-started/introduction/). Bootstrap is the layout framework
+used to organize the website's display.
+7. [Gitpod](https://www.gitpod.io/)  
+Gitpod is an online IDE that can be launched in Github. It is used to develop and write the code for this project.
+8. [Git and Github](https://github.com/)  
+Github is an online hosting service for software development that utilizes Git for version control.
+9. [Stripe](https://stripe.com/en-sg). Stripe is a financial software service provider that provides the API for software developers
+to integrate payment into their websites and mobile apps.
+10. [Google Fonts](https://fonts.google.com/). Google Fonts Poppins (sans-serif) is used for headings. Google Fonts Bitter (serif)
+is used for body and in paragraph tags. Google Font Delius Swash Caps is used in the navbar brand/logo name.  
+
+Libraries
 
 
+### Database
+The database used in the project is PostgreSQL. PostgreSQL is an open source Relational Database Management System that is similar
+to MySQL but it has an object oriented database model which are directly supported in database schemas and query language.
 
-
+### Database Structure
+A rough ERD diagram to illustrate the data structure is shown in [here].

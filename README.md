@@ -162,7 +162,7 @@ A UML diagram to illustrate the relationship between models is drawn and shown [
 
 ## Testing
 Due to the shortage in time, testing is for this project is done manually:
-As the testing write-up is quite long, the details of testing is documented in [Testing.md]()
+As the testing write-up is quite long, the details of testing is documented in [Testing.md](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/Testing.md)
 
 
 

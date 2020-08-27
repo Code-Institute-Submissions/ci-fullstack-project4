@@ -5,10 +5,10 @@
 
 {%block title%} Cloudberry Input Product Form {%endblock%}
 {%block content%}
-    <h1>New Products Form</h1>
-    <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit"/>
-    </form>    
-  {% endblock %}
+<h1>New Products Form</h1>
+<form method="POST">
+	{% csrf_token %}
+	{{ form|crispy }}
+	<input type="submit" value="Submit" class="btn btn-general"/>
+    </form>
+	{% endblock %}

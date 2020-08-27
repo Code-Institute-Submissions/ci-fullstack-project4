@@ -6,8 +6,8 @@
 {% block content %}
 <h3> Update Usage Name </h3>
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-primary">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Submit" class="btn btn-general">
 </form>
-{% endblock %}
+	{% endblock %}

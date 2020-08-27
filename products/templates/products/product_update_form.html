@@ -4,10 +4,10 @@
 
 {%block title%} Cloudberry Update Product {%endblock%}
 {%block content%}
-    <h1>Edit Products Form</h1>
-    <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy}}
-    <input type="submit"/>
-    </form>    
-  {% endblock %}
+<h1>Edit Products Form</h1>
+<form method="POST">
+	{% csrf_token %}
+	{{ form|crispy}}
+	<input type="submit" value="Submit" class="btn btn-general"/>
+    </form>
+	{% endblock %}

@@ -5,19 +5,53 @@
 ## Project Objectives
 This website is created to serve users who are customers of online grocery purchases. With the advancement in technology, users these 
 days are spoilt for choice when purchasing groceries online. There are many e-commerce services that provide the users with a huge variety 
-of choice when it comes to food products.Other than grocery purchase, this site also offers a small service to the registered shoppers. 
-A side app allows user to manage their purchased product inventory and offers to track their product expiry date for them on the 
-app's dashboard.
+of choice when it comes to food products. Other than grocery purchase, this e-grocery site offers a small service to the registered shoppers. 
+A side app (MyKitchen) allows users as a household to manage their kitchen storage inventory and offers to track their product expiry date 
+for them on the app's dashboard.
 
 ## Deployed Link
 The deployed website can be found [here](https://oraclebun-project4.herokuapp.com/)
+
+### For quick access without having to sign up for an account below are the existing user accounts for browsing and testing purpose:
+> Staff  
+> username:  ttester2  
+> password: testpassword123
+>
+> Normal Customer  
+> Household owner 1  
+> username: father  
+> password: testpassword123  
+>  
+> Normal Customer  
+> Household member1  
+> username: girlgirl  
+> password: testpassword123
+>
+> Normal Customer  
+> Household owner 2  
+> username: mrbrown  
+> password: testpassword123
+>
+> Normal Customer  
+> Household member 2  
+> username: mrsbrown  
+> password: testpassword123
+
+### Account Access: How it works:
+The Staff account is for use for the e-grocery store (products) app.  
+The staff priviledge is the capability to perform CRUD for products in the supermarket.  
+The Normal Customer account is for used for the MyKitchen app.   
+The household owner is able to perform CRUD for household registration and membership in MyKitchen App.  
+All members and owner of the household are able to perform CRUD for kitchen storage and inventory.
 
 ## UX/UI
 ### Overview and Colour
 The colour on this website is chosen to be bright and cheery to give customers a bright and cheerful experience when they shop. The 
 bright background also serves to highlight the products available. The site name is chosen because just like the berry which is a rarity
 in other parts of the world, I hope the site is also rare and the experience of using it gives the users a good and special feeling 
-that they are well served.
+that they are well served.  
+Sans Serif Google Font Poppins is chosen for site heading because it has a clean and sharp look. Serif Google Font Bitter is chosen for
+the site's content and body for it's legibility.
 
 ## User Stories
 ### Basic User Stories
@@ -291,6 +325,16 @@ $ python3 manage.py migrate
 4. Setup superuser account and populate the database with data like the steps described in section "Running the project locally
 12c-12e."
 
+## Bugs and Future Improvements
+1. One of the design downside for MyKitchen App is that during registration, for the household owner to add members by username to his 
+household, he needs to go through a list of users in the dropdown in the form. Unfortunately there is no way around this except to have the
+household owner register the household upon signing up as a user of the e-grocery store. Unfortunately due to time limitation, this option
+is not explored for this project but hope to be implemented in future projects.
+2. Another design limitation is having the user add food items to their storage via a drop down list. Again, this could be improved in
+the future app versions by letting users key in the food items and having a search feature there. Then users are able to add food items
+by the search results, instead of cycling through the entire list of products.
+3. A future improvement good to have is to automate the testing process. This will definitely be explored.
+
 ## Acknowledgements and Credits
 ### E-grocery store images (Products App)
 1. Jumbotron Image : [Photo by Lukas from Pexels](https://www.pexels.com/photo/carrots-food-fresh-freshness-616404/)
@@ -323,10 +367,13 @@ f. Others [Freepik](https://www.flaticon.com/authors/freepik)
 1. Some of the product prices and product data are taken from [Fairprice](https://www.fairprice.com.sg/)
 2. Some of the product data is keyed in randomly by me.
 
+## Design Ideas
+1. The Design Ideas for MyKitchen is inspired by the [Cozzo App](https://cozzo.app/)
+
 ### Technical Related Attribution and Acknowledgement:
-1. My teachers in Trent Global College for teaching me programming.
+1. My teachers in Trent Global College for teaching me programming. 
 2. The college teaching assistant: John for his valuable feedback and suggestion for this project.
-3. [Django Read the Docs](https://docs.djangoproject.com/en/2.2/)
+3. [Django Documentation](https://docs.djangoproject.com/en/2.2/)
 4. [StackOverflow](https://stackoverflow.com/) for various post shared by the ever brilliant community of Python and Django 
 fanatics out there.
 

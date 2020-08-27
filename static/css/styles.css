@@ -4,13 +4,17 @@ a.nav-link,a.link{
     text-decoration: none;
 }
 
-a.btn-cta:hover{
+a.btn-general:hover{
     color: orange;
 }
 
 body {
     background-color: oldlace;
     font-family: 'Bitter', serif;
+}
+
+input.btn-general:hover{
+    color: orange;
 }
 
 .btn-general{

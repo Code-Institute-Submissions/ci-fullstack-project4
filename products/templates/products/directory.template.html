@@ -9,114 +9,109 @@ Cloudberry Grocer Directory
 {% block content%}
 
 <form method="GET" class="form-inline my-2 my-lg-0">
-    
-	{{search_form|crispy}}
-    <div class="col-sm-1">
-    <input class="btn btn-success ml-3" type="submit" value="Search"/>
-    </div>
-    
-	
+	{%crispy search_form%}
 </form>
 
 
-	<div class="mt-5 mb-3">
-		<h5>Results for "{{search_input}}"</h5>
-        *Please note that the search results for prices are returned based on the price prior to discount.
+<div class="mt-5 mb-3">
+	<h5>Results for "{{search_input}}"</h5>
+	*Please note that the search results for prices are returned based on the price prior to discount.
+</div>
+
+
+{% if perms.products.add_product %}
+<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button"
+	data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
+{% endif %}
+
+
+<div class="row mb-3 row-cols-12">
+	<div class="card-deck">
+		<!--startdeck-->
+		{%for product in products %}
+		{% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
 	</div>
+	<!--end deck-->
+</div>
+<!--end row-->
+<div class="row mb-3 row-cols-12">
+	<div class="card-deck mt-5">
+		<!--startdeck-->
+		{% endif %}
 
 
-	{% if perms.products.add_product %}
-	<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'create_product_route' %}" role="button"
-		data-toggle="tooltip" data-placement="bottom" title="Add products">+</a>
-	{% endif %}
-
-
-	<div class="row mb-3 row-cols-12">
-		<div class="card-deck">
-			<!--startdeck-->
-			{%for product in products %}
-			{% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
-		</div>
-		<!--end deck-->
-	</div>
-	<!--end row-->
-	<div class="row mb-3 row-cols-12">
-		<div class="card-deck mt-5">
-			<!--startdeck-->
-			{% endif %}
-
-
-			<div class="card col-md-2">
-				<a href="{% url 'product_detail_route' pk=product.id %}">
-					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
+		<div class="card col-md-2">
+			<a href="{% url 'product_detail_route' pk=product.id %}">
+				<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
                 </a>
-					<div class="card-body product-container">
-						
-                        {%if product.multiplier != 1.0 %}
-                        <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
-                        <h5 class="card-title"><small class="text-muted original-price">${{product.root_price|floatformat:2}}</small></h5>
-                        {% else %}
-                        <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
-                        {% endif %}
-						<p class="card-text">{{product.name}}</p>
-                        <div class="card-bottom">
-                        {%if product.weight_per_pack < 1000 %}
+				<div class="card-body product-container">
+
+					{%if product.multiplier != 1.0 %}
+					<h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
+					<h5 class="card-title">
+						<small class="text-muted original-price">${{product.root_price|floatformat:2}}</small></h5>
+					{% else %}
+					<h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
+					{% endif %}
+					<p class="card-text">{{product.name}}</p>
+					<div class="card-bottom">
+						{%if product.weight_per_pack < 1000 %}
 						<p class="card-text">{{product.weight_per_pack}}g</p>
-                        {%else%}
-                        <p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
-                        {% endif %}
-                         <a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
-                         <span class="d-inline-flex">
+						{%else%}
+						<p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
+						{% endif %}
+						<a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
+							<span class="d-inline-flex">
                          <img src="{% static '/image/shopping-cart.svg' %}"/>
 							<p class="card-text"><small class="text-muted">Add to Cart</small></p>
                          </span>
-                         </a>
-						</div>
-						{% if perms.products.change_product %}
-						<div class="card-footer">
-							<a class="btn btn-primary" href="{% url 'update_product_route' pk=product.id%}"
-								role="button">Edit</a>
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
+						</a>
+					</div>
+					{% if perms.products.change_product %}
+					<div class="card-footer">
+						<a class="btn btn-primary" href="{% url 'update_product_route' pk=product.id%}"
+							role="button">Edit</a>
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{product.id}}">
                              Delete
                             </button>
-						</div>
-						{% endif%}
 					</div>
-			</div>
+					{% endif%}
+				</div>
+		</div>
 
-			<!-- Modal -->
-			<div class="modal fade" id="deleteModal-{{product.id}}" tabindex="-1" role="dialog"
-				aria-labelledby="deleteModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Product?</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal-{{product.id}}" tabindex="-1" role="dialog"
+			aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Product?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-						</div>
-						<div class="modal-body">
-							<p>Deleting a product will remove it permanently. This action cannot be undone.</p>
-						</div>
-						<div class="modal-footer">
-							<form action="{%url 'delete_product_route' pk=product.id%}" method="POST">
-								{% csrf_token %}
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<input type="submit" class="btn btn-danger" value="CONFIRM"/>
+					</div>
+					<div class="modal-body">
+						<p>Deleting a product will remove it permanently. This action cannot be undone.</p>
+					</div>
+					<div class="modal-footer">
+						<form action="{%url 'delete_product_route' pk=product.id%}" method="POST">
+							{% csrf_token %}
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<input type="submit" class="btn btn-danger" value="CONFIRM"/>
         </form>
-						</div>
 					</div>
 				</div>
 			</div>
-			{%endfor%}
-
 		</div>
-		<!--end deck last-->
+		{%endfor%}
+
 	</div>
-	<!--end row last-->
+	<!--end deck last-->
+</div>
+<!--end row last-->
 
-	{%endblock%}
+{%endblock%}
 
-	{%block js%}
-	<script src="{% static '/js/main.js' %}"></script>
-	{%endblock%}
+{%block js%}
+<script src="{% static '/js/main.js' %}"></script>
+{%endblock%}

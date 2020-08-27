@@ -35,9 +35,13 @@ class SearchForm(forms.Form):
         self.helper.form_tag = False
         self.helper.method = "GET"
         self.helper.layout = layout.Layout(
-            Div('search', css_class="col align-self-center"),
-            Div('min_price', css_class="col"),
-            Div('max_price', css_class="col"),
-            Submit('submit', 'Search', css_class="btn-success align-self-center")
+            Div(
+                Div('search', css_class="col-md-3"),
+                Div('min_price', css_class="col-md-3"),
+                Div('max_price', css_class="col-md-3"),
+                Submit('submit', 'Search',
+                       css_class="btn-success align-self-center ml-5"),
+                css_class="row",
+            )
         )
 

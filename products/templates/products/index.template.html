@@ -9,11 +9,11 @@ Cloudberry Grocer Home Page
 {%block hero%}
 <div class="jumbotron jumbotron-fluid mart">
 	<div class="container">
-        <div class="hero-unit">
-		<h1 class="display-4 hero-text">Welcome to Cloudberry Grocer.</h1>
-		<h3 class="lead cta">The grocery store that's just a click away.</h3>
-        <a class="btn btn-cta" href="#offers" role="button">Browse Our Latest Offers!</a>
-        </div>
+		<div class="hero-unit">
+			<h1 class="display-4 hero-text">Welcome to Cloudberry Grocer.</h1>
+			<h3 class="lead cta">The grocery store that's just a click away.</h3>
+			<a class="btn btn-general" href="#offers" role="button">Browse Our Latest Offers!</a>
+		</div>
 	</div>
 </div>
 {% endblock %}
@@ -46,55 +46,54 @@ Cloudberry Grocer Home Page
 </div>
 
 <section id="offers">
-<div class="mt-5 mb-3">
-	<h4>Current Offers</h4>
-</div>
-
-<div class="row mb-3 row-cols-12 mb-3">
-	<div class="card-deck">
-		<!--startdeck-->
-		{%for product in products_on_offer %}
-		{% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
+	<div class="mt-5 mb-3">
+		<h4>Current Offers</h4>
 	</div>
-	<!--end deck-->
-</div>
-<!--end row-->
-<div class="row mb-3 row-cols-12 mt-5">
-	<div class="card-deck">
-		<!--startdeck-->
-		{% endif %}
 
-
-		<div class="card col-md-2">
-			<a href="{% url 'product_detail_route' pk=product.id %}" data-toggle="tooltip" data-placement="top" title="Click to view {{product.name}}">
-				<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
-            </a>
-				<div class="card-body product-container">
-                    <div class="product-info">
-					<h5 class="card-title">${{product.get_current_price|floatformat:2 }} &nbsp
-						<span><small class="text-muted original-price">${{product.root_price|floatformat:2}} </small></span>
-					</h5>
-					<p class="card-text">{{product.name}}</p>
-                </div>
-                <div class="card-bottom">
-					    {%if product.weight_per_pack < 1000 %}
-					    <p class="card-text">{{product.weight_per_pack}}g</p>
-                        {%else%}
-                        <p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
-                        {% endif %}
-                   
-                    <a href="{% url 'add_to_cart' product_id=product.id %}">
-                        <img src="{% static '/image/shopping-cart.svg' %}"/>
-						<p class="card-text"><small class="text-muted">Add to Cart</small></p>
-                    </a>
-					</div>
-				</div>
+	<div class="row mb-3 row-cols-12 mb-3">
+		<div class="card-deck">
+			<!--startdeck-->
+			{%for product in products_on_offer %}
+			{% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
 		</div>
-		{%endfor%}
-
+		<!--end deck-->
 	</div>
-	<!--end deck last-->
-</div>
-<!--end row last-->
+	<!--end row-->
+	<div class="row mb-3 row-cols-12 mt-5">
+		<div class="card-deck">
+			<!--startdeck-->
+			{% endif %}
+
+
+			<div class="card col-md-2">
+				<a href="{% url 'product_detail_route' pk=product.id %}" data-toggle="tooltip" data-placement="top"
+					title="Click to view {{product.name}}">
+					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
+            </a>
+					<div class="card-body product-container">
+						<h5 class="card-title">${{product.get_current_price|floatformat:2 }} &nbsp
+							<span><small class="text-muted original-price">${{product.root_price|floatformat:2}} </small></span>
+						</h5>
+						<p class="card-text">{{product.name}}</p>
+						<div class="card-bottom">
+							{%if product.weight_per_pack < 1000 %}
+							<p class="card-text">{{product.weight_per_pack}}g</p>
+							{%else%}
+							<p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
+							{% endif %}
+
+							<a href="{% url 'add_to_cart' product_id=product.id %}">
+								<img src="{% static '/image/shopping-cart.svg' %}"/>
+								<p class="card-text"><small class="text-muted">Add to Cart</small></p>
+							</a>
+						</div>
+					</div>
+			</div>
+			{%endfor%}
+
+		</div>
+		<!--end deck last-->
+	</div>
+	<!--end row last-->
 </section>
 {%endblock%}

@@ -13,7 +13,7 @@ body {
     font-family: 'Bitter', serif;
 }
 
-.btn-cta{
+.btn-general{
     background-color: #936a39;
     color: oldlace;
     justify-self: center;
@@ -32,6 +32,10 @@ body {
 }
 
 .card-bottom{
+    align-self: end;
+}
+
+.card-footer{
     align-self: end;
 }
 
@@ -111,10 +115,6 @@ h3.title-background{
 
 .product-container{
     display: grid;
-}
-
-.product-info{
-    height: 65%;
 }
 
 .product-weight{

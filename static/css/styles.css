@@ -97,6 +97,10 @@ h3.title-background{
     text-decoration: line-through;
 }
 
+span.yellow{
+    background-color: yellow;
+}
+
 #update-form{
     margin-top: 20px
 }

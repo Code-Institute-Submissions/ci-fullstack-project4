@@ -148,7 +148,7 @@ is used for body and in paragraph tags. Google Font Delius Swash Caps is used in
 11. [Font Awesome](https://fontawesome.com/) Font Awesome Icons are used in this project to give illustrations to some edit and 
 delete buttons.
 
-Django Libraries
+### Django Libraries
 1. [Django-AllAuth](https://django-allauth.readthedocs.io/en/latest/overview.html) is a Django Library that manages authentication, 
 registration, account management as well as 3rd party (social) account authentication 
 2. [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/) is Django package that provides DRY Django Forms.

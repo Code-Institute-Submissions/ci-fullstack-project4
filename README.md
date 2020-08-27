@@ -74,6 +74,8 @@ by the user.
 6. Users will be able to purchase new food (add to cart) the food that is expired direct from their storage view.
 
 ## Wireframes
+The basic wireframe for this project is drawn using AdobeXD. The wireframe can be found in the documents folder in pdf format or direct
+link [here]().
 
 ## E-grocery Shop Features
 ### Index/Home page

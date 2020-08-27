@@ -235,5 +235,5 @@ e. Shopping Cart Page
     upon page reload, user will again see the same expiry date alert message.
     
 
-
+## Mobile Responsiveness
 

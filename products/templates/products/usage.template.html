@@ -6,8 +6,8 @@
 {%block content%}
 
 {% if perms.products.add_usage %}
-<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_usage_route' %}" role="button"
-	data-toggle="tooltip" data-placement="bottom" title="Add Usage">+</a>
+<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_usage_route' %}" role="button" data-toggle="tooltip"
+	data-placement="bottom" title="Add Usage">+</a>
 {% endif %}
 
 
@@ -28,18 +28,20 @@
 	</div>
 
 	<!-- Modal -->
-	<div class="modal fade" id="deleteModal-{{usage.id}}" tabindex="-1" role="dialog"
-		aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal fade" id="deleteModal-{{usage.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this product usage information?</h5>
+					<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this product usage information?
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                          <span aria-hidden="true">&times;</span>
                         </button>
 				</div>
 				<div class="modal-body">
-					<p>Deleting a product usage information will remove it permanently. This action cannot be undone.</p>
+					<p>Deleting a product usage information will remove it permanently. This action cannot be undone.
+					</p>
 				</div>
 				<div class="modal-footer">
 					<form action="{%url 'delete_usage_route' pk=usage.id%}" method="POST">

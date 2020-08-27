@@ -31,6 +31,10 @@ body {
     border-radius: 20px;
 }
 
+.card-bottom{
+    align-self: end;
+}
+
 .count-text{
     font-size: 1rem;
 }
@@ -54,6 +58,14 @@ div.jumbotron.jumbotron-fluid.mart {
 .floating-btn{
     border-radius: 25px;
     margin-bottom: 10px;
+}
+
+.fourzerofour{
+    background-image: url('/static/image/tomato-shopping.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 
 .hero-unit{
@@ -95,6 +107,18 @@ h3.title-background{
 
 .original-price{
     text-decoration: line-through;
+}
+
+.product-container{
+    display: grid;
+}
+
+.product-info{
+    height: 65%;
+}
+
+.product-weight{
+    font-size: 0.9rem;
 }
 
 span.yellow{

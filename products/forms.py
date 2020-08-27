@@ -21,7 +21,8 @@ class ProductForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search = forms.CharField(max_length=100, required=False)
+    search = forms.CharField(max_length=100, required=False,
+                             help_text = "e.g rice")
     min_price = forms.DecimalField(
         max_digits=10, decimal_places=2, required=False, help_text="e.g. 0.30")
     max_price = forms.DecimalField(

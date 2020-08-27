@@ -41,18 +41,16 @@ Cloudberry Grocer Directory
 	</div>
 	<!--end row-->
 	<div class="row mb-3 row-cols-12">
-		<div class="card-deck">
+		<div class="card-deck mt-5">
 			<!--startdeck-->
 			{% endif %}
-
-
 
 
 			<div class="card col-md-2">
 				<a href="{% url 'product_detail_route' pk=product.id %}">
 					<img src="{{product.image}}" class="card-img-top rounded" alt="product-image">
                 </a>
-					<div class="card-body">
+					<div class="card-body product-container">
 						
                         {%if product.multiplier != 1.0 %}
                         <h5 class="card-title">${{product.get_current_price|floatformat:2}}</h5>
@@ -61,12 +59,12 @@ Cloudberry Grocer Directory
                         <h5 class="card-title">${{product.root_price|floatformat:2}}</h5>
                         {% endif %}
 						<p class="card-text">{{product.name}}</p>
+                        <div class="card-bottom">
                         {%if product.weight_per_pack < 1000 %}
 						<p class="card-text">{{product.weight_per_pack}}g</p>
                         {%else%}
                         <p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
                         {% endif %}
-						<div>
                          <a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
                          <span class="d-inline-flex">
                          <img src="{% static '/image/shopping-cart.svg' %}"/>

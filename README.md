@@ -161,8 +161,134 @@ to MySQL but it has an object oriented database model which are directly support
 A UML diagram to illustrate the relationship between models is drawn and shown [here](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/UML.pdf)
 
 ## Testing
-Due to the shortage in time, testing is for this project is done manually:
-As the testing write-up is quite long, the details of testing is documented in [Testing.md](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/Testing.md)
+Due to the shortage in time, testing is for this project is done manually. The details of testing is documented in 
+[Testing.md](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/Testing.md)
 
+## Deployment
+### Running the project locally.
+This project is build using Gitpod.
+The steps I went through to run the project locally are as follows:
 
+1. Install the gitpod extensions for the local machine browser.
+2. Sign up for a github account and login.
+3. Sign up for a gitpod account and link it to github account.
+4. Go to the personal github pages and start a new repository using the 
+[Code Institute Gitpod Full Template](https://github.com/Code-Institute-Org/gitpod-full-template)
+5. The project folder will be available on the personal github page repository.
+6. At the top right of the personal repository, there is a green coloured Gitpod button like the picture below:
+![Gitpod Button]()
+7. Click on the Gitpod link to open up the development environment for this project in Gitpod.
+8. Once the project has fully loaded in the browser, a Visual Studio Code-like editor with a terminal will be seen.
+9. In the Coding environment terminal, install the following requirements:  
+    a. pip3 install django==2.2.14  
+    b. pip3 install django-allauth  
+    c. pip3 install django-crispy-forms
+10. Set up the environment variables as follows:  
+    a. Create a .env file  
+    b. Create a .gitignore file to list the names of files to be omitted from git.  
+    c. In the .env file, place the Django Secret Key, and the Stripe Publishable Key, Stripe Secret Key and Stripe Endpoint Secret.  
+    d. The initial coding is done using SQLite. On deploy after obtaining the database url, the production database url is to be 
+    inserted into the .env file too.
+11. Generate the requirements.txt file with the following commands typed into the terminal:
+```console
+$ pip3 freeze --local > requirements.txt
+```
+12. Setting up Django  
+a. To start a project, the following command is keyed into the terminal:
+```console
+$ django-admin startapp `<project_name>` .
+```
+b. To start a new app under this project, the following command is keyed into the terminal:
+```console
+$ django-admin startapp `<app_name>`
+```
+c. To setup the database programmatically via Django:
+```console
+$ python3 manage.py migrate
+```
+d. To create migration files for the database:
+```console
+$ python3 manage.py makemigrations
+```
+e. To create superuser:
+```console
+$ python3 manage.py createsuperuser
+```
 
+13. Data is populated manually via the admin interface or via the written codes, depending on the website design.  
+
+14. Finally, the website pages are served by typing the below into the console:
+```console
+$ python3 manage.py runserver 8080
+```
+
+## Deployment on Heroku
+1. Install the following dependencies via the terminal:
+```console
+$ pip3 install gunicorn
+$ pip3 install psycopg2
+$ pip3 install Pillow
+$ pip3 install whitenoise
+$ pip3 install dj_database_url
+```
+
+2. Add whitenoise to the middleware. White noise is for helping Django to serve static files in production.
+```
+MIDDLEWARE = [
+.....
+'whitenoise.middleware.WhiteNoiseMiddleware'
+]
+```
+
+3. Sign up for Heroku account
+4. Login Heroku in the terminal
+
+```console
+$ heroku login -i
+
+```
+
+5. Type in the below to create a heroku app, where `<the_name_of_the_project>` is the name of the project to be deployed.  
+
+```console
+$ heroku create <name_of_the_project>
+
+```
+
+6. then create a remote repository by typing in 
+
+```console
+$ git remote -v
+```
+
+7. Create a Procfile with the content "web gunicorn `<name of the project>`.wsgi:application
+8. Update the allowed host in settings.py to the newly created heroku app domain name.
+9. Freeze all project dependencies by keying in to the terminal 
+
+```console
+$ pip3 freeze --local > requirements.txt 
+```
+10. Add STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+11. Finally push the project to git as below:
+
+```console
+$ git add.
+$ git commit -m <deployment message>
+$ git push heroku master
+```
+
+## Setting Up the Database for Production.
+1. Add import dj_database_url to settings.py
+2. Change the databases setting in settings.py to get the default database url from env variable as below:
+```
+DATABASES = {'default': dj_database_url.parse(os.environ["DATABASE_URL"])}
+```
+3. Run database migrate again to setup the database:
+```console
+$ python3 manage.py migrate
+```
+4. Setup superuser account and populate the database with data like the steps described in section "Running the project locally
+12c-12e."
+
+## Acknowledgements and Credits

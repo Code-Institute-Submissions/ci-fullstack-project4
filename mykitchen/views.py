@@ -444,7 +444,8 @@ def add_storage_location(request, household_id):
                 # if request = GET
                 return render(
                     request, 'mykitchen/input_storage.template.html', {
-                        'form': new_storage_form
+                        'form': new_storage_form,
+                        'household': household
                             })
         elif member:
             if member.household == household:
@@ -465,7 +466,8 @@ def add_storage_location(request, household_id):
                 else:  # if request = GET
                     return render(request,
                                   'mykitchen/input_storage.template.html', {
-                                    'form': new_storage_form
+                                    'form': new_storage_form,
+                                    'household': household
                                     })
             else:
                 raise PermissionDenied
@@ -520,14 +522,16 @@ def update_storage_location(request, household_id, storage_id):
                     # if form is not valid
                     return render(request,
                                   'mykitchen/update_storage.template.html', {
-                                   'form': edit_storage_form
+                                   'form': edit_storage_form,
+                                   'household': household
                                   })
             else:
                 edit_storage_form = (
                     StorageLocationForm(instance=storage_to_update))
                 return render(request,
                               'mykitchen/update_storage.template.html', {
-                               'form': edit_storage_form
+                               'form': edit_storage_form,
+                               'household': household
                                     })
         elif member:
             if member.household == household:
@@ -551,7 +555,8 @@ def update_storage_location(request, household_id, storage_id):
                         return render(
                             request,
                             'mykitchen/update_storage.template.html', {
-                             'form': edit_storage_form
+                             'form': edit_storage_form,
+                             'household': household
                              })
                 else:
                     edit_storage_form = (
@@ -559,7 +564,8 @@ def update_storage_location(request, household_id, storage_id):
                     return render(
                         request,
                         'mykitchen/update_storage.template.html', {
-                         'form': edit_storage_form
+                         'form': edit_storage_form,
+                         'household': household
                         })
             else:
                 raise PermissionDenied
@@ -710,12 +716,14 @@ def add_food_item(request, household_id, storage_id):
                 else:
                     return render(request,
                                   'mykitchen/input_food.template.html', {
-                                   'form': food_form
+                                   'form': food_form,
+                                   'household': household
                                   })
             else:
                 food_form = FoodItemForm()
                 return render(request, 'mykitchen/input_food.template.html', {
-                    'form': food_form
+                    'form': food_form,
+                    'household': household
                 })
         elif member:
             if member.household == household:
@@ -735,13 +743,15 @@ def add_food_item(request, household_id, storage_id):
                     else:
                         return render(request,
                                       'mykitchen/input_food.template.html', {
-                                       'form': food_form
+                                       'form': food_form,
+                                       'household': household
                                       })
                 else:
                     food_form = FoodItemForm()
                     return render(request,
                                   'mykitchen/input_food.template.html', {
-                                   'form': food_form
+                                   'form': food_form,
+                                   'household': household
                                   })
             else:
                 raise PermissionDenied
@@ -794,12 +804,14 @@ def edit_food_item(request, household_id, storage_id, food_id):
                 else:
                     return render(request,
                                   'mykitchen/update_food.template.html', {
-                                   'form': food_form
+                                   'form': food_form,
+                                   'household': household
                                   })
             else:
                 food_form = FoodItemForm(instance=food_to_edit)
                 return render(request, 'mykitchen/update_food.template.html', {
-                    'form': food_form
+                    'form': food_form,
+                    'household': household
                 })
         elif member:
             if member.household == household:
@@ -820,13 +832,15 @@ def edit_food_item(request, household_id, storage_id, food_id):
                     else:
                         return render(request,
                                       'mykitchen/update_food.template.html', {
-                                       'form': food_form
+                                       'form': food_form,
+                                       'household': household
                                       })
                 else:
                     food_form = FoodItemForm(instance=food_to_edit)
                     return render(request,
                                   'mykitchen/update_food.template.html', {
-                                   'form': food_form
+                                   'form': food_form,
+                                   'household': household
                                   })
             else:
                 raise PermissionDenied

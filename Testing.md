@@ -143,6 +143,8 @@ e. Shopping Cart Page
         membership.  
     * On form validated and successful submission, User will be directed to the MyKitchen Dashboard/Infoboard. They will see  
         a update success message. Your household profile `<household name>` has been edited on `<date>`.
+    * Users who are removed from household membership will no longer have access to that specific household's MyKitchen App.
+    * Users who are added to the household will gain access to that specific household's MyKitchen App.
 
     iv. Deleting Home Profile  
     * On the view home profile page, household owner will be able to see a delete button in red, just below the household profile
@@ -152,6 +154,7 @@ e. Shopping Cart Page
     message.
     * User will be deregistered of all household and will again see the message to tell him/her to register and link household
     members again on the MyKitchen Dashboard.
+    * All members belonging to the deleted household will be removed from the deleted household membership.
 
     3. Storage CRUD Functionality
     i. View Storage
@@ -163,4 +166,64 @@ e. Shopping Cart Page
 
     ii. Add Storage
     * On clicking the add storage button, User will be redirected to Input Storage Form.
-    * If any fields are blank, form will not validate and submit. Error message is encountered.
+    * If any storage name field is blank, form will not validate and submit. Error message is encountered to inform user to fill
+    in the field.
+    * If invalid characters is in the storage temperature field, form will not validate as this is an integer only field.
+    * Form will validate and submit if storage temperature is blank as this field is optional for user.
+    * If all fields are valid, and submit button is clicked, user will be redirected to the MyKitchenDashboard Page and a
+    storage create success message can be seen.
+    
+    iii. Edit Storage
+    * On clicking the edit storage button, User will be redirected to Update Storage Details Form.
+    * If Storage Name is blank, form will not validate. Error message is encountered to inform user to fill in the field.
+    * Form will not validate if invalid characters is in the storage temperature field.
+    * Form will validate if storage temperature is blank as this field is optional.
+    * If all fields are valid, and submit button is clicked, user will be redirected to the MyKitchenDashboard Page and a
+    storage update success message can be seen.
+
+    iv. Delete Storage
+    * On clicking the delete storage button, a popup modal will show up to ask to confirm deletion.
+    * If confirm button is clicked, the storage will be deleted.
+    * User will be redirected to MyKitchenDashboard Page and will see the delete success message.
+
+    4. Food Item CRUD Functionality  
+    i. View Storage Content
+    * Any household member or owner can add food items to their household storage.
+    * Storage Content View is access via the Storage Image in the View Storage page.
+    * On clicking the link, household members will be able to see the list of food items they have added for their storage.
+    * Above the list, there is a floating button to add food items. 
+    * Beside each food item information, there is 1 edit button in blue and delete button in red.
+
+    ii. Add Food Item
+    * On clicking the add food item button, User will be redirected to Input Food Form.
+    * If food field, quantity field, threshold and expiry date fields are blank, form will not validate and submit. 
+    Error message is encountered to inform user to fill in the form fields.
+    * If invalid characters is in the quantity and threshold field, form will not validate as these are integer only field.
+    * If all fields are valid, form will validate and submit.
+    * On successful form validation and submission, user will be redirected to the MyKitchenDashboard Page and a
+    food item add success message can be seen.
+    
+    iii. Edit Food Item
+    * On clicking the edit food button, User will be redirected to Update Food Form.
+    * If food field, quantity field, threshold and expiry date fields are blank, form will not validate and submit. 
+    Error message is encountered to inform user to fill in the form fields.
+    * If invalid characters is in the quantity and threshold field, form will not validate as these are integer only field.
+    * If all fields are valid, form will validate and submit.
+    * On successful form validation and submission, user will be redirected to the MyKitchenDashboard Page and a
+    food item update success message can be seen.
+
+    iv. Delete Food Item
+    * On clicking the delete storage button, a popup modal will show up to ask to confirm deletion.
+    * If confirm button is clicked, the food item will be deleted.
+    * User will be redirected back to MyKitchenDashboard Page and will see a food item delete success message.
+
+    5. Additional Dashboard Functionality
+    * Upon successful creation of storage and food items, household users should see a storage summary (blue) on the 
+    MyKitchenDashboard Page.
+    * The storage summary will list the storage name with the number of food items inside.
+    * Below the storage summary, if any of the household members add or edit a food item with an expiry date that has hit the 
+    threshold set, he/she should see a persistent alert message informing them of the food expiry status.
+    * To illustrate it better, please see the below image.
+    
+
+

@@ -4,6 +4,20 @@
 
 
 {%block title%} Input Food Items Form {%endblock%}
+
+{%block nav%}
+    {% if request.user == household.owner %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
+    </li>
+    {% endif %}
+    {% if household %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+      </li>
+    {%endif %}
+{%endblock%}
+
 {%block content%}
     <h3>MyKitchen Input Food Form</h3>
     <form method="POST">

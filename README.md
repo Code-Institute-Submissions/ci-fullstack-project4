@@ -176,7 +176,7 @@ The steps I went through to run the project locally are as follows:
 [Code Institute Gitpod Full Template](https://github.com/Code-Institute-Org/gitpod-full-template)
 5. The project folder will be available on the personal github page repository.
 6. At the top right of the personal repository, there is a green coloured Gitpod button like the picture below:
-![Gitpod Button]()
+![Gitpod Button](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/readme_images/Gitpod_link.png)
 7. Click on the Gitpod link to open up the development environment for this project in Gitpod.
 8. Once the project has fully loaded in the browser, a Visual Studio Code-like editor with a terminal will be seen.
 9. In the Coding environment terminal, install the following requirements:  
@@ -292,3 +292,43 @@ $ python3 manage.py migrate
 12c-12e."
 
 ## Acknowledgements and Credits
+### E-grocery store images (Products App)
+1. Jumbotron Image : [Photo by Lukas from Pexels](https://www.pexels.com/photo/carrots-food-fresh-freshness-616404/)
+2. E-grocery store logo: [Designed by macrovector / Freepik](http://www.freepik.com)
+3. Category Images:  
+a. Breakfast: [Banner vector by Vextok](https://www.freepik.com/vectors/banner)  
+b. Biscuits and Cookies: [by Macrovector](https://www.freepik.com/vectors/food)  
+c. Grains and Dried Beans: [by Macrovector](https://www.freepik.com/vectors/food)  
+d. Nuts: [by Macrovector](https://www.freepik.com/vectors/food)  
+e. Baking Ingredients: [by Macrovector](https://www.freepik.com/vectors/food)  
+f. Fresh Images: [by Macrovector](https://www.freepik.com/vectors/food)  
+4. Product Images: 90% of the product images are taken from [Fairprice](https://www.fairprice.com.sg/)
+5. Wagyu-Beef-Ribeye Image: [TheNewGrocer](https://thenewgrocer.com/products/wagyu-aus-beef-ribeye-350g?)
+6. Mix Salad: [Taylor Farms](https://www.taylorfarms.com/products/)
+7. Classic Mix Salad: [HappyFresh](https://www.happyfresh.my/isetan-klcc/products/genting-garden-classic-mixed-salad-with-wild-rocket-384960/)
+8. Shopping Cart Icon and Empty Cart Image [iconixar](https://www.flaticon.com/free-icon/shopping-cart_3225200)
+9. Thank you Image [Freepik](https://www.flaticon.com/free-icon/thank-you_1145941)
+
+### MyKitchen App images
+1. Jumbotron Image: [Freepik](https://www.freepik.com/free-vector/food-background-with-flat-design_2422082.htm)
+2. Storage Images:  
+a. Cabinet [Freepik](http://www.freepik.com/) 
+b. Cupboard  [Good Ware](https://www.flaticon.com/free-icon/cupboard_2236181?term=cupboard&page=1&position=2)
+c. Counter(-Top) [Payungkead](https://www.flaticon.com/free-icon/kitchen_1963066?term=kitchen%20cabinet&page=4&position=41)  
+d. Freezer [Creaticca Creative Agency](https://www.flaticon.com/authors/creaticca-creative-agency)
+e. Refridgerator [Good Ware](https://www.flaticon.com/free-icon/fridge_2235754?term=fridge&page=1&position=5)
+f. Others [Freepik](https://www.flaticon.com/authors/freepik)
+
+### Data
+1. Some of the product prices and product data are taken from [Fairprice](https://www.fairprice.com.sg/)
+2. Some of the product data is keyed in randomly by me.
+
+### Technical Related Attribution and Acknowledgement:
+1. My teachers in Trent Global College for teaching me programming.
+2. The college teaching assistant: John for his valuable feedback and suggestion for this project.
+3. [Django Read the Docs](https://docs.djangoproject.com/en/2.2/)
+4. [StackOverflow](https://stackoverflow.com/) for various post shared by the ever brilliant community of Python and Django 
+fanatics out there.
+
+## Disclaimer
+Any content and images used on this website is purely for personal development and educational purpose. They are not meant for profit or for income purposes.

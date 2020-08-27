@@ -110,3 +110,10 @@ span.yellow{
   vertical-align: top;
   margin-left: -10px; 
 }
+
+@media (max-width: 767px) {
+h1.hero-text{
+    margin-top: 0;
+    justify-self: center
+}
+}

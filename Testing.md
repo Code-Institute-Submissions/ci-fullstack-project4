@@ -107,8 +107,9 @@ e. Shopping Cart Page
     ii. The functionality section with the shopping cart page is the same as for Anonymous User.
 
 ### Testing for MyKitchen App.
+
 #### Anonymous User  
-    i. Anonymous Users will not see the link to MyKitchen in the navbar. If the user tries to type in the url, he/she will be 
+    1. Anonymous Users will not see the link to MyKitchen in the navbar. If the user tries to type in the url, he/she will be 
     directed to the login page. 
 
 #### Authenticated Users
@@ -223,14 +224,14 @@ e. Shopping Cart Page
     * The storage summary will list the storage name with the number of food items inside.
     * Below the storage summary, if any of the household members add or edit a food item with an expiry date that has hit the 
     threshold set, he/she should see a persistent alert message (yellow) informing them of the food expiry status.
-    * To illustrate this clearly, please see the below image.
-    ![Additional Dashboard Screenshot]()
-    * On the right of the alert message, there is a bin icon to allow quick access for the user to delete the food item from 
+    * To illustrate this clearly, please see the below image:  
+   ![Additional Dashboard Screenshot](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/readme_images/Addtional_Dashboard_Screenshot.png)   
+   * On the right of the alert message, there is a bin icon to allow quick access for the user to delete the food item from 
     storage. A modal will pop up to confirm the food item deletion from the storage location. 
-    * On confirm, the form will submit to delete the food item from storage. User will see the delete food item success message
+   * On confirm, the form will submit to delete the food item from storage. User will see the delete food item success message
     on MyKitchenDashboard.
-    * On the right of the alert message after the bin icon, user will be able to see an "X".
-    * By clicking it, user will be able to dismiss the expiry date alert message. However the alert message is persistent and 
+   * On the right of the alert message after the bin icon, user will be able to see an "X".
+   * By clicking it, user will be able to dismiss the expiry date alert message. However the alert message is persistent and 
     upon page reload, user will again see the same expiry date alert message.
     
 

@@ -75,7 +75,7 @@ by the user.
 
 ## Wireframes
 The basic wireframe for this project is drawn using AdobeXD. The wireframe can be found in the documents folder in pdf format or direct
-link [here]().
+link [here](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/Project4_Wireframe.pdf).
 
 ## E-grocery Shop Features
 ### Index/Home page

@@ -158,3 +158,9 @@ e. Shopping Cart Page
     * Any household member or owner can add storage to their MyKitchen app.
     * Storage View is access via the navbar menu item "Storage"
     * On clicking the link, household members will be able to see the list of storage they have added for their household.
+    * Above the list, there is a floating button to add/create storage. 
+    * Beside each storage information, there is 1 edit button in blue and delete button in red.
+
+    ii. Add Storage
+    * On clicking the add storage button, User will be redirected to Input Storage Form.
+    * If any fields are blank, form will not validate and submit. Error message is encountered.

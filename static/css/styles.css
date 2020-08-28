@@ -61,6 +61,16 @@ input.btn-general:hover {
   align-self: end;
 }
 
+.checkout-container{
+    display: grid;
+}
+
+.checkout-text{
+    display: grid;
+    justify-items: center;
+}
+
+
 /* My Kitchen Dashboard Storage Summary*/
 .count-text {
   font-size: 1rem;
@@ -150,6 +160,7 @@ i.fab.fa-github {
 /*Checkout cancelled page*/
 i.far.fa-times-circle{
     font-size: 4rem;
+    justify-self: center
 }
 
 /* MyKitchen storage image */

@@ -7,7 +7,7 @@ Manual Test.
     ![Anon User Screenshot](https://github.com/Oraclebun/ci-fullstack-project4/blob/master/documents/readme_images/Test_Home_AnonUser.jpg)  
     ii. The navbar has the following links : Home, Directory, Product Category, Sign Up, Login and Shopping Cart Icon.  
     iii. The index page shows all the features mentioned in the Features Section.  
-    iv. On clicking the Call To Action Button, the page is directed to the Current Offers Section.
+    iv. On clicking the Call To Action Button, the page is directed to the Current Offers Section.  
     v. On the index page, there are product shown in cards in the Current Offers Section. In every card, there is a shopping-cart
        icon, that can be clicked. Upon clicking, Users can see the cart number being updated on the top right corner of the navbar.
        The cart number shows the number of items in the shopping cart.  
@@ -33,9 +33,9 @@ a. Index Image Link
     v. Click on Baking Ingredients image, will direct the user to the view Product by Baking Ingredients Page.  
         (/products/baking-ingredients)  
     vi. Click on Fresh Produce image, will direct the user to the view Product by Fresh Produce Page.  
-        (/products/fresh-produce)
-b. Navbar Link for Product categories  
-    i. All the above test stated above works exactly the same way for the navbar dropdown links in Product Category.
+        (/products/fresh-produce)  
+        b. Navbar Link for Product categories  
+        i. All the above test stated above works exactly the same way for the navbar dropdown links in Product Category.
 
 4. Other NavBar Links  
     i. Click on the SignUp link will redirect the User to the Sign Up page.  
@@ -46,22 +46,22 @@ b. Navbar Link for Product categories
     i. If shopping cart is empty, user will see an image of an empty shopping cart.  
     ii. If items have already been added to cart, user will see the list of added items on the left and the billing summary on the
         right.  
-    iii. On the right of every item in the shopping cart, there are 3 boxes and 1 bin icon.
-    iv. The bin icon, when clicked will remove the item immediately from the shopping cart.
-    v. The 3 boxes in a row is actually a "-" input, a number and a "+" input.
+    iii. On the right of every item in the shopping cart, there are 3 boxes and 1 bin icon.  
+    iv. The bin icon, when clicked will remove the item immediately from the shopping cart.  
+    v. The 3 boxes in a row is actually a "-" input, a number and a "+" input.  
     vi. When the "-" is clicked, the number shown in the input after it will decrease.
     vii. When the "+" is clicked, the number shown in the input before it will increase.
     viii. When either of the "-" or "+" is clicked, the billing summary will update accordingly to the number of items in the  
           shopping list.
     ix. Users will be able to see a blue Checkout Button, when clicked, will link to Stripe Payment Page.
 
-6. Stripe Payment Page
-    i. There will be an input to fill in the e-mail, the card information, the name on the card and the country or region the
-        user is in. The test credit card number used is Default U.S. card—4242 4242 4242 4242. Test payment is done with any
-        three-digit CVC code and an expiration date in the future.  
-    ii. On payment success, user will be directed to the [checkout success page](https://oraclebun-project4.herokuapp.com/checkout/success)  
-    iii. On the checkout success page, there will be a blue button "Continue Shopping".
-    iv. When this button is clicked, User will be directed to the Home Page again.
+6. Stripe Payment Page  
+i. There will be an input to fill in the e-mail, the card information, the name on the card and the country or region the  
+user is in. The test credit card number used is Default U.S. card—4242 4242 4242 4242. Test payment is done with any  
+three-digit CVC code and an expiration date in the future.    
+ii. On payment success, user will be directed to the [checkout success page](https://oraclebun-project4.herokuapp.com/checkout/success)    
+iii. On the checkout success page, there will be a blue button "Continue Shopping".  
+iv. When this button is clicked, User will be directed to the Home Page again.
 
 
 ### Testing with Permission Access User (Grocery Staff) or SuperUser (Admin).
@@ -109,18 +109,18 @@ e. Shopping Cart Page
 ### Testing for MyKitchen App.
 
 #### Anonymous User  
-    1. Anonymous Users will not see the link to MyKitchen in the navbar. If the user tries to type in the url, he/she will be 
-    directed to the login page. 
+1. Anonymous Users will not see the link to MyKitchen in the navbar. If the user tries to type in the url, he/she will be  
+directed to the login page. 
 
-#### Authenticated Users
-    1. Dashboard/ Infoboard.  
+#### Authenticated Users  
+1. Dashboard/ Infoboard.  
     i. When an authenticated user is logged in, he/she will be able to see MyKitchen link in the navbar menu.  
     ii. On entering the homepage, the user will see a message on the dashboard to register the household and link other  
     grocery shop customers/users who are household members.  
     iii. In the navbar, the user will see the menu item : Back to Shop, MyKitchen Home, Register Home Profile, and Logout links.    
     iv. The user will also see a shopping cart in the navbar.  
 
-    2. Home Profile Functionality  
+2. Home Profile Functionality  
     i. Registering Home Profile  
     * With an empty household name input, if submit button is clicked, form will not submit and user will see an error message to
         request user to fill up the form.
@@ -157,7 +157,7 @@ e. Shopping Cart Page
     members again on the MyKitchen Dashboard.
     * All members belonging to the deleted household will be removed from the deleted household membership.
 
-    3. Storage CRUD Functionality
+3. Storage CRUD Functionality
     i. View Storage
     * Any household member or owner can add storage to their MyKitchen app.
     * Storage View is access via the navbar menu item "Storage"
@@ -187,7 +187,7 @@ e. Shopping Cart Page
     * If confirm button is clicked, the storage will be deleted.
     * User will be redirected to MyKitchenDashboard Page and will see the delete success message.
 
-    4. Food Item CRUD Functionality  
+4. Food Item CRUD Functionality  
     i. View Storage Content
     * Any household member or owner can add food items to their household storage.
     * Storage Content View is access via the Storage Image in the View Storage page.
@@ -218,7 +218,7 @@ e. Shopping Cart Page
     * If confirm button is clicked, the food item will be deleted.
     * User will be redirected back to MyKitchenDashboard Page and will see a food item delete success message.
 
-    5. Additional Dashboard Functionality
+5. Additional Dashboard Functionality
     * Upon successful creation of storage and food items, household users should see a storage summary (blue) on the 
     MyKitchenDashboard Page.
     * The storage summary will list the storage name with the number of food items inside.
@@ -236,5 +236,7 @@ e. Shopping Cart Page
     
 
 ## Mobile Responsiveness
-* Mobile Responsiveness is tested using the browser developer tool.
+* Mobile Responsiveness is tested using [mobile-friendly](https://search.google.com/test/mobile-friendly) site.
+* It is also tested using browser developer tool and all pages are mobile responsive on all mobile sizes.
+* Unfortunately due to some technical error, I am unable to test my deployed website on [amiresponsive](http://ami.responsivedesign.is/#).
 

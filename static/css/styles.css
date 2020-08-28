@@ -1,69 +1,69 @@
-
 /* All links*/
-a.nav-link,a.link{
-    color: darkslategray;
-    text-decoration: none;
+a.nav-link,
+a.link {
+  color: darkslategray;
+  text-decoration: none;
 }
 
 /*All general purpose buttons hover*/
-a.btn-general:hover{
-    color: orange;
+a.btn-general:hover {
+  color: orange;
 }
 
 /*footer text on hover*/
-a.text-footer:hover{
-    text-decoration: none;
-    color: orange;
+a.text-footer:hover {
+  text-decoration: none;
+  color: orange;
 }
 
-.base-container{
-    min-height: 100vh;
+.base-container {
+  min-height: 100vh;
 }
 
 body {
-    background-color: oldlace;
-    font-family: 'Bitter', serif;
+  background-color: oldlace;
+  font-family: "Bitter", serif;
 }
 
 /*CRUD Form Submit Buttons*/
-input.btn-general:hover{
-    color: orange;
+input.btn-general:hover {
+  color: orange;
 }
 
 /*Generic CRUD submit button color*/
-.btn-general{
-    background-color: #936a39;
-    color: oldlace;
-    justify-self: center;
+.btn-general {
+  background-color: #936a39;
+  color: oldlace;
+  justify-self: center;
 }
 
 /* Shopping Cart Item Qty (Input)*/
-.cart-qty{
-    width: 40%;
-    border-radius: 0;
-    margin-left: -1px;
-    border: 1px solid darkslategray;
+.cart-qty {
+  width: 40%;
+  border-radius: 0;
+  margin-left: -1px;
+  border: 1px solid darkslategray;
 }
 
 /* E-Grocery Product Detail Page */
-.cart-btn{
-    background-color: #ffcc66;
-    border-radius: 20px;
+.cart-btn {
+  background-color: #ffcc66;
+  border-radius: 20px;
 }
 
 /*E-Grocery Product Cards*/
-.card-bottom{
-    align-self: end;
+.card-bottom {
+  align-self: end;
 }
 
 /*E-Grocery Product Cards*/
-.card-footer{
-    align-self: end;
+.card-footer {
+  align-self: end;
 }
 
 /* My Kitchen Dashboard Storage Summary*/
-.count-text{
-    font-size: 1rem;
+.count-text {
+  font-size: 1rem;
 }
 
 /* MyKitchen Jumbotron */
@@ -72,7 +72,7 @@ div.jumbotron.jumbotron-fluid.kitchen {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 150vh;
+  height: 200vh;
 }
 
 /* E-Grocery Jumbotron */
@@ -85,133 +85,147 @@ div.jumbotron.jumbotron-fluid.mart {
 }
 
 /* all floating button*/
-.floating-btn{
-    border-radius: 25px;
-    margin-bottom: 10px;
+.floating-btn {
+  border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 /* 404 Page Image */
-.fourzerofour{
-    background-image: url('/static/image/tomato-shopping.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
+.fourzerofour {
+  background-image: url("/static/image/tomato-shopping.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 
 /*E-Grocery jumbotron div*/
-.hero-unit{
-    display: grid;
+.hero-unit {
+  display: grid;
 }
 
 /* All headers */
-h1,h2,h3,h4,h5,h6{
-    font-family: 'Poppins', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
 }
 
 /* E-Grocery jumbotron title and lead message*/
-h1.hero-text{
-    color:oldlace;
-    text-shadow: 2px 2px 2px darkslategray;
-    position: relative;
-    margin-top: 80px;
-    justify-self: center
+h1.hero-text {
+  color: oldlace;
+  text-shadow: 2px 2px 2px darkslategray;
+  position: relative;
+  margin-top: 80px;
+  justify-self: center;
 }
 
 /* E-Grocery Lead Message*/
-h3.cta{
-    color:oldlace;
-    text-shadow: 2px 2px 2px darkslategray;
-    justify-self: center;
+h3.cta {
+  color: oldlace;
+  text-shadow: 2px 2px 2px darkslategray;
+  justify-self: center;
 }
 
 /* E-Grocery category images card title */
 h5.card-title {
-    background-color: rgba(255, 250, 240, 0.7);
-    text-shadow: 3px 3px 3px floralwhite;
+  background-color: rgba(255, 250, 240, 0.7);
+  text-shadow: 3px 3px 3px floralwhite;
 }
 
 /* MyKitchen dashboard title */
-h3.title-background{
-    background-color: rgba(255, 255, 255, 0.75);
-    text-shadow: 3px 3px 3px lavender;
+h3.title-background {
+  background-color: rgba(255, 255, 255, 0.75);
+  text-shadow: 3px 3px 3px lavender;
 }
 
 /*Github icon in footer*/
-i.fab.fa-github{
-    font-size: 2rem;
+i.fab.fa-github {
+  font-size: 2rem;
 }
 
 /* MyKitchen storage image */
-.img-storage{
-    width: 70%;
+.img-storage {
+  width: 70%;
 }
 
 /* E-grocery brand name */
-.logo{
-    font-family: 'Delius Swash Caps', cursive;
-    color: darkslategray;
+.logo {
+  font-family: "Delius Swash Caps", cursive;
+  color: darkslategray;
 }
 
 /* Mykitchen view-storage, view-storage-content*/
-.mobile-content{
-    display:flex; 
+.mobile-content {
+  display: flex;
 }
 
 /*E-Grocery Product Cards*/
-.original-price{
-    text-decoration: line-through;
+.original-price {
+  text-decoration: line-through;
 }
 
 /*Footer*/
-.page-footer{
-    background-color: #936a39;
+.page-footer {
+  background-color: #936a39;
 }
 
 /* E-Grocery Product Cards*/
-.product-container{
-    display: grid;
+.product-container {
+  display: grid;
 }
 
 /*E-Grocery Product Cards*/
-.product-weight{
-    font-size: 0.9rem;
+.product-weight {
+  font-size: 0.9rem;
 }
 
-span.yellow{
-    background-color: yellow;
+/*Delete Form for Household Profile*/
+span.yellow {
+  background-color: yellow;
 }
 
 /*footer text*/
-.text-footer{
-    color: oldlace;
-    text-decoration: none;
+.text-footer {
+  color: oldlace;
+  text-decoration: none;
 }
 
-#update-form{
-    margin-top: 20px
+#update-form {
+  margin-top: 20px;
 }
 
 /*Shopping Cart Icon in NavBar*/
-#qty-badge{
+#qty-badge {
   border-radius: 9px;
   vertical-align: top;
-  margin-left: -10px; 
+  margin-left: -10px;
 }
 
 @media (max-width: 767px) {
-h1.hero-text{
+  h1.hero-text {
     margin-top: 0;
-    justify-self: center
-}
+    justify-self: center;
+    font-size: 2.7rem;
+  }
 
-.mobile-content{
-    display:block; 
-}
+  /* MyKitchen dashboard title */
+  h3.title-background {
+    font-size: 2.5rem;
+  }
+
+/* Mykitchen view-storage, view-storage-content*/
+  .mobile-content {
+    display: block;
+  }
 }
 
 @media (min-width: 992px) {
-.img-storage{
+/* Mykitchen view-storage*/
+  .img-storage {
     width: 70%;
-}
+  }
 }

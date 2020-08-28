@@ -73,7 +73,7 @@ def checkout_success(request):
 
 
 def checkout_cancel(request):
-    return HttpResponse("checkout cancelled")
+    return render(request, "checkout/checkout_cancelled.template.html")
 
 
 @csrf_exempt

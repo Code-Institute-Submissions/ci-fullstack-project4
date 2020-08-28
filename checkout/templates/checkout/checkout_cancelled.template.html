@@ -3,13 +3,11 @@
 
 {% block content %}
 <div class="card mb-3">
-	<img src="{% static '/image/thank-you.svg' %}" class="img-fluid" alt="..."/>
+    <i class="far fa-times-circle"></i>
 	<div class="card-body align-self-center">
-		<h3 class="card-title">Your order #{{invoice_num}} has been successfully paid.</h3>
+		<h3 class="card-title">The checkout has been cancelled.</h3>
 		<div class="row">
 			<div class="col-8">
-				<p class="card-text"> Please check your e-mail for the order confirmation shortly. Keep it for your
-					record.</p>
 				<a class="btn btn-general" href="{%url 'home_page_route' %}" role="button">Continue Shopping</a>
 			</div>
 			<div class="col-4">

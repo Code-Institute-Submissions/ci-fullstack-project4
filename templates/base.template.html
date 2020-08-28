@@ -36,7 +36,7 @@
 </svg>
 </span>
   </button>
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="{% url 'home_page_route' %}">
   <img src="{%static '/image/logo.png' %}"/>
   <span class="logo">Cloudberry Grocer</span>
   </a>
@@ -130,4 +130,85 @@
     {%block js%}
     {%endblock%}
   </body>
+
+  <!-- Footer -->
+<footer class="page-footer font-small pt-4">
+
+  <!-- Footer Links -->
+  <div class="container-fluid text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-5 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase text-footer">Disclaimer:</h5>
+        <p class="text-footer">All content and images and data are only for educational and personal development purpose. The developer of this project
+        is not liable for any mis-information that is present in this project</p>
+        <a href="https://github.com/Oraclebun/ci-fullstack-project4" class="text-footer"><i class="fab fa-github"></i>A Project by Oraclebun</a>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase text-footer">Our Store</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!" class="text-footer">About Us</a>
+          </li>
+          <li>
+            <a href="#!" class="text-footer">Store Locator</a>
+          </li>
+          <li>
+            <a href="#!" class="text-footer">Our Team</a>
+          </li>
+          <li>
+            <span class="text-footer"> Contact Us </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="mailto:cloudberry@django.com?Subject=Hello" class="text-footer"><span><i class="far fa-envelope"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="tel:01-12345678" class="text-footer"><span><i class="fas fa-phone-alt"></i></span></a>
+          </li>
+        </ul>
+
+      </div>
+      
+      <!-- Grid column -->
+    
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase text-footer">View Other Projects</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="https://oraclebun.github.io/ci-frontend-project1/" class="text-footer">Project1</a>
+          </li>
+          <li>
+            <a href="https://oraclebun.github.io/ci-interactive-project2/" class="text-footer">Project2</a>
+          </li>
+          <li>
+            <a href="https://oraclebun-project3.herokuapp.com/" class="text-footer">Project3</a>
+          </li>
+        </ul>
+
+      </div>
+
+  </div> <!--End Row-->
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3 text-footer">© 2020 Cloudberry Developer
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 </html>

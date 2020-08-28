@@ -34,6 +34,7 @@ MyKitchen Storage Content
 {%for food in stored_food%}
 <div class="card mb-3">
   <div class="row no-gutters">
+    <div class="col mobile-content">
     <div class="col col-md-2 align-self-center">
       <img src="{{food.food.image}}" class="card-img" alt="...">
     </div>
@@ -62,7 +63,8 @@ MyKitchen Storage Content
         </a>
 	</div>
     </div>
-  </div>
+    </div>
+  </div> <!--end row-->
 </div>
 
 <!-- Modal -->

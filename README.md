@@ -38,11 +38,13 @@ The deployed website can be found [here](https://oraclebun-project4.herokuapp.co
 > password: testpassword123
 
 ### Account Access: How it works:
-The Staff account is for use for the e-grocery store (products) app.  
-The staff priviledge is the capability to perform CRUD for products in the supermarket.  
-The Normal Customer account is for used for the MyKitchen app.   
-The household owner is able to perform CRUD for household registration and membership in MyKitchen App.  
-All members and owner of the household are able to perform CRUD for kitchen storage and inventory.
+The Staff account is use for the e-grocery store (products) app.  
+Staff access refers to capability to perform CRUD for products in the e-grocery store.  
+Normal Customer account refers to account of normal paying customers of the e-grocery store. With the Normal Customer account, the user
+can purchase products from the e-grocery store as well as have access to MyKitchen App where they can manage their kitchen inventory.
+For Normal Customer account holder, if the user chooses to use the MyKitchen App, the following illustrate more clearly the user's role:  
+- The household owner is able to perform CRUD for household registration and membership in MyKitchen App.  
+- All members and owner of the household are able to perform CRUD for kitchen storage and inventory.
 
 ## UX/UI
 ### Overview and Colour

@@ -33,9 +33,10 @@ MyKitchen Storage Section
 {%for store in storage%}
 <div class="card mb-3">
   <div class="row no-gutters">
-    <div class="col col-md-1 align-self-center">
+    <div class="col mobile-content">
+    <div class="col col-md-2 align-self-center">
     <a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link" data-toggle="tooltip" data-placement="bottom" title="Look Inside">
-      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="card-img" alt="storage-type image">
+      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="img-fluid img-storage" alt="storage-type image">
       </a>
     </div>
     <div class="col col-md-6">
@@ -45,14 +46,15 @@ MyKitchen Storage Section
         <p class="card-text"><small class="text-muted">Last edited by: {{store.edited_by}}</small></p>
       </div>
     </div>
-    <div class="col col-md-5 align-self-center">
+    <div class="col col-md-4 align-self-center mb-3">
     <a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}" class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{store.id}}">
      <i class="fas fa-trash-alt"></i>Delete
     </button>
     </div>
-  </div>
+    </div>
+  </div>  <!--end row-->
 </div>
 
 <!-- Modal -->

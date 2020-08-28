@@ -1,9 +1,11 @@
 
+/* All links*/
 a.nav-link,a.link{
     color: darkslategray;
     text-decoration: none;
 }
 
+/*All general purpose buttons hover*/
 a.btn-general:hover{
     color: orange;
 }
@@ -13,16 +15,19 @@ body {
     font-family: 'Bitter', serif;
 }
 
+/*CRUD Form Submit Buttons*/
 input.btn-general:hover{
     color: orange;
 }
 
+/*Generic CRUD submit button color*/
 .btn-general{
     background-color: #936a39;
     color: oldlace;
     justify-self: center;
 }
 
+/* Shopping Cart Item Qty (Input)*/
 .cart-qty{
     width: 40%;
     border-radius: 0;
@@ -30,23 +35,28 @@ input.btn-general:hover{
     border: 1px solid darkslategray;
 }
 
+/* E-Grocery Product Detail Page */
 .cart-btn{
     background-color: #ffcc66;
     border-radius: 20px;
 }
 
+/*E-Grocery Product Cards*/
 .card-bottom{
     align-self: end;
 }
 
+/*E-Grocery Product Cards*/
 .card-footer{
     align-self: end;
 }
 
+/* My Kitchen Dashboard Storage Summary*/
 .count-text{
     font-size: 1rem;
 }
 
+/* MyKitchen Jumbotron */
 div.jumbotron.jumbotron-fluid.kitchen {
   background-image: url("../image/food-background.jpg");
   background-position: center;
@@ -55,6 +65,7 @@ div.jumbotron.jumbotron-fluid.kitchen {
   height: 150vh;
 }
 
+/* E-Grocery Jumbotron */
 div.jumbotron.jumbotron-fluid.mart {
   background-image: url("../image/hero-image.jpg");
   background-position: top;
@@ -63,11 +74,13 @@ div.jumbotron.jumbotron-fluid.mart {
   height: 60vh;
 }
 
+/* all floating button*/
 .floating-btn{
     border-radius: 25px;
     margin-bottom: 10px;
 }
 
+/* 404 Page Image */
 .fourzerofour{
     background-image: url('/static/image/tomato-shopping.jpg');
     background-position: center;
@@ -76,14 +89,17 @@ div.jumbotron.jumbotron-fluid.mart {
     height: 100vh;
 }
 
+/*E-Grocery jumbotron div*/
 .hero-unit{
     display: grid;
 }
 
+/* All headers */
 h1,h2,h3,h4,h5,h6{
     font-family: 'Poppins', sans-serif;
 }
 
+/* E-Grocery jumbotron title and lead message*/
 h1.hero-text{
     color:oldlace;
     text-shadow: 2px 2px 2px darkslategray;
@@ -92,35 +108,61 @@ h1.hero-text{
     justify-self: center
 }
 
+/* E-Grocery Lead Message*/
 h3.cta{
     color:oldlace;
     text-shadow: 2px 2px 2px darkslategray;
     justify-self: center;
 }
 
+/* E-Grocery category images card title */
 h5.card-title {
     background-color: rgba(255, 250, 240, 0.7);
     text-shadow: 3px 3px 3px floralwhite;
 }
 
+/* MyKitchen dashboard title */
 h3.title-background{
     background-color: rgba(255, 255, 255, 0.75);
     text-shadow: 3px 3px 3px lavender;
 }
 
+i.fab.fa-github{
+    font-size: 2rem;
+}
+
+/* MyKitchen storage image */
+.img-storage{
+    width: 70%;
+}
+
+/* E-grocery brand name */
 .logo{
     font-family: 'Delius Swash Caps', cursive;
     color: darkslategray;
 }
 
+/* Mykitchen view-storage, view-storage-content*/
+.mobile-content{
+    display:flex; 
+}
+
+/*E-Grocery Product Cards*/
 .original-price{
     text-decoration: line-through;
 }
 
+/*Footer*/
+.page-footer{
+    background-color: #936a39;
+}
+
+/* E-Grocery Product Cards*/
 .product-container{
     display: grid;
 }
 
+/*E-Grocery Product Cards*/
 .product-weight{
     font-size: 0.9rem;
 }
@@ -129,10 +171,21 @@ span.yellow{
     background-color: yellow;
 }
 
+.text-footer{
+    color: oldlace;
+    text-decoration: none;
+}
+
+a.text-footer:hover{
+    text-decoration: none;
+    color: orange;
+}
+
 #update-form{
     margin-top: 20px
 }
 
+/*Shopping Cart Icon in NavBar*/
 #qty-badge{
   border-radius: 9px;
   vertical-align: top;
@@ -143,5 +196,15 @@ span.yellow{
 h1.hero-text{
     margin-top: 0;
     justify-self: center
+}
+
+.mobile-content{
+    display:block; 
+}
+}
+
+@media (min-width: 992px) {
+.img-storage{
+    width: 70%;
 }
 }

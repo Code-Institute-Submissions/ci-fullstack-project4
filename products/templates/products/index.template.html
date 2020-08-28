@@ -82,7 +82,7 @@ Cloudberry Grocer Home Page
 							<p class="card-text">{{product.weight_per_pack|stringformat:"e"|cut:"0000e+03"}}kg</p>
 							{% endif %}
 
-							<a href="{% url 'add_to_cart' product_id=product.id %}">
+							<a href="{% url 'add_to_cart' product_id=product.id %}" class="link">
 								<img src="{% static '/image/shopping-cart.svg' %}"/>
 								<p class="card-text"><small class="text-muted">Add to Cart</small></p>
 							</a>

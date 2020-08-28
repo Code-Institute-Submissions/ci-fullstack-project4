@@ -4,110 +4,115 @@
 {%block title%} My Kitchen Home Page {%endblock%}
 
 {%block nav%}
-    {% if not household %}
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
-    </li>
-    {% endif %}
-    {% if request.user == household.owner %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
-    </li>
-    {% endif %}
-    {% if household %}
-    <li class="nav-item">
-        
-        <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
-        
-      </li>
-    {%endif %}
+{% if not household %}
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
+</li>
+{% endif %}
+{% if request.user == household.owner %}
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
+</li>
+{% endif %}
+{% if household %}
+<li class="nav-item">
+
+	<a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+
+</li>
+{%endif %}
 {%endblock%}
 
 {%block hero%}
 
 <div class="jumbotron jumbotron-fluid kitchen">
-  <div class="container">
-    <h3 class="display-4 title-background">Kitchen Dashboard for {{household.name}}</h3>
-    {% if messages %} 
-    {% for message in messages %} 
-    <div class="alert alert-info alert-dismissible fade show" role="alert">    
-        <div>
-            {{ message }} 
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="container">
+		<h3 class="display-4 title-background">Kitchen Dashboard for {{household.name}}</h3>
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
+			<div>
+				{{ message }}
+			</div>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
          </button>
-    </div>
-        {% endfor %}
-{% endif %}
+		</div>
+		{% endfor %}
+		{% endif %}
 
-<div class="alert alert-primary" role="alert">
-  <h4 class="alert-heading">Storage Summary</h4>
-  {% for key, value in store_data.items %}
-  <p>{{key}}: <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-octagon-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zm.394 4.708a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
-</svg>
-Total Food Items:
-<span class="badge badge-light count-text">{{value}}</span>
-</p>
-  {%endfor%}
-</div>
+		<div class="alert alert-primary" role="alert">
+			<h4 class="alert-heading">Storage Summary</h4>
+			{% for key, value in store_data.items %}
+			<p>{{key}}: <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-octagon-fill"
+					fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd"
+						d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zm.394 4.708a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z" />
+				</svg>
+				Total Food Items:
+				<span class="badge badge-light count-text">{{value}}</span>
+			</p>
+			{%endfor%}
+		</div>
 
-{% if belongs %}
-{% for food in all_food %}
-{% if food.get_hit_threshold %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <span>{{food.location}}:{{food.food.name}}!</span> 
-  Expires in {{food.get_days_duration}} day(s).
-  {%if food.get_expired %}
-  <strong>Expired</strong>
-  {% else %}
-  <strong>Date of expiry:{{food.expiry_date}}</strong>
-  {% endif %}
-  <span class="float-right mt-n1"> 
+		{% if belongs %}
+		{% for food in all_food %}
+		{% if food.get_hit_threshold %}
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<span>{{food.location}}:{{food.food.name}}!</span>
+			Expires in {{food.get_days_duration}} day(s).
+			{%if food.get_expired %}
+			<strong>Expired</strong>
+			{% else %}
+			<strong>Date of expiry:{{food.expiry_date}}</strong>
+			{% endif %}
+			<span class="float-right mt-n1">
   <button type="button" class="btn" data-toggle="modal" data-placement="bottom" data-target="#deleteModal-{{food.id}}" title="Bin this food"><i class="fas fa-trash-alt"></i>
   </button>
   </span>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" title="Dismiss">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" title="Dismiss">
     <span aria-hidden="true">&times;</span>
   </button>
-</div>
+		</div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="deleteModal-{{food.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Food Item from {{food.location.name}}?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal-{{food.id}}" tabindex="-1" aria-labelledby="deleteModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Food Item from
+							{{food.location.name}}?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p>Deleting a food item will remove it permanently. This action cannot be undone.</p>
-      </div>
-      <div class="modal-footer">
-      <form action="{% url 'delete_food_item' household_id=household.id storage_id=food.location.id food_id=food.id %}" method="POST">
-        {% csrf_token %}
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-danger" value="CONFIRM"/>
+					</div>
+					<div class="modal-body">
+						<p>Deleting a food item will remove it permanently. This action cannot be undone.</p>
+					</div>
+					<div class="modal-footer">
+						<form
+							action="{% url 'delete_food_item' household_id=household.id storage_id=food.location.id food_id=food.id %}"
+							method="POST">
+							{% csrf_token %}
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<input type="submit" class="btn btn-danger" value="CONFIRM"/>
         </form>
 
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-{% endfor %}
-{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		{% endfor %}
+		{% endif %}
 
 
 
-  </div>
+	</div>
 </div>
 {% endblock %}
 
 {%block content%}
 {% endblock %}
-

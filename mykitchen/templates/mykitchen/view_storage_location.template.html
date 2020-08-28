@@ -6,79 +6,84 @@ MyKitchen Storage Section
 {%endblock%}
 
 {%block nav%}
-    {% if not household %}
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
-    </li>
-    {% endif %}
-    {% if request.user == household.owner %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
-    </li>
-    {% endif %}
-    {% if household %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
-      </li>
-    {%endif %}
+{% if not household %}
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'register_household' %}">Register Home Profile</a>
+</li>
+{% endif %}
+{% if request.user == household.owner %}
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'view_household' household_id=household.id %}">View Home Profile</a>
+</li>
+{% endif %}
+{% if household %}
+<li class="nav-item">
+	<a class="nav-link" href="{% url 'view_storage_location' household_id=household.id %}">Storage</a>
+</li>
+{%endif %}
 {%endblock%}
 
 {%block content%}
 <h3>My Kitchen Storage Locations</h3>
 {% if perms.mykitchen.add_storagelocation %}
-	<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_storage_location' household_id=household.id %}" role="button"
-		data-toggle="tooltip" data-placement="bottom" title="Add storage">+</a>
+<a class="btn btn-secondary btn-lg floating-btn" href="{% url 'add_storage_location' household_id=household.id %}"
+	role="button" data-toggle="tooltip" data-placement="bottom" title="Add storage">+</a>
 {% endif %}
 
 {%for store in storage%}
 <div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col mobile-content">
-    <div class="col col-md-2 align-self-center">
-    <a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link" data-toggle="tooltip" data-placement="bottom" title="Look Inside">
-      <img src="{% static '/image/' %}{{store.storage_type}}.png" class="img-fluid img-storage" alt="storage-type image">
+	<div class="row no-gutters">
+		<div class="col mobile-content">
+			<div class="col col-md-2 align-self-center">
+				<a href="{% url 'view_storage_content' household_id=household.id storage_id=store.id %}" class="link"
+					data-toggle="tooltip" data-placement="bottom" title="Look Inside">
+					<img src="{% static '/image/' %}{{store.storage_type}}.png" class="img-fluid img-storage" alt="storage-type image">
       </a>
-    </div>
-    <div class="col col-md-6">
-      <div class="card-body">
-        <h5 class="card-title">{{store.name}}</h5>
-        <p class="card-text">Storage Temperature: {{store.storage_temperature}} deg C</p>
-        <p class="card-text"><small class="text-muted">Last edited by: {{store.edited_by}}</small></p>
-      </div>
-    </div>
-    <div class="col col-md-4 align-self-center mb-3">
-    <a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}" class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{store.id}}">
+			</div>
+			<div class="col col-md-6">
+				<div class="card-body">
+					<h5 class="card-title">{{store.name}}</h5>
+					<p class="card-text">Storage Temperature: {{store.storage_temperature}} deg C</p>
+					<p class="card-text"><small class="text-muted">Last edited by: {{store.edited_by}}</small></p>
+				</div>
+			</div>
+			<div class="col col-md-4 align-self-center mb-3">
+				<a href="{% url 'update_storage_location' household_id=household.id storage_id=store.id%}"
+					class="btn btn-primary" role="button"><i class="fas fa-pen-alt"></i>Edit</a>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{store.id}}">
      <i class="fas fa-trash-alt"></i>Delete
     </button>
-    </div>
-    </div>
-  </div>  <!--end row-->
+			</div>
+		</div>
+	</div>
+	<!--end row-->
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="deleteModal-{{store.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Storage Location?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<div class="modal fade" id="deleteModal-{{store.id}}" tabindex="-1" aria-labelledby="deleteModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Do you want to delete this Storage Location?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p>Deleting a storage will remove it permanently. This action cannot be undone.</p>
-      </div>
-      <div class="modal-footer">
-      <form action="{% url 'delete_storage_location' household_id=household.id storage_id=store.id%}" method="POST">
-        {% csrf_token %}
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-danger" value="CONFIRM"/>
+			</div>
+			<div class="modal-body">
+				<p>Deleting a storage will remove it permanently. This action cannot be undone.</p>
+			</div>
+			<div class="modal-footer">
+				<form action="{% url 'delete_storage_location' household_id=household.id storage_id=store.id%}"
+					method="POST">
+					{% csrf_token %}
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-danger" value="CONFIRM"/>
         </form>
-      </div>
-    </div>
-  </div>
+			</div>
+		</div>
+	</div>
 </div>
 {%endfor%}
 {%endblock%}

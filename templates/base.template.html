@@ -1,214 +1,235 @@
 {%load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
 
-    <!--Google Fonts-->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" rel="stylesheet"> 
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
-     <!--Jquery CSS-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
 
-    <!--Custom CSS-->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<!--Google Fonts-->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" rel="stylesheet">
 
-<title>
-    {%block title%}{%endblock%}
-</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-  </head>
-  <body>
-  
-  <nav class="navbar navbar-expand-lg">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+	<!--Jquery CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+
+	<!--Custom CSS-->
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+	<title>
+		{%block title%}{%endblock%}
+	</title>
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon">
     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
 </span>
   </button>
-  <a class="navbar-brand" href="{% url 'home_page_route' %}">
-  <img src="{%static '/image/logo.png' %}"/>
-  <span class="logo">Cloudberry Grocer</span>
-  </a>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home_page_route' %}">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'product_directory_route' %}">Directory</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Product Category
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/products/breakfast">Breakfast</a>
-          <a class="dropdown-item" href="/products/biscuits-and-cookies">Biscuit & Cookies</a>
-          <a class="dropdown-item" href="/products/grains-and-dried-beans">Grains & Dried Beans</a>
-          <a class="dropdown-item" href="/products/nuts">Nuts</a>
-          <a class="dropdown-item" href="/products/baking-ingredients">Baking Ingredients</a>
-          <a class="dropdown-item" href="/products/fresh-produce">Fresh Produce</a>
-        </div>
-      </li>
-      <li class="nav-item">
-      {% if request.user.is_anonymous %}
-      <a class="nav-link" href = "{% url 'account_signup' %}">Sign Up</a>
-      {% endif %}
-      </li>
-      <li class="nav-item">
-      {% if request.user.is_authenticated %}
-      <a class="nav-link" href = "{% url 'account_logout' %}">Logout</a>
-      {% else %}
-        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-      {% endif %}
-      </li>
-      {% if request.user.is_superuser or request.user.is_staff or perms.products.add_product %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Staff Access
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-          <a class="dropdown-item" href="{% url 'view_brand_route' %}">View Brand</a>
-          <a class="dropdown-item" href="{% url 'view_subcategory_route' %}">View Subcategory</a>
-          <a class="dropdown-item" href="{% url 'view_usage_route' %}">View Usage</a>
-        </div>
-      </li>
-      {% endif %}
-      {% if request.user.is_authenticated %}
-       <li class="nav-item">
-        <a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen</a>
-      </li>
-      {% endif %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_cart' %}">
-        <img src="{% static '/image/shopping-cart.svg' %}"/>
-        <span class="badge badge-danger" id="qty-badge">{{item_count}}</span>
-        </a>
-      </li>
-    </ul>
-    
-  </div>
-</nav>
+		<a class="navbar-brand" href="{% url 'home_page_route' %}">
+			<img src="{%static '/image/logo.png' %}"/>
+			<span class="logo">Cloudberry Grocer</span>
+		</a>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="{% url 'home_page_route' %}">Home
+						<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'product_directory_route' %}">Directory</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Product Category
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="/products/breakfast">Breakfast</a>
+						<a class="dropdown-item" href="/products/biscuits-and-cookies">Biscuit & Cookies</a>
+						<a class="dropdown-item" href="/products/grains-and-dried-beans">Grains & Dried Beans</a>
+						<a class="dropdown-item" href="/products/nuts">Nuts</a>
+						<a class="dropdown-item" href="/products/baking-ingredients">Baking Ingredients</a>
+						<a class="dropdown-item" href="/products/fresh-produce">Fresh Produce</a>
+					</div>
+				</li>
+				<li class="nav-item">
+					{% if request.user.is_anonymous %}
+					<a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+					{% endif %}
+				</li>
+				<li class="nav-item">
+					{% if request.user.is_authenticated %}
+					<a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+					{% else %}
+					<a class="nav-link" href="{% url 'account_login' %}">Login</a>
+					{% endif %}
+				</li>
+				{% if request.user.is_superuser or request.user.is_staff or perms.products.add_product %}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Staff Access
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+						<a class="dropdown-item" href="{% url 'view_brand_route' %}">View Brand</a>
+						<a class="dropdown-item" href="{% url 'view_subcategory_route' %}">View Subcategory</a>
+						<a class="dropdown-item" href="{% url 'view_usage_route' %}">View Usage</a>
+					</div>
+				</li>
+				{% endif %}
+				{% if request.user.is_authenticated %}
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'mykitchen_home_page' %}">My Kitchen</a>
+				</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'view_cart' %}">
+						<img src="{% static '/image/shopping-cart.svg' %}"/>
+						<span class="badge badge-danger" id="qty-badge">{{item_count}}</span>
+					</a>
+				</li>
+			</ul>
 
-    {%block hero %}
-    {% endblock %}
-<div class="container">
+		</div>
+	</nav>
 
-{% if messages %}  
-    <div class="alert alert-success alert-dismissible fade show" role="alert">    
-        <div>
-            {% for message in messages %} {{ message }} {% endfor %}
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	{%block hero %}
+	{% endblock %}
+	<div class="container base-container mb-5">
+
+		{% if messages %}
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<div>
+				{% for message in messages %} {{ message }} {% endfor %}
+			</div>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
          </button>
-    </div>
-{% endif %}
+		</div>
+		{% endif %}
 
-    {%block content%}
-    {%endblock%}
-</div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/285400acfc.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-    <script src="{% static '/js/main.js' %}"></script>
-    {%block js%}
-    {%endblock%}
-  </body>
+		{%block content%}
+		{%endblock%}
+	</div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+	</script>
+	<script src="https://kit.fontawesome.com/285400acfc.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+		integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+	<script src="{% static '/js/main.js' %}"></script>
+	{%block js%}
+	{%endblock%}
 
-  <!-- Footer -->
-<footer class="page-footer font-small pt-4">
+	<!-- Footer -->
+	<footer class="page-footer font-small pt-4">
 
-  <!-- Footer Links -->
-  <div class="container-fluid text-center text-md-left">
+		<!-- Footer Links -->
+		<div class="container-fluid text-center text-md-left">
 
-    <!-- Grid row -->
-    <div class="row">
+			<!-- Grid row -->
+			<div class="row">
 
-      <!-- Grid column -->
-      <div class="col-md-5 mt-md-0 mt-3">
+				<!-- Grid column -->
+				<div class="col-md-5 mt-md-0 mt-3">
 
-        <!-- Content -->
-        <h5 class="text-uppercase text-footer">Disclaimer:</h5>
-        <p class="text-footer">All content and images and data are only for educational and personal development purpose. The developer of this project
-        is not liable for any mis-information that is present in this project</p>
-        <a href="https://github.com/Oraclebun/ci-fullstack-project4" class="text-footer"><i class="fab fa-github"></i>A Project by Oraclebun</a>
+					<!-- Content -->
+					<h5 class="text-uppercase text-footer">Disclaimer:</h5>
+					<p class="text-footer">All content and images and data are only for educational and personal
+						development purpose. The developer of this project
+						is not liable for any mis-information that is present in this project</p>
+					<a href="https://github.com/Oraclebun/ci-fullstack-project4"
+						class="text-footer"><i class="fab fa-github"></i>A Project by Oraclebun</a>
 
-      </div>
-      <!-- Grid column -->
+				</div>
+				<!-- Grid column -->
 
-      <hr class="clearfix w-100 d-md-none pb-3">
+				<hr class="clearfix w-100 d-md-none pb-3">
 
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
+				<!-- Grid column -->
+				<div class="col-md-3 mb-md-0 mb-3">
 
-        <!-- Links -->
-        <h5 class="text-uppercase text-footer">Our Store</h5>
+					<!-- Links -->
+					<h5 class="text-uppercase text-footer">Our Store</h5>
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!" class="text-footer">About Us</a>
-          </li>
-          <li>
-            <a href="#!" class="text-footer">Store Locator</a>
-          </li>
-          <li>
-            <a href="#!" class="text-footer">Our Team</a>
-          </li>
-          <li>
-            <span class="text-footer"> Contact Us </span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="mailto:cloudberry@django.com?Subject=Hello" class="text-footer"><span><i class="far fa-envelope"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="tel:01-12345678" class="text-footer"><span><i class="fas fa-phone-alt"></i></span></a>
-          </li>
-        </ul>
+					<ul class="list-unstyled">
+						<li>
+							<a href="#!" class="text-footer">About Us</a>
+						</li>
+						<li>
+							<a href="#!" class="text-footer">Store Locator</a>
+						</li>
+						<li>
+							<a href="#!" class="text-footer">Our Team</a>
+						</li>
+						<li>
+							<span class="text-footer"> Contact Us </span>&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="mailto:cloudberry@django.com?Subject=Hello"
+								class="text-footer"><span><i class="far fa-envelope"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="tel:01-12345678"
+								class="text-footer"><span><i class="fas fa-phone-alt"></i></span></a>
+						</li>
+					</ul>
 
-      </div>
-      
-      <!-- Grid column -->
-    
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
+				</div>
 
-        <!-- Links -->
-        <h5 class="text-uppercase text-footer">View Other Projects</h5>
+				<!-- Grid column -->
 
-        <ul class="list-unstyled">
-          <li>
-            <a href="https://oraclebun.github.io/ci-frontend-project1/" class="text-footer">Project1</a>
-          </li>
-          <li>
-            <a href="https://oraclebun.github.io/ci-interactive-project2/" class="text-footer">Project2</a>
-          </li>
-          <li>
-            <a href="https://oraclebun-project3.herokuapp.com/" class="text-footer">Project3</a>
-          </li>
-        </ul>
+				<!-- Grid column -->
+				<div class="col-md-3 mb-md-0 mb-3">
 
-      </div>
+					<!-- Links -->
+					<h5 class="text-uppercase text-footer">View Other Projects</h5>
 
-  </div> <!--End Row-->
-  <!-- Footer Links -->
+					<ul class="list-unstyled">
+						<li>
+							<a href="https://oraclebun.github.io/ci-frontend-project1/" class="text-footer">Project1</a>
+						</li>
+						<li>
+							<a href="https://oraclebun.github.io/ci-interactive-project2/"
+								class="text-footer">Project2</a>
+						</li>
+						<li>
+							<a href="https://oraclebun-project3.herokuapp.com/" class="text-footer">Project3</a>
+						</li>
+					</ul>
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3 text-footer">© 2020 Cloudberry Developer
-  </div>
-  <!-- Copyright -->
+				</div>
 
-</footer>
-<!-- Footer -->
+			</div>
+			<!--End Row-->
+			<!-- Footer Links -->
+
+			<!-- Copyright -->
+			<div class="footer-copyright text-center py-3 text-footer">© 2020 Cloudberry Developer
+			</div>
+			<!-- Copyright -->
+		</div>
+	</footer>
+	<!-- Footer -->
+
+</body>
+
 </html>

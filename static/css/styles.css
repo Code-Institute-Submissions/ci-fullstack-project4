@@ -10,6 +10,16 @@ a.btn-general:hover{
     color: orange;
 }
 
+/*footer text on hover*/
+a.text-footer:hover{
+    text-decoration: none;
+    color: orange;
+}
+
+.base-container{
+    min-height: 100vh;
+}
+
 body {
     background-color: oldlace;
     font-family: 'Bitter', serif;
@@ -127,6 +137,7 @@ h3.title-background{
     text-shadow: 3px 3px 3px lavender;
 }
 
+/*Github icon in footer*/
 i.fab.fa-github{
     font-size: 2rem;
 }
@@ -171,14 +182,10 @@ span.yellow{
     background-color: yellow;
 }
 
+/*footer text*/
 .text-footer{
     color: oldlace;
     text-decoration: none;
-}
-
-a.text-footer:hover{
-    text-decoration: none;
-    color: orange;
 }
 
 #update-form{

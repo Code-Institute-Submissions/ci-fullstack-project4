@@ -236,4 +236,5 @@ e. Shopping Cart Page
     
 
 ## Mobile Responsiveness
+* Mobile Responsiveness is tested using the browser developer tool.
 
